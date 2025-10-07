@@ -1,0 +1,1201 @@
+[
+  {
+    "name": "Tadasana/Mountain Pose",
+    "image": "postures/tadasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Improves posture and alignment",
+      "Enhances balance and body awareness",
+      "Reduces stress and increases focus"
+    ],
+    "steps": [
+      "Stand with feet together or hip-width apart, toes spread.",
+      "Distribute weight evenly across both feet.",
+      "Engage thighs, lift kneecaps, tuck tailbone slightly.",
+      "Roll shoulders back and down, palms forward.",
+      "Lengthen spine, gaze forward, breathe for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Virabhadrasana I/Warrior I",
+    "image": "postures/virabhadrasana1.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Strengthens legs and hips",
+      "Opens chest for better breathing",
+      "Boosts stamina and concentration"
+    ],
+    "steps": [
+      "Step left foot back 3-4 feet, turn out 45 degrees.",
+      "Bend right knee to 90 degrees, align over ankle.",
+      "Square hips forward, raise arms overhead, palms facing.",
+      "Gaze upward or forward, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Trikonasana/Triangle Pose",
+    "image": "postures/trikonasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Stretches torso, hips, and hamstrings",
+      "Strengthens legs and core",
+      "Aids digestion and relieves backache"
+    ],
+    "steps": [
+      "Stand with feet 3-4 feet apart, right foot out 90 degrees, left at 45 degrees.",
+      "Extend arms parallel to floor.",
+      "Hinge at right hip, reach right hand to shin or floor, left arm up.",
+      "Gaze at left hand, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Utkatasana/Chair Pose",
+    "image": "postures/utkatasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Tones thighs, calves, and glutes",
+      "Strengthens ankles and back",
+      "Stimulates heart and circulation"
+    ],
+    "steps": [
+      "Stand with feet together, bend knees as if sitting.",
+      "Raise arms overhead, palms facing or touching.",
+      "Sink hips back, keep chest lifted.",
+      "Hold for 5-10 breaths, release."
+    ]
+  },
+  {
+    "name": "Parsvakonasana/Extended Side Angle Pose",
+    "image": "postures/parsvakonasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Stretches groin, chest, and shoulders",
+      "Strengthens legs and ankles",
+      "Improves stamina and relieves sciatica"
+    ],
+    "steps": [
+      "From wide stance, turn right foot out, bend right knee over ankle.",
+      "Place right forearm on thigh or hand on floor, extend left arm over ear.",
+      "Rotate chest open, gaze up or forward.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Parivrtta Trikonasana/Revolved Triangle Pose",
+    "image": "postures/parivrtta_trikonasana2.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Twists and stretches the spine",
+      "Enhances balance and coordination",
+      "Stimulates abdominal organs"
+    ],
+    "steps": [
+      "From triangle stance, place left hand outside right foot.",
+      "Twist torso, extend right arm up.",
+      "Gaze at right hand, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Virabhadrasana II/Warrior II",
+    "image": "postures/virabhadrasana2.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Strengthens legs and core",
+      "Opens hips and groin",
+      "Enhances endurance and concentration"
+    ],
+    "steps": [
+      "From wide stance, turn right foot out 90 degrees, left foot slightly in.",
+      "Bend right knee over ankle, extend arms parallel to floor.",
+      "Gaze over right hand, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Parivrtta Parsvakonasana/Revolved Side Angle Pose",
+    "image": "postures/parivrtta_parsvakonasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Deepens spinal twist",
+      "Improves balance and digestion",
+      "Strengthens legs and core"
+    ],
+    "steps": [
+      "From warrior II, place left elbow outside right knee.",
+      "Press palms together, twist torso, gaze upward.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Prasarita Padottanasana/Wide-Legged Forward Bend",
+    "image": "postures/prasarita_padottanasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Stretches hamstrings and calves",
+      "Calms the mind",
+      "Improves balance and flexibility"
+    ],
+    "steps": [
+      "Stand with feet wide apart, toes slightly in.",
+      "Hinge at hips, bring head toward floor, hands on floor or blocks.",
+      "Lengthen spine, hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Uttanasana/Standing Forward Bend",
+    "image": "postures/uttanasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Stretches hamstrings and back",
+      "Calms the nervous system",
+      "Relieves mild backache"
+    ],
+    "steps": [
+      "Stand, hinge at hips, bring head toward floor.",
+      "Place hands on floor or shins.",
+      "Hold 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Sukhasana/Easy Pose",
+    "image": "postures/sukhasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Opens hips and groin",
+      "Strengthens back",
+      "Calms mind and reduces anxiety"
+    ],
+    "steps": [
+      "Sit on floor with legs crossed, shins parallel.",
+      "Place hands on knees, palms up or down.",
+      "Lengthen spine, relax shoulders.",
+      "Close eyes, breathe deeply for 1-5 minutes."
+    ]
+  },
+  {
+    "name": "Dandasana/Staff Pose",
+    "image": "postures/dandasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Strengthens back and core",
+      "Stretches hamstrings",
+      "Improves alignment and concentration"
+    ],
+    "steps": [
+      "Sit with legs extended forward, feet flexed.",
+      "Place hands beside hips, fingers forward.",
+      "Lengthen spine, press thighs down.",
+      "Hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Paschimottanasana/Seated Forward Bend",
+    "image": "postures/paschimottanasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches spine, hamstrings, and calves",
+      "Calms nervous system",
+      "Aids digestion and relieves fatigue"
+    ],
+    "steps": [
+      "Sit with legs extended, feet flexed.",
+      "Inhale, lengthen spine; exhale, fold forward from hips.",
+      "Reach hands to feet or shins.",
+      "Hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Baddha Konasana/Bound Angle Pose",
+    "image": "postures/baddha_konasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Opens hips and groin",
+      "Stimulates abdominal organs",
+      "Reduces menstrual discomfort"
+    ],
+    "steps": [
+      "Sit with soles of feet together, knees out.",
+      "Hold feet, lengthen spine.",
+      "Gently press knees down with elbows if comfortable.",
+      "Hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Janu Sirsasana/Head-to-Knee Forward Bend",
+    "image": "postures/janu_sirsasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches hamstrings and spine",
+      "Calms mind",
+      "Relieves headache and anxiety"
+    ],
+    "steps": [
+      "Sit with right leg extended, left foot to inner right thigh.",
+      "Inhale lengthen, exhale fold over right leg.",
+      "Reach hands to foot or shin.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Upavistha Konasana/Wide-Angle Seated Forward Bend",
+    "image": "postures/upavistha_konasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches inner thighs and hamstrings",
+      "Improves spinal flexibility",
+      "Stimulates abdominal organs"
+    ],
+    "steps": [
+      "Sit with legs spread wide, toes pointing up.",
+      "Inhale, lengthen spine; exhale, fold forward from hips.",
+      "Place hands on floor or reach for feet.",
+      "Hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Triang Mukhaikapada Paschimottanasana/Three-Limbed Forward Bend",
+    "image": "postures/triang_mukhaikapada.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches hamstrings asymmetrically",
+      "Improves spinal mobility",
+      "Calms the nervous system"
+    ],
+    "steps": [
+      "Sit with right leg bent, heel near pelvis, left leg extended.",
+      "Inhale, lengthen spine; exhale, fold over left leg.",
+      "Reach for foot or shin, hold for 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Marichyasana I/Marichi’s Pose I",
+    "image": "postures/marichyasana1.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Twists and stretches spine",
+      "Stimulates digestion",
+      "Improves spinal flexibility"
+    ],
+    "steps": [
+      "Sit with right leg bent, foot flat, left leg extended.",
+      "Wrap right arm around right knee, left hand back.",
+      "Twist right, hold for 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Marichyasana II/Marichi’s Pose II",
+    "image": "postures/marichyasana2.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Deep spinal twist with forward bend",
+      "Stimulates abdominal organs",
+      "Improves digestion"
+    ],
+    "steps": [
+      "Sit with right leg in lotus, left leg bent, foot flat.",
+      "Wrap left arm around left knee, right hand back.",
+      "Twist left, hold for 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Marichyasana IV/Marichi’s Pose IV",
+    "image": "postures/marichyasana4.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Advanced binding pose",
+      "Opens shoulders and hips",
+      "Improves spinal mobility"
+    ],
+    "steps": [
+      "Sit, right leg in lotus, left leg bent, foot flat.",
+      "Wrap right arm around back, left arm around left knee.",
+      "Twist left, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Savasana/Corpse Pose",
+    "image": "postures/savasana.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Relaxes entire body",
+      "Reduces stress and fatigue",
+      "Improves sleep and mental clarity"
+    ],
+    "steps": [
+      "Lie flat on back, legs apart, arms at sides, palms up.",
+      "Close eyes, relax muscles.",
+      "Breathe naturally for 5-10 minutes."
+    ]
+  },
+  {
+    "name": "Supta Baddha Konasana/Reclining Bound Angle Pose",
+    "image": "postures/supta_baddha_konasana.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Opens hips and chest",
+      "Relieves lower back tension",
+      "Promotes relaxation"
+    ],
+    "steps": [
+      "Lie on back, soles together, knees out.",
+      "Place arms at sides or overhead.",
+      "Relax for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Ananda Balasana/Happy Baby Pose",
+    "image": "postures/ananda_balasana.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Releases lower back and hips",
+      "Stretches groin",
+      "Calms mind and reduces stress"
+    ],
+    "steps": [
+      "Lie on back, draw knees to chest.",
+      "Grab outer feet, knees wide.",
+      "Gently rock side to side, hold for 5 breaths."
+    ]
+  },
+  {
+    "name": "Viparita Karani/Legs-Up-The-Wall Pose",
+    "image": "postures/viparita_karani.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Relieves tired legs",
+      "Calms nervous system",
+      "Improves circulation"
+    ],
+    "steps": [
+      "Sit next to wall, swing legs up wall.",
+      "Lie back, hips close to wall.",
+      "Arms at sides, relax for 5-10 minutes."
+    ]
+  },
+  {
+    "name": "Jathara Parivartanasana/Reclining Spinal Twist",
+    "image": "postures/jathara_parivartanasana.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Twists spine",
+      "Aids digestion",
+      "Relieves back tension"
+    ],
+    "steps": [
+      "Lie on back, arms out in T.",
+      "Draw knees to chest, drop to right.",
+      "Gaze left, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Supta Padangusthasana/Reclining Hand-to-Big-Toe Pose",
+    "image": "postures/supta_padangusthasana.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Stretches hamstrings and calves",
+      "Improves flexibility",
+      "Relieves lower back tension"
+    ],
+    "steps": [
+      "Lie on back, lift right leg, hold big toe with right hand.",
+      "Extend leg toward ceiling, keep left leg on floor.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Bhujangasana/Cobra Pose",
+    "image": "postures/bhujangasana.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Strengthens back muscles",
+      "Opens chest and shoulders",
+      "Improves posture and digestion"
+    ],
+    "steps": [
+      "Lie face down, hands under shoulders.",
+      "Inhale, lift chest, keep elbows bent.",
+      "Gaze forward, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Salabhasana/Locust Pose",
+    "image": "postures/salabhasana.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Strengthens back, glutes, and legs",
+      "Improves posture",
+      "Stimulates abdominal organs"
+    ],
+    "steps": [
+      "Lie face down, arms at sides.",
+      "Inhale, lift head, chest, arms, and legs.",
+      "Hold for 5 breaths."
+    ]
+  },
+  {
+    "name": "Dhanurasana/Bow Pose",
+    "image": "postures/dhanurasana.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Stretches front body",
+      "Strengthens back",
+      "Improves flexibility and energy"
+    ],
+    "steps": [
+      "Lie face down, bend knees, grab ankles.",
+      "Inhale, lift chest and thighs.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Makarasana/Crocodile Pose",
+    "image": "postures/makarasana.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Relaxes back",
+      "Reduces stress",
+      "Aids breathing"
+    ],
+    "steps": [
+      "Lie face down, forehead on stacked hands.",
+      "Legs apart, heels in.",
+      "Breathe deeply for 5-10 minutes."
+    ]
+  },
+  {
+    "name": "Ardha Shalabhasana/Half Locust Pose",
+    "image": "postures/ardha_shalabhasana.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Strengthens back asymmetrically",
+      "Improves balance in back strength",
+      "Enhances core stability"
+    ],
+    "steps": [
+      "Lie face down.",
+      "Lift right leg and left arm.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Vrksasana/Tree Pose",
+    "image": "postures/vrksasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Strengthens legs and ankles",
+      "Improves balance and concentration",
+      "Calms mind"
+    ],
+    "steps": [
+      "Stand, shift weight to left foot.",
+      "Place right foot on inner left thigh or calf.",
+      "Hands to heart or overhead.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Garudasana/Eagle Pose",
+    "image": "postures/garudasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Stretches shoulders and hips",
+      "Strengthens legs",
+      "Improves focus and detoxification"
+    ],
+    "steps": [
+      "Stand, cross right thigh over left, hook foot if possible.",
+      "Cross left arm over right, bend elbows, palms together.",
+      "Bend standing knee, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Vasisthasana/Side Plank Pose",
+    "image": "postures/vasisthasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Strengthens arms, wrists, and core",
+      "Improves balance and endurance",
+      "Enhances coordination"
+    ],
+    "steps": [
+      "From plank, shift to right hand and outer foot.",
+      "Stack left foot on right, raise left arm.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Bakasana/Crow Pose",
+    "image": "postures/bakasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Strengthens arms and wrists",
+      "Tones core",
+      "Builds confidence"
+    ],
+    "steps": [
+      "Squat, place hands on floor shoulder-width.",
+      "Bend elbows, place knees on upper arms.",
+      "Lift feet, balance on hands, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Natarajasana/Dancer's Pose",
+    "image": "postures/natarajasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Stretches quads and shoulders",
+      "Improves balance and flexibility",
+      "Strengthens legs and back"
+    ],
+    "steps": [
+      "Stand, grab right ankle with right hand.",
+      "Extend left arm forward, kick foot into hand.",
+      "Hinge forward, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Parsva Bakasana/Side Crow Pose",
+    "image": "postures/parsva_bakasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Strengthens arms and core",
+      "Improves balance and coordination",
+      "Enhances spinal twist"
+    ],
+    "steps": [
+      "Squat, twist torso to right, place hands on floor.",
+      "Place knees on left upper arm, bend elbows.",
+      "Lift feet, balance, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Kakasana/Crow Pose (Knees Bent)",
+    "image": "postures/kakasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Builds arm strength",
+      "Improves wrist flexibility",
+      "Enhances focus and coordination"
+    ],
+    "steps": [
+      "Squat, place hands on floor shoulder-width.",
+      "Bend elbows, place knees on upper arms, keep knees bent.",
+      "Lift feet, balance, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Tulasana/Scale Pose",
+    "image": "postures/tulasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Strengthens arms and core",
+      "Improves balance",
+      "Enhances wrist strength"
+    ],
+    "steps": [
+      "Sit in lotus or cross-legged, place hands beside hips.",
+      "Press hands down, lift hips and legs off floor.",
+      "Balance, hold for 5 breaths."
+    ]
+  },
+  {
+    "name": "Eka Pada Galavasana/Flying Pigeon Pose",
+    "image": "postures/eka_pada_galavasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Builds advanced arm strength",
+      "Opens hips",
+      "Improves balance and focus"
+    ],
+    "steps": [
+      "Stand, place right shin over left upper arm.",
+      "Bend elbows, lean forward, extend left leg back.",
+      "Balance on hands, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Ardha Chandrasana/Half Moon Pose",
+    "image": "postures/ardha_chandrasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Improves balance",
+      "Stretches groin and hamstrings",
+      "Strengthens legs and core"
+    ],
+    "steps": [
+      "From triangle, bend right knee, place right hand on floor.",
+      "Lift left leg parallel to floor, extend left arm up.",
+      "Gaze at floor or up, hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Adho Mukha Svanasana/Downward-Facing Dog",
+    "image": "postures/adho_mukha_svanasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Stretches hamstrings, calves, and spine",
+      "Strengthens arms and shoulders",
+      "Relieves stress"
+    ],
+    "steps": [
+      "From hands and knees, lift hips up and back.",
+      "Hands shoulder-width, feet hip-width.",
+      "Press chest toward thighs, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Sarvangasana/Shoulder Stand",
+    "image": "postures/sarvangasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Stimulates thyroid",
+      "Improves digestion",
+      "Calms brain"
+    ],
+    "steps": [
+      "Lie on back, lift legs overhead.",
+      "Support lower back with hands, elbows on floor.",
+      "Extend legs up, hold 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Halasana/Plow Pose",
+    "image": "postures/halasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Stretches spine and shoulders",
+      "Calms nervous system",
+      "Aids sleep"
+    ],
+    "steps": [
+      "From shoulder stand, lower toes to floor behind head.",
+      "Hands interlocked or supporting back.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Sirsasana/Headstand",
+    "image": "postures/sirsasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Increases blood flow to brain",
+      "Strengthens shoulders",
+      "Builds focus"
+    ],
+    "steps": [
+      "Kneel, interlace fingers, place crown on floor.",
+      "Lift knees, walk feet in.",
+      "Lift legs up, balance, hold 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Pincha Mayurasana/Forearm Stand",
+    "image": "postures/pincha_mayurasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Strengthens arms and core",
+      "Improves balance",
+      "Opens shoulders"
+    ],
+    "steps": [
+      "Forearms on floor, elbows under shoulders.",
+      "Walk feet in, lift one leg, then both.",
+      "Balance, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Adho Mukha Vrksasana/Handstand",
+    "image": "postures/adho_mukha_vrksasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Builds upper body strength",
+      "Improves balance",
+      "Strengthens core and shoulders"
+    ],
+    "steps": [
+      "Place hands shoulder-width on floor, facing wall.",
+      "Kick one leg up, then the other, balance against wall.",
+      "Keep arms straight, hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Setu Bandha Sarvangasana/Bridge Pose",
+    "image": "postures/setu_bandha_sarvangasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Strengthens back and glutes",
+      "Opens chest",
+      "Relieves fatigue"
+    ],
+    "steps": [
+      "Lie on back, knees bent, feet flat.",
+      "Lift hips, interlace hands under back.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Ustrasana/Camel Pose",
+    "image": "postures/ustrasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Stretches front body",
+      "Improves posture",
+      "Boosts mood"
+    ],
+    "steps": [
+      "Kneel, hands on lower back.",
+      "Arch back, reach for heels.",
+      "Head back if comfortable, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Urdhva Dhanurasana/Wheel Pose",
+    "image": "postures/urdhva_dhanurasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Strengthens arms and legs",
+      "Opens heart",
+      "Increases vitality"
+    ],
+    "steps": [
+      "Lie on back, hands by ears, feet flat.",
+      "Press up, straighten arms and legs.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Matsyasana/Fish Pose",
+    "image": "postures/matsyasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Opens throat and chest",
+      "Relieves respiratory issues",
+      "Stretches neck"
+    ],
+    "steps": [
+      "Lie on back, legs extended.",
+      "Lift chest, place crown on floor.",
+      "Hands under hips, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Sphuxtasana/Sphinx Pose",
+    "image": "postures/sphuxtasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Gentle back strength",
+      "Opens chest",
+      "Improves posture"
+    ],
+    "steps": [
+      "Lie prone, forearms on floor.",
+      "Lift chest, gaze forward.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Urdhva Mukha Svanasana/Upward-Facing Dog",
+    "image": "postures/urdhva_mukha_svanasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Opens chest and shoulders",
+      "Strengthens arms and wrists",
+      "Improves spinal flexibility"
+    ],
+    "steps": [
+      "Lie prone, hands under shoulders.",
+      "Press up, straighten arms, lift thighs off floor.",
+      "Gaze forward, hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Kapotasana/Pigeon Pose (Backbend)",
+    "image": "postures/kapotasana.png",
+    "category": "Backbends",
+    "benefits": [
+      "Advanced backbend",
+      "Opens chest and hips",
+      "Improves spinal flexibility"
+    ],
+    "steps": [
+      "Kneel, lean back, place hands near feet.",
+      "Arch back, bring head toward feet.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Bharadvajasana/Bharadvaja's Twist",
+    "image": "postures/bharadvajasana.png",
+    "category": "Twists",
+    "benefits": [
+      "Twists spine",
+      "Relieves backache",
+      "Improves flexibility"
+    ],
+    "steps": [
+      "Sit with legs extended, bend knees to left.",
+      "Twist right, hand behind, left on knee.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Ardha Matsyendrasana/Half Lord of the Fishes",
+    "image": "postures/ardha_matsyendrasana.png",
+    "category": "Twists",
+    "benefits": [
+      "Massages organs",
+      "Stretches hips",
+      "Energizes spine"
+    ],
+    "steps": [
+      "Sit, right foot over left thigh.",
+      "Twist left, elbow outside right knee.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Parivrtta Trikonasana/Revolved Triangle",
+    "image": "postures/parivrtta_trikonasana.png",
+    "category": "Twists",
+    "benefits": [
+      "Twists torso",
+      "Strengthens legs",
+      "Improves balance"
+    ],
+    "steps": [
+      "From triangle, place left hand outside right foot.",
+      "Twist, right arm up.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Marichyasana III/Marichi's Pose",
+    "image": "postures/marichyasana3.png",
+    "category": "Twists",
+    "benefits": [
+      "Deep spinal twist",
+      "Stretches shoulders",
+      "Stimulates digestion"
+    ],
+    "steps": [
+      "Sit, bend right knee, foot flat.",
+      "Twist left, elbow outside knee.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Supta Parivartanasana/Reclining Twist",
+    "image": "postures/supta_parivartanasana.png",
+    "category": "Twists",
+    "benefits": [
+      "Gentle detox",
+      "Relaxes back",
+      "Aids digestion"
+    ],
+    "steps": [
+      "Lie back, knees to chest.",
+      "Drop knees right, arms out.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Balasana/Child's Pose",
+    "image": "postures/balasana.png",
+    "category": "Restorative Poses",
+    "benefits": [
+      "Relaxes back and hips",
+      "Calms mind",
+      "Relieves stress"
+    ],
+    "steps": [
+      "Kneel, sit on heels.",
+      "Fold forward, arms extended.",
+      "Forehead to floor, hold 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Supported Savasana/Supported Corpse Pose",
+    "image": "postures/supported_savasana.png",
+    "category": "Restorative Poses",
+    "benefits": [
+      "Deep relaxation",
+      "Supports recovery",
+      "Reduces stress"
+    ],
+    "steps": [
+      "Lie back with bolster under knees.",
+      "Arms out, eyes closed.",
+      "Relax for 10 minutes."
+    ]
+  },
+  {
+    "name": "Supta Virasana/Reclining Hero Pose",
+    "image": "postures/supta_virasana.png",
+    "category": "Restorative Poses",
+    "benefits": [
+      "Stretches quads",
+      "Opens chest",
+      "Promotes relaxation"
+    ],
+    "steps": [
+      "Sit between heels, lie back on bolster.",
+      "Arms overhead.",
+      "Hold 5 minutes."
+    ]
+  },
+  {
+    "name": "Supported Matsyasana/Supported Fish Pose",
+    "image": "postures/supported_matsyasana.png",
+    "category": "Restorative Poses",
+    "benefits": [
+      "Opens chest",
+      "Relieves tension",
+      "Calms nervous system"
+    ],
+    "steps": [
+      "Place block under upper back.",
+      "Lie back, head down.",
+      "Relax arms, hold 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Prasarita Balasana/Wide Child's Pose",
+    "image": "postures/prasarita_balasana.png",
+    "category": "Restorative Poses",
+    "benefits": [
+      "Opens hips",
+      "Promotes relaxation",
+      "Relieves stress"
+    ],
+    "steps": [
+      "Kneel, spread knees wide, fold forward.",
+      "Extend arms forward.",
+      "Hold 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Gomukhasana/Cow Face Pose",
+    "image": "postures/gomukhasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches hips and shoulders",
+      "Improves posture",
+      "Relieves tension"
+    ],
+    "steps": [
+      "Sit, stack right knee over left, feet near hips.",
+      "Raise right arm, bend elbow, reach hand down back.",
+      "Reach left arm behind, clasp hands if possible.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Virasana/Hero Pose",
+    "image": "postures/virasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches quads and ankles",
+      "Improves digestion",
+      "Enhances posture"
+    ],
+    "steps": [
+      "Kneel, sit between heels.",
+      "Place hands on thighs, lengthen spine.",
+      "Hold for 5-10 breaths."
+    ]
+  },
+  {
+    "name": "Siddhasana/Accomplished Pose",
+    "image": "postures/siddhasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Opens hips",
+      "Promotes meditation",
+      "Calms mind"
+    ],
+    "steps": [
+      "Sit, place right heel near perineum, left heel over right.",
+      "Rest hands on knees, palms up.",
+      "Lengthen spine, hold for 1-5 minutes."
+    ]
+  },
+  {
+    "name": "Padmasana/Lotus Pose",
+    "image": "postures/padmasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Opens hips",
+      "Enhances meditation",
+      "Calms nervous system"
+    ],
+    "steps": [
+      "Sit, place right foot on left thigh, left foot on right thigh.",
+      "Rest hands on knees, palms up.",
+      "Lengthen spine, hold for 1-5 minutes."
+    ]
+  },
+  {
+    "name": "Ardha Padmasana/Half Lotus Pose",
+    "image": "postures/ardha_padmasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Stretches hips",
+      "Prepares for full lotus",
+      "Calms mind"
+    ],
+    "steps": [
+      "Sit, place right foot on left thigh, left foot under right thigh.",
+      "Rest hands on knees, palms up.",
+      "Lengthen spine, hold for 5-10 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Thread the Needle/Threaded Needle Pose",
+    "image": "postures/thread_the_needle.png",
+    "category": "Supine Poses",
+    "benefits": [
+      "Stretches upper back and shoulders",
+      "Relieves tension",
+      "Promotes relaxation"
+    ],
+    "steps": [
+      "Lie on back, thread right arm under body, rest shoulder on floor.",
+      "Place right knee over left, twist gently.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Setu Bandha Sarvangasana/Supported Bridge Pose",
+    "image": "postures/supported_setu_bandhasana.png",
+    "category": "Restorative Poses",
+    "benefits": [
+      "Gentle backbend",
+      "Opens chest",
+      "Calms nervous system"
+    ],
+    "steps": [
+      "Lie on back, knees bent, feet flat.",
+      "Place block under sacrum, lift hips.",
+      "Relax arms, hold for 5-10 minutes."
+    ]
+  },
+  {
+    "name": "Eka Pada Rajakapotasana/Pigeon Pose",
+    "image": "postures/eka_pada_rajakapotasana.png",
+    "category": "Seated Poses",
+    "benefits": [
+      "Opens hips and groin",
+      "Stretches thighs",
+      "Relieves lower back tension"
+    ],
+    "steps": [
+      "From all fours, bring right shin forward, left leg back.",
+      "Square hips, fold forward over shin.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Shalabhasana B/Full Locust Pose",
+    "image": "postures/shalabhasana_b.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Strengthens entire back",
+      "Improves posture",
+      "Stimulates abdominal organs"
+    ],
+    "steps": [
+      "Lie face down, arms extended back.",
+      "Lift chest, legs, and arms simultaneously.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Chaturanga Dandasana/Four-Limbed Staff Pose",
+    "image": "postures/chaturanga_dandasana.png",
+    "category": "Prone Poses",
+    "benefits": [
+      "Strengthens arms and core",
+      "Improves stability",
+      "Enhances endurance"
+    ],
+    "steps": [
+      "From plank, lower body until elbows at 90 degrees.",
+      "Keep body parallel to floor, elbows over wrists.",
+      "Hold 5 breaths."
+    ]
+  },
+  {
+    "name": "Parighasana/Gate Pose",
+    "image": "postures/parighasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Stretches side body and hamstrings",
+      "Opens chest",
+      "Improves flexibility"
+    ],
+    "steps": [
+      "Kneel, extend right leg to side, toes pointing right.",
+      "Reach right arm to right foot, left arm over ear.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Anjaneyasana/Low Lunge",
+    "image": "postures/anjaneyasana.png",
+    "category": "Standing Poses",
+    "benefits": [
+      "Stretches hips and quads",
+      "Strengthens legs",
+      "Improves balance"
+    ],
+    "steps": [
+      "From lunge, lower left knee to floor, right knee over ankle.",
+      "Raise arms overhead, arch back slightly.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Virabhadrasana III/Warrior III",
+    "image": "postures/virabhadrasana3.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Builds balance and core strength",
+      "Strengthens legs and back",
+      "Improves concentration"
+    ],
+    "steps": [
+      "From standing, hinge forward, lift left leg back.",
+      "Extend arms forward, body parallel to floor.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Parivrtta Ardha Chandrasana/Revolved Half Moon Pose",
+    "image": "postures/parivrtta_ardha_chandrasana.png",
+    "category": "Balancing Poses",
+    "benefits": [
+      "Improves balance and spinal twist",
+      "Strengthens core and legs",
+      "Enhances coordination"
+    ],
+    "steps": [
+      "From half moon, place left hand on floor, twist torso right.",
+      "Extend right arm up, lift left leg parallel.",
+      "Hold 5 breaths, switch sides."
+    ]
+  },
+  {
+    "name": "Karnapidasana/Ear Pressure Pose",
+    "image": "postures/karnapidasana.png",
+    "category": "Inversions",
+    "benefits": [
+      "Stretches spine and shoulders",
+      "Calms mind",
+      "Stimulates thyroid"
+    ],
+    "steps": [
+      "From plow pose, bend knees toward ears.",
+      "Rest knees on floor near head, hands supporting back.",
+      "Hold 5 breaths."
+    ]
+  }
+]

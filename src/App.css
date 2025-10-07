@@ -1,0 +1,76 @@
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #2c3e50;
+}
+
+main {
+  padding-top: 80px; /* for fixed nav */
+}
+
+/* Container utility */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Benefits section */
+.benefits-section {
+  padding: 5rem 0;
+  background: white;
+}
+
+.benefits-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.benefits-section ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.benefits-section li {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+/* Postures section */
+.postures-section {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.postures-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+  .benefits-section h2,
+  .postures-section h2 {
+    font-size: 2rem;
+  }
+
+  .benefits-section ul {
+    grid-template-columns: 1fr;
+  }
+}
