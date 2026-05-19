@@ -25,13 +25,20 @@ export interface GamificationState {
   sessionXP: number
   perfectHolds: number
   bestCombo: number
+  morningSessions: number
+  categoriesPracticed: string[]
+  totalPosesCompleted: number
 }
 
 function loadState(): GamificationState | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
-    return JSON.parse(raw)
+    const parsed = JSON.parse(raw)
+    if (parsed.categoriesPracticed === undefined) parsed.categoriesPracticed = []
+    if (parsed.morningSessions === undefined) parsed.morningSessions = 0
+    if (parsed.totalPosesCompleted === undefined) parsed.totalPosesCompleted = 0
+    return parsed
   } catch {
     return null
   }
@@ -55,6 +62,9 @@ function defaultState(): GamificationState {
     sessionXP: 0,
     perfectHolds: 0,
     bestCombo: 0,
+    morningSessions: 0,
+    categoriesPracticed: [],
+    totalPosesCompleted: 0,
   }
 }
 
@@ -102,6 +112,24 @@ class GamificationManager {
     this.save()
   }
 
+  recordSession(result: {
+    durationSeconds: number
+    categoriesPracticed: string[]
+    hour: number
+    posesCompleted: number
+  }): void {
+    if (result.hour < 8) {
+      this.state.morningSessions++
+    }
+    for (const cat of result.categoriesPracticed) {
+      if (!this.state.categoriesPracticed.includes(cat)) {
+        this.state.categoriesPracticed.push(cat)
+      }
+    }
+    this.state.totalPosesCompleted += result.posesCompleted
+    this.save()
+  }
+
   resetSession(): void {
     this.state.sessionXP = 0
     this.state.combo = 0
@@ -110,7 +138,14 @@ class GamificationManager {
   }
 
   getState(): GamificationState {
-    return { ...this.state }
+    return { ...this.state, categoriesPracticed: [...this.state.categoriesPracticed] }
+  }
+
+  getXPProgress(): { current: number; needed: number; pct: number } {
+    const current = this.state.totalXP % 500
+    const needed = 500
+    const pct = needed > 0 ? (current / needed) * 100 : 0
+    return { current, needed, pct: Math.min(100, pct) }
   }
 
   private save(): void {

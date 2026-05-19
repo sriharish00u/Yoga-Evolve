@@ -14,6 +14,16 @@
       "Engage thighs, lift kneecaps, tuck tailbone slightly.",
       "Roll shoulders back and down, palms forward.",
       "Lengthen spine, gaze forward, breathe for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "beginner"
     ]
   },
   {
@@ -30,6 +40,18 @@
       "Bend right knee to 90 degrees, align over ankle.",
       "Square hips forward, raise arms overhead, palms facing.",
       "Gaze upward or forward, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -46,6 +68,18 @@
       "Extend arms parallel to floor.",
       "Hinge at right hip, reach right hand to shin or floor, left arm up.",
       "Gaze at left hand, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -62,6 +96,18 @@
       "Raise arms overhead, palms facing or touching.",
       "Sink hips back, keep chest lifted.",
       "Hold for 5-10 breaths, release."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -78,6 +124,16 @@
       "Place right forearm on thigh or hand on floor, extend left arm over ear.",
       "Rotate chest open, gaze up or forward.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "beginner"
     ]
   },
   {
@@ -93,6 +149,21 @@
       "From triangle stance, place left hand outside right foot.",
       "Twist torso, extend right arm up.",
       "Gaze at right hand, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "twist",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -108,6 +179,18 @@
       "From wide stance, turn right foot out 90 degrees, left foot slightly in.",
       "Bend right knee over ankle, extend arms parallel to floor.",
       "Gaze over right hand, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -123,6 +206,19 @@
       "From warrior II, place left elbow outside right knee.",
       "Press palms together, twist torso, gaze upward.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "spine",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -138,6 +234,18 @@
       "Stand with feet wide apart, toes slightly in.",
       "Hinge at hips, bring head toward floor, hands on floor or blocks.",
       "Lengthen spine, hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -153,6 +261,18 @@
       "Stand, hinge at hips, bring head toward floor.",
       "Place hands on floor or shins.",
       "Hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -169,6 +289,16 @@
       "Place hands on knees, palms up or down.",
       "Lengthen spine, relax shoulders.",
       "Close eyes, breathe deeply for 1-5 minutes."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "restorative",
+      "beginner",
+      "meditation",
+      "breathing"
     ]
   },
   {
@@ -185,6 +315,13 @@
       "Place hands beside hips, fingers forward.",
       "Lengthen spine, press thighs down.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "beginner"
     ]
   },
   {
@@ -201,6 +338,17 @@
       "Inhale, lengthen spine; exhale, fold forward from hips.",
       "Reach hands to feet or shins.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -217,6 +365,15 @@
       "Hold feet, lengthen spine.",
       "Gently press knees down with elbows if comfortable.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "hip-opener",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -233,6 +390,21 @@
       "Inhale lengthen, exhale fold over right leg.",
       "Reach hands to foot or shin.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back",
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "inversion",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -249,6 +421,17 @@
       "Inhale, lengthen spine; exhale, fold forward from hips.",
       "Place hands on floor or reach for feet.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -264,6 +447,17 @@
       "Sit with right leg bent, heel near pelvis, left leg extended.",
       "Inhale, lengthen spine; exhale, fold over left leg.",
       "Reach for foot or shin, hold for 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -279,6 +473,15 @@
       "Sit with right leg bent, foot flat, left leg extended.",
       "Wrap right arm around right knee, left hand back.",
       "Twist right, hold for 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "twist"
     ]
   },
   {
@@ -294,6 +497,15 @@
       "Sit with right leg in lotus, left leg bent, foot flat.",
       "Wrap left arm around left knee, right hand back.",
       "Twist left, hold for 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "twist"
     ]
   },
   {
@@ -309,6 +521,15 @@
       "Sit, right leg in lotus, left leg bent, foot flat.",
       "Wrap right arm around back, left arm around left knee.",
       "Twist left, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "twist"
     ]
   },
   {
@@ -324,6 +545,15 @@
       "Lie flat on back, legs apart, arms at sides, palms up.",
       "Close eyes, relax muscles.",
       "Breathe naturally for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -339,6 +569,18 @@
       "Lie on back, soles together, knees out.",
       "Place arms at sides or overhead.",
       "Relax for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "spine",
+      "back",
+      "hips"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner",
+      "hip-opener",
+      "flexibility"
     ]
   },
   {
@@ -354,6 +596,15 @@
       "Lie on back, draw knees to chest.",
       "Grab outer feet, knees wide.",
       "Gently rock side to side, hold for 5 breaths."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -369,6 +620,15 @@
       "Sit next to wall, swing legs up wall.",
       "Lie back, hips close to wall.",
       "Arms at sides, relax for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -384,6 +644,16 @@
       "Lie on back, arms out in T.",
       "Draw knees to chest, drop to right.",
       "Gaze left, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "back",
+      "core"
+    ],
+    "tags": [
+      "supine",
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -399,6 +669,14 @@
       "Lie on back, lift right leg, hold big toe with right hand.",
       "Extend leg toward ceiling, keep left leg on floor.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "beginner"
     ]
   },
   {
@@ -414,6 +692,16 @@
       "Lie face down, hands under shoulders.",
       "Inhale, lift chest, keep elbows bent.",
       "Gaze forward, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "chest"
+    ],
+    "tags": [
+      "prone",
+      "backbend",
+      "beginner"
     ]
   },
   {
@@ -429,6 +717,16 @@
       "Lie face down, arms at sides.",
       "Inhale, lift head, chest, arms, and legs.",
       "Hold for 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -444,6 +742,16 @@
       "Lie face down, bend knees, grab ankles.",
       "Inhale, lift chest and thighs.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "chest"
+    ],
+    "tags": [
+      "prone",
+      "backbend",
+      "beginner"
     ]
   },
   {
@@ -459,6 +767,15 @@
       "Lie face down, forehead on stacked hands.",
       "Legs apart, heels in.",
       "Breathe deeply for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "back",
+      "core"
+    ],
+    "tags": [
+      "prone",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -474,6 +791,16 @@
       "Lie face down.",
       "Lift right leg and left arm.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -490,6 +817,15 @@
       "Place right foot on inner left thigh or calf.",
       "Hands to heart or overhead.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -505,6 +841,17 @@
       "Stand, cross right thigh over left, hook foot if possible.",
       "Cross left arm over right, bend elbows, palms together.",
       "Bend standing knee, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "shoulders"
+    ],
+    "tags": [
+      "balance",
+      "shoulder-opener",
+      "intermediate"
     ]
   },
   {
@@ -520,6 +867,17 @@
       "From plank, shift to right hand and outer foot.",
       "Stack left foot on right, raise left arm.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms"
+    ],
+    "tags": [
+      "balance",
+      "strength",
+      "intermediate"
     ]
   },
   {
@@ -535,6 +893,15 @@
       "Squat, place hands on floor shoulder-width.",
       "Bend elbows, place knees on upper arms.",
       "Lift feet, balance on hands, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -550,6 +917,17 @@
       "Stand, grab right ankle with right hand.",
       "Extend left arm forward, kick foot into hand.",
       "Hinge forward, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -565,6 +943,15 @@
       "Squat, twist torso to right, place hands on floor.",
       "Place knees on left upper arm, bend elbows.",
       "Lift feet, balance, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -580,6 +967,15 @@
       "Squat, place hands on floor shoulder-width.",
       "Bend elbows, place knees on upper arms, keep knees bent.",
       "Lift feet, balance, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -595,6 +991,17 @@
       "Sit in lotus or cross-legged, place hands beside hips.",
       "Press hands down, lift hips and legs off floor.",
       "Balance, hold for 5 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms"
+    ],
+    "tags": [
+      "balance",
+      "strength",
+      "intermediate"
     ]
   },
   {
@@ -610,6 +1017,21 @@
       "Stand, place right shin over left upper arm.",
       "Bend elbows, lean forward, extend left leg back.",
       "Balance on hands, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "back",
+      "chest",
+      "hips"
+    ],
+    "tags": [
+      "balance",
+      "backbend",
+      "hip-opener",
+      "intermediate",
+      "flexibility"
     ]
   },
   {
@@ -625,6 +1047,15 @@
       "From triangle, bend right knee, place right hand on floor.",
       "Lift left leg parallel to floor, extend left arm up.",
       "Gaze at floor or up, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -640,6 +1071,16 @@
       "From hands and knees, lift hips up and back.",
       "Hands shoulder-width, feet hip-width.",
       "Press chest toward thighs, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -655,6 +1096,16 @@
       "Lie on back, lift legs overhead.",
       "Support lower back with hands, elbows on floor.",
       "Extend legs up, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -670,6 +1121,16 @@
       "From shoulder stand, lower toes to floor behind head.",
       "Hands interlocked or supporting back.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -685,6 +1146,16 @@
       "Kneel, interlace fingers, place crown on floor.",
       "Lift knees, walk feet in.",
       "Lift legs up, balance, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -700,6 +1171,16 @@
       "Forearms on floor, elbows under shoulders.",
       "Walk feet in, lift one leg, then both.",
       "Balance, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -715,6 +1196,16 @@
       "Place hands shoulder-width on floor, facing wall.",
       "Kick one leg up, then the other, balance against wall.",
       "Keep arms straight, hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -730,6 +1221,18 @@
       "Lie on back, knees bent, feet flat.",
       "Lift hips, interlace hands under back.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "backbend",
+      "inversion",
+      "intermediate"
     ]
   },
   {
@@ -745,6 +1248,16 @@
       "Kneel, hands on lower back.",
       "Arch back, reach for heels.",
       "Head back if comfortable, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders",
+      "arms"
+    ],
+    "tags": [
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -760,6 +1273,15 @@
       "Lie on back, hands by ears, feet flat.",
       "Press up, straighten arms and legs.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "advanced"
     ]
   },
   {
@@ -775,6 +1297,15 @@
       "Lie on back, legs extended.",
       "Lift chest, place crown on floor.",
       "Hands under hips, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -790,6 +1321,17 @@
       "Lie prone, forearms on floor.",
       "Lift chest, gaze forward.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "restorative",
+      "prone",
+      "beginner"
     ]
   },
   {
@@ -805,6 +1347,15 @@
       "Lie prone, hands under shoulders.",
       "Press up, straighten arms, lift thighs off floor.",
       "Gaze forward, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -820,6 +1371,18 @@
       "Kneel, lean back, place hands near feet.",
       "Arch back, bring head toward feet.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders",
+      "hips"
+    ],
+    "tags": [
+      "backbend",
+      "hip-opener",
+      "advanced",
+      "flexibility"
     ]
   },
   {
@@ -835,6 +1398,14 @@
       "Sit with legs extended, bend knees to left.",
       "Twist right, hand behind, left on knee.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -850,6 +1421,17 @@
       "Sit, right foot over left thigh.",
       "Twist left, elbow outside right knee.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core",
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "twist",
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -865,6 +1447,18 @@
       "From triangle, place left hand outside right foot.",
       "Twist, right arm up.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "twist",
+      "forward-bend",
+      "intermediate",
+      "flexibility"
     ]
   },
   {
@@ -880,6 +1474,14 @@
       "Sit, bend right knee, foot flat.",
       "Twist left, elbow outside knee.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "twist",
+      "intermediate"
     ]
   },
   {
@@ -895,6 +1497,14 @@
       "Lie back, knees to chest.",
       "Drop knees right, arms out.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -910,6 +1520,13 @@
       "Kneel, sit on heels.",
       "Fold forward, arms extended.",
       "Forehead to floor, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "full-body"
+    ],
+    "tags": [
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -925,6 +1542,13 @@
       "Lie back with bolster under knees.",
       "Arms out, eyes closed.",
       "Relax for 10 minutes."
+    ],
+    "bodyParts": [
+      "full-body"
+    ],
+    "tags": [
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -940,6 +1564,13 @@
       "Sit between heels, lie back on bolster.",
       "Arms overhead.",
       "Hold 5 minutes."
+    ],
+    "bodyParts": [
+      "full-body"
+    ],
+    "tags": [
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -955,6 +1586,16 @@
       "Place block under upper back.",
       "Lie back, head down.",
       "Relax arms, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "full-body",
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "restorative",
+      "backbend",
+      "beginner"
     ]
   },
   {
@@ -970,6 +1611,17 @@
       "Kneel, spread knees wide, fold forward.",
       "Extend arms forward.",
       "Hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "full-body",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "restorative",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -986,6 +1638,17 @@
       "Raise right arm, bend elbow, reach hand down back.",
       "Reach left arm behind, clasp hands if possible.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "shoulders"
+    ],
+    "tags": [
+      "seated",
+      "hip-opener",
+      "shoulder-opener",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -1001,6 +1664,14 @@
       "Kneel, sit between heels.",
       "Place hands on thighs, lengthen spine.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -1016,6 +1687,15 @@
       "Sit, place right heel near perineum, left heel over right.",
       "Rest hands on knees, palms up.",
       "Lengthen spine, hold for 1-5 minutes."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "meditation",
+      "breathing",
+      "beginner"
     ]
   },
   {
@@ -1031,6 +1711,15 @@
       "Sit, place right foot on left thigh, left foot on right thigh.",
       "Rest hands on knees, palms up.",
       "Lengthen spine, hold for 1-5 minutes."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "meditation",
+      "breathing",
+      "beginner"
     ]
   },
   {
@@ -1046,6 +1735,15 @@
       "Sit, place right foot on left thigh, left foot under right thigh.",
       "Rest hands on knees, palms up.",
       "Lengthen spine, hold for 5-10 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "meditation",
+      "breathing",
+      "beginner"
     ]
   },
   {
@@ -1061,6 +1759,16 @@
       "Lie on back, thread right arm under body, rest shoulder on floor.",
       "Place right knee over left, twist gently.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "back",
+      "shoulders"
+    ],
+    "tags": [
+      "supine",
+      "shoulder-opener",
+      "beginner"
     ]
   },
   {
@@ -1076,6 +1784,20 @@
       "Lie on back, knees bent, feet flat.",
       "Place block under sacrum, lift hips.",
       "Relax arms, hold for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "full-body",
+      "back",
+      "chest",
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "restorative",
+      "backbend",
+      "beginner",
+      "inversion"
     ]
   },
   {
@@ -1091,6 +1813,18 @@
       "From all fours, bring right shin forward, left leg back.",
       "Square hips, fold forward over shin.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "seated",
+      "backbend",
+      "hip-opener",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -1106,6 +1840,15 @@
       "Lie face down, arms extended back.",
       "Lift chest, legs, and arms simultaneously.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength"
     ]
   },
   {
@@ -1121,6 +1864,16 @@
       "From plank, lower body until elbows at 90 degrees.",
       "Keep body parallel to floor, elbows over wrists.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -1136,6 +1889,15 @@
       "Kneel, extend right leg to side, toes pointing right.",
       "Reach right arm to right foot, left arm over ear.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles"
+    ],
+    "tags": [
+      "standing",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -1151,6 +1913,18 @@
       "From lunge, lower left knee to floor, right knee over ankle.",
       "Raise arms overhead, arch back slightly.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hips",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "hip-opener",
+      "beginner"
     ]
   },
   {
@@ -1166,6 +1940,18 @@
       "From standing, hinge forward, lift left leg back.",
       "Extend arms forward, body parallel to floor.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "balance",
+      "strength",
+      "intermediate"
     ]
   },
   {
@@ -1181,6 +1967,17 @@
       "From half moon, place left hand on floor, twist torso right.",
       "Extend right arm up, lift left leg parallel.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "spine"
+    ],
+    "tags": [
+      "balance",
+      "twist",
+      "advanced"
     ]
   },
   {
@@ -1196,6 +1993,16 @@
       "From plow pose, bend knees toward ears.",
       "Rest knees on floor near head, hands supporting back.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   }
 ]

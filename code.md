@@ -9045,6 +9045,8 @@ export interface PoseData {
   benefits: string[]
   steps: string[]
   holdSeconds?: number
+  bodyParts?: string[]
+  tags?: string[]
 }
 
 export type SessionPhase = 'prepare' | 'hold' | 'complete' | 'summary'
@@ -9059,6 +9061,8 @@ export interface SessionResult {
   durationSeconds: number
   badgesUnlocked: string[]
   posesAttempted: number
+  poseScores: number[]
+  categoriesPracticed: string[]
 }
 
 export interface FeedbackMessage {
@@ -9077,6 +9081,50 @@ export const CATEGORY_DIFFICULTY: Record<string, DifficultyLevel> = {
   'Twists':            'intermediate',
   'Restorative Poses': 'beginner',
 }
+
+export interface BodyPartMeta {
+  id: string
+  label: string
+  icon: string
+  color: string
+}
+
+export const BODY_PARTS: BodyPartMeta[] = [
+  { id: 'arms',        label: 'Arms',         icon: '💪', color: '#b38b59' },
+  { id: 'shoulders',   label: 'Shoulders',    icon: '🤸', color: '#9a7040' },
+  { id: 'chest',       label: 'Chest',        icon: '🫀', color: '#c49a65' },
+  { id: 'core',        label: 'Core',         icon: '⚡', color: '#b38b59' },
+  { id: 'back',        label: 'Back',         icon: '🦴', color: '#a07840' },
+  { id: 'hips',        label: 'Hips',         icon: '🌀', color: '#b38b59' },
+  { id: 'legs',        label: 'Legs',         icon: '🦵', color: '#9a7040' },
+  { id: 'hamstrings',  label: 'Hamstrings',   icon: '🔗', color: '#c49a65' },
+  { id: 'glutes',      label: 'Glutes',       icon: '🍑', color: '#b38b59' },
+  { id: 'ankles',      label: 'Ankles',       icon: '🦶', color: '#a07840' },
+  { id: 'spine',       label: 'Spine',        icon: '🧬', color: '#b38b59' },
+  { id: 'neck',        label: 'Neck',         icon: '🧣', color: '#9a7040' },
+  { id: 'wrists',      label: 'Wrists',       icon: '⌚', color: '#c49a65' },
+  { id: 'full-body',   label: 'Full Body',    icon: '🧘', color: '#654321' },
+]
+
+export const POSE_TAGS: { id: string; label: string }[] = [
+  { id: 'standing',        label: 'Standing' },
+  { id: 'seated',          label: 'Seated' },
+  { id: 'supine',          label: 'Supine' },
+  { id: 'prone',           label: 'Prone' },
+  { id: 'inversion',       label: 'Inversion' },
+  { id: 'balance',         label: 'Balance' },
+  { id: 'twist',           label: 'Twist' },
+  { id: 'forward-bend',    label: 'Forward Bend' },
+  { id: 'backbend',        label: 'Backbend' },
+  { id: 'strength',        label: 'Strength' },
+  { id: 'flexibility',     label: 'Flexibility' },
+  { id: 'restorative',     label: 'Restorative' },
+  { id: 'hip-opener',      label: 'Hip Opener' },
+  { id: 'shoulder-opener', label: 'Shoulder Opener' },
+  { id: 'beginner',        label: 'Beginner' },
+  { id: 'intermediate',    label: 'Intermediate' },
+  { id: 'advanced',        label: 'Advanced' },
+]
 
 
 
@@ -9488,67 +9536,108 @@ export function scorePose(detected: NormalizedLandmark[]): number {
 
 # FILE: ./src/utils/appreciationUtils.ts
 
-// User appreciation utilities for yoga training
-// Handles badges, streaks, progress tracking, and motivational features
+import type { GamificationState } from './gamification'
 
-export interface SessionResultData {
-  completedPoses: number
-  totalXP: number
-  avgMatchScore: number
-  bestCombo: number
-  durationSeconds: number
-  badgesUnlocked: string[]
-  posesAttempted: number
+export interface RecentSession {
+  date: string
+  durationMinutes: number
+  energy: number
+  xp: number
+  categories: string[]
+  posesCompleted: number
 }
 
 export interface UserStats {
-  totalSessions: number;
-  totalPracticeTime: number; // in minutes
-  currentStreak: number;
-  longestStreak: number;
-  favoritePose: string;
-  averageSessionLength: number;
-  badges: Badge[];
-  lastPracticeDate: string;
-  weeklyGoal: number; // minutes per week
-  monthlyGoal: number; // minutes per month
-  recentSessions?: { date: string; durationMinutes: number; energy: number }[];
+  totalSessions: number
+  totalPracticeTime: number
+  currentStreak: number
+  longestStreak: number
+  favoritePose: string
+  averageSessionLength: number
+  badges: Badge[]
+  lastPracticeDate: string
+  weeklyGoal: number
+  monthlyGoal: number
+  recentSessions: RecentSession[]
+  totalPosesCompleted: number
+  categoriesPracticed: string[]
 }
 
 export interface Badge {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  earnedDate: string;
-  category: 'practice' | 'streak' | 'achievement' | 'pose';
+  id: string
+  name: string
+  description: string
+  icon: string
+  earnedDate: string
+  category: 'practice' | 'streak' | 'achievement' | 'pose' | 'test' | 'gamification'
 }
 
 export interface ProgressMilestone {
-  id: string;
-  title: string;
-  description: string;
-  target: number;
-  current: number;
-  unit: string;
-  reward: string;
+  id: string
+  title: string
+  description: string
+  target: number
+  current: number
+  unit: string
+  reward: string
 }
 
+interface BadgeCheckInput {
+  id: string
+  check: (stats: UserStats, gstate: GamificationState) => boolean
+  name: string
+  icon: string
+  description: string
+  category: Badge['category']
+}
+
+const BADGE_CHECKS: BadgeCheckInput[] = [
+  { id: 'first_session',  check: (s) => s.totalSessions >= 1,        name: 'First Step',       icon: '🌱', description: 'Completed your first session',            category: 'practice' },
+  { id: 'sessions_5',     check: (s) => s.totalSessions >= 5,        name: 'Regular Visitor',  icon: '📅', description: '5 sessions completed',                    category: 'practice' },
+  { id: 'sessions_10',    check: (s) => s.totalSessions >= 10,       name: 'Steady Practice',  icon: '📿', description: '10 sessions completed',                   category: 'practice' },
+  { id: 'sessions_50',    check: (s) => s.totalSessions >= 50,       name: 'Yoga Warrior',     icon: '⚔️', description: '50 sessions completed',                   category: 'practice' },
+  { id: 'streak_3',       check: (s) => s.currentStreak >= 3,        name: 'Consistent Yogi',  icon: '🔥', description: '3-day practice streak',                   category: 'streak' },
+  { id: 'streak_7',       check: (s) => s.currentStreak >= 7,        name: 'Devoted Seeker',   icon: '⚡', description: '7-day practice streak',                   category: 'streak' },
+  { id: 'streak_30',      check: (s) => s.longestStreak >= 30,       name: 'Iron Will',        icon: '👑', description: '30-day practice streak',                  category: 'streak' },
+  { id: 'xp_500',         check: (_, g) => g.totalXP >= 500,         name: 'Sapling',          icon: '🌿', description: 'Earned 500 XP',                           category: 'gamification' },
+  { id: 'xp_2000',        check: (_, g) => g.totalXP >= 2000,        name: 'Banyan Tree',      icon: '🌳', description: 'Earned 2000 XP',                          category: 'gamification' },
+  { id: 'xp_5000',        check: (_, g) => g.totalXP >= 5000,        name: 'Ancient Grove',    icon: '🏔️', description: 'Earned 5000 XP',                          category: 'gamification' },
+  { id: 'perfect_hold',   check: (_, g) => g.perfectHolds >= 1,      name: 'Pure Form',        icon: '✨', description: 'Perfect hold on a pose',                  category: 'achievement' },
+  { id: 'perfect_5',      check: (_, g) => g.perfectHolds >= 5,      name: 'Form Master',      icon: '💎', description: '5 perfect holds across sessions',         category: 'achievement' },
+  { id: 'combo_3',        check: (_, g) => g.bestCombo >= 3,         name: 'On Fire',          icon: '🌶️', description: '3× pose combo',                           category: 'gamification' },
+  { id: 'combo_5',        check: (_, g) => g.bestCombo >= 5,         name: 'Flow State',       icon: '🌊', description: '5× pose combo',                           category: 'gamification' },
+  { id: 'morning_5',      check: (_, g) => g.morningSessions >= 5,   name: 'Dawn Warrior',     icon: '☀️', description: '5 morning sessions (before 8 AM)',          category: 'achievement' },
+  { id: 'all_categories', check: (s) => s.categoriesPracticed.length >= 7, name: 'Explorer',  icon: '🗺️', description: 'Practiced all pose categories',           category: 'achievement' },
+  { id: 'time_60min',     check: (s) => s.totalPracticeTime >= 60,   name: 'Hour Hero',        icon: '⏰', description: 'Total practice time: 1 hour',              category: 'achievement' },
+  { id: 'time_600min',    check: (s) => s.totalPracticeTime >= 600,  name: 'Zen Master',       icon: '🧘', description: 'Total practice time: 10 hours',            category: 'achievement' },
+  { id: 'poses_100',      check: (_, g) => g.totalPosesCompleted >= 100, name: 'Pose Collector', icon: '📖', description: 'Completed 100 poses across all sessions', category: 'pose' },
+]
+
 class AppreciationManager {
-  private stats: UserStats;
-  private readonly STORAGE_KEY = 'yoga.appreciation.v1';
+  private stats: UserStats
+  private readonly STORAGE_KEY = 'yoga.appreciation.v1'
 
   constructor() {
-    this.stats = this.loadStats();
+    this.stats = this.loadStats()
   }
 
-  // Load user stats from localStorage
   private loadStats(): UserStats {
-    const stored = localStorage.getItem(this.STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY)
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        if (!parsed.recentSessions) parsed.recentSessions = []
+        if (!parsed.totalPosesCompleted) parsed.totalPosesCompleted = 0
+        if (!parsed.categoriesPracticed) parsed.categoriesPracticed = []
+        return parsed
+      }
+    } catch {
+      // ignore
     }
+    return this.defaultStats()
+  }
 
+  private defaultStats(): UserStats {
     return {
       totalSessions: 0,
       totalPracticeTime: 0,
@@ -9558,181 +9647,135 @@ class AppreciationManager {
       averageSessionLength: 0,
       badges: [],
       lastPracticeDate: '',
-      weeklyGoal: 150, // 2.5 hours per week
-      monthlyGoal: 600, // 10 hours per month
-    };
+      weeklyGoal: 150,
+      monthlyGoal: 600,
+      recentSessions: [],
+      totalPosesCompleted: 0,
+      categoriesPracticed: [],
+    }
   }
 
-  // Save user stats to localStorage
   private saveStats(): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.stats));
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.stats))
+    } catch {
+      // ignore
+    }
   }
 
-  // Record session from result data
-  recordSessionFromResult(result: SessionResultData): void {
-    this.recordSession(result.durationSeconds / 60);
+  recordSessionFromResult(
+    result: {
+      durationSeconds: number
+      avgMatchScore: number
+      posesCompleted: number
+      categoriesPracticed: string[]
+      xpEarned: number
+    },
+    gstate: GamificationState
+  ): string[] {
+    const durationMinutes = Math.round(result.durationSeconds / 60)
+    const today = new Date().toISOString().split('T')[0]
+    const lastPractice = this.stats.lastPracticeDate
 
-    const recent = this.stats.recentSessions || [];
-    recent.push({
-      date: new Date().toISOString(),
-      durationMinutes: Math.round(result.durationSeconds / 60),
-      energy: result.avgMatchScore,
-    });
-    if (recent.length > 30) recent.shift();
-    this.stats.recentSessions = recent;
-    this.saveStats();
-  }
+    this.stats.totalSessions++
+    this.stats.totalPracticeTime += durationMinutes
+    this.stats.averageSessionLength = this.stats.totalPracticeTime / this.stats.totalSessions
 
-  // Record a completed session
-  recordSession(sessionLength: number, poseName?: string): void {
-    const today = new Date().toISOString().split('T')[0];
-    const lastPractice = this.stats.lastPracticeDate;
-
-    // Update basic stats
-    this.stats.totalSessions++;
-    this.stats.totalPracticeTime += sessionLength;
-    this.stats.averageSessionLength = this.stats.totalPracticeTime / this.stats.totalSessions;
-
-    // Update streak
     if (lastPractice === today) {
-      // Already practiced today, don't change streak
+      // same day, no streak change
     } else if (this.isConsecutiveDay(lastPractice, today)) {
-      this.stats.currentStreak++;
+      this.stats.currentStreak++
     } else {
-      this.stats.currentStreak = 1;
+      this.stats.currentStreak = 1
     }
 
-    this.stats.longestStreak = Math.max(this.stats.longestStreak, this.stats.currentStreak);
-    this.stats.lastPracticeDate = today;
+    this.stats.longestStreak = Math.max(this.stats.longestStreak, this.stats.currentStreak)
+    this.stats.lastPracticeDate = today
 
-    // Update favorite pose
-    if (poseName) {
-      this.updateFavoritePose(poseName);
+    if (result.posesCompleted > 0) {
+      this.stats.totalPosesCompleted += result.posesCompleted
     }
 
-    // Check for new badges
-    this.checkForBadges();
+    for (const cat of result.categoriesPracticed) {
+      if (!this.stats.categoriesPracticed.includes(cat)) {
+        this.stats.categoriesPracticed.push(cat)
+      }
+    }
 
-    this.saveStats();
+    this.stats.recentSessions.push({
+      date: new Date().toISOString(),
+      durationMinutes,
+      energy: result.avgMatchScore,
+      xp: result.xpEarned,
+      categories: [...result.categoriesPracticed],
+      posesCompleted: result.posesCompleted,
+    })
+    if (this.stats.recentSessions.length > 60) {
+      this.stats.recentSessions = this.stats.recentSessions.slice(-60)
+    }
+
+    const newBadges = this.checkForBadges(gstate)
+    this.saveStats()
+    return newBadges
   }
 
-  // Check if two dates are consecutive
   private isConsecutiveDay(date1: string, date2: string): boolean {
-    if (!date1) return false;
-
-    const d1 = new Date(date1);
-    const d2 = new Date(date2);
-    const diffTime = Math.abs(d2.getTime() - d1.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    return diffDays === 1;
+    if (!date1) return false
+    const d1 = new Date(date1)
+    const d2 = new Date(date2)
+    const diffTime = Math.abs(d2.getTime() - d1.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays === 1
   }
 
-  // Update favorite pose tracking
-  private updateFavoritePose(poseName: string): void {
-    // Simple implementation - could be enhanced with pose usage tracking
-    this.stats.favoritePose = poseName;
+  private checkForBadges(gstate: GamificationState): string[] {
+    const newIds: string[] = []
+    for (const bc of BADGE_CHECKS) {
+      if (this.hasBadge(bc.id)) continue
+      if (bc.check(this.stats, gstate)) {
+        this.stats.badges.push({
+          id: bc.id,
+          name: bc.name,
+          description: bc.description,
+          icon: bc.icon,
+          earnedDate: new Date().toISOString(),
+          category: bc.category,
+        })
+        newIds.push(bc.id)
+      }
+    }
+    return newIds
   }
 
-  // Check and award badges
-  private checkForBadges(): void {
-    const newBadges: Badge[] = [];
-
-    // Practice badges
-    if (this.stats.totalSessions >= 1 && !this.hasBadge('first-session')) {
-      newBadges.push({
-        id: 'first-session',
-        name: 'First Steps',
-        description: 'Completed your first yoga session',
-        icon: '🌱',
-        earnedDate: new Date().toISOString(),
-        category: 'practice',
-      });
-    }
-
-    if (this.stats.totalSessions >= 10 && !this.hasBadge('dedicated-practitioner')) {
-      newBadges.push({
-        id: 'dedicated-practitioner',
-        name: 'Dedicated Practitioner',
-        description: 'Completed 10 yoga sessions',
-        icon: '💪',
-        earnedDate: new Date().toISOString(),
-        category: 'practice',
-      });
-    }
-
-    if (this.stats.totalSessions >= 50 && !this.hasBadge('yoga-warrior')) {
-      newBadges.push({
-        id: 'yoga-warrior',
-        name: 'Yoga Warrior',
-        description: 'Completed 50 yoga sessions',
-        icon: '⚔️',
-        earnedDate: new Date().toISOString(),
-        category: 'practice',
-      });
-    }
-
-    // Streak badges
-    if (this.stats.currentStreak >= 7 && !this.hasBadge('week-warrior')) {
-      newBadges.push({
-        id: 'week-warrior',
-        name: 'Week Warrior',
-        description: 'Maintained a 7-day practice streak',
-        icon: '🔥',
-        earnedDate: new Date().toISOString(),
-        category: 'streak',
-      });
-    }
-
-    if (this.stats.longestStreak >= 30 && !this.hasBadge('month-master')) {
-      newBadges.push({
-        id: 'month-master',
-        name: 'Month Master',
-        description: 'Maintained a 30-day practice streak',
-        icon: '👑',
-        earnedDate: new Date().toISOString(),
-        category: 'streak',
-      });
-    }
-
-    // Time-based badges
-    if (this.stats.totalPracticeTime >= 60 && !this.hasBadge('hour-hero')) {
-      newBadges.push({
-        id: 'hour-hero',
-        name: 'Hour Hero',
-        description: 'Practiced for a total of 1 hour',
-        icon: '⏰',
-        earnedDate: new Date().toISOString(),
-        category: 'achievement',
-      });
-    }
-
-    if (this.stats.totalPracticeTime >= 600 && !this.hasBadge('zen-master')) {
-      newBadges.push({
-        id: 'zen-master',
-        name: 'Zen Master',
-        description: 'Practiced for a total of 10 hours',
-        icon: '🧘',
-        earnedDate: new Date().toISOString(),
-        category: 'achievement',
-      });
-    }
-
-    // Add new badges to stats
-    this.stats.badges.push(...newBadges);
-  }
-
-  // Check if user has a specific badge
   private hasBadge(badgeId: string): boolean {
-    return this.stats.badges.some(badge => badge.id === badgeId);
+    return this.stats.badges.some(b => b.id === badgeId)
   }
 
-  // Get current user stats
   getStats(): UserStats {
-    return { ...this.stats };
+    return { ...this.stats, recentSessions: [...this.stats.recentSessions], categoriesPracticed: [...this.stats.categoriesPracticed] }
   }
 
-  // Get progress milestones
+  getWeeklyActivityData(): { day: string; minutes: number }[] {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const result: { day: string; minutes: number }[] = []
+    const now = new Date()
+
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now)
+      d.setDate(d.getDate() - i)
+      const dateStr = d.toISOString().split('T')[0]
+      const dayLabel = days[d.getDay()]
+
+      const totalMin = this.stats.recentSessions
+        .filter(s => s.date.startsWith(dateStr))
+        .reduce((sum, s) => sum + s.durationMinutes, 0)
+
+      result.push({ day: dayLabel, minutes: totalMin })
+    }
+
+    return result
+  }
+
   getProgressMilestones(): ProgressMilestone[] {
     return [
       {
@@ -9762,24 +9805,28 @@ class AppreciationManager {
         unit: 'days',
         reward: 'Consistency Champion Badge',
       },
-    ];
+    ]
   }
 
-  // Get practice time for current week
   private getWeeklyPracticeTime(): number {
-    // Simplified implementation - would need session history with dates
-    // For now, return total practice time (placeholder)
-    return this.stats.totalPracticeTime;
+    const now = new Date()
+    const weekStart = new Date(now)
+    weekStart.setDate(now.getDate() - now.getDay())
+    const startStr = weekStart.toISOString().split('T')[0]
+    return this.stats.recentSessions
+      .filter(s => s.date >= startStr)
+      .reduce((sum, s) => sum + s.durationMinutes, 0)
   }
 
-  // Get practice time for current month
   private getMonthlyPracticeTime(): number {
-    // Simplified implementation - would need session history with dates
-    // For now, return total practice time (placeholder)
-    return this.stats.totalPracticeTime;
+    const now = new Date()
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    const startStr = monthStart.toISOString().split('T')[0]
+    return this.stats.recentSessions
+      .filter(s => s.date >= startStr)
+      .reduce((sum, s) => sum + s.durationMinutes, 0)
   }
 
-  // Generate motivational message based on stats
   generateMotivationalMessage(): string {
     const messages = [
       "Every pose is a step toward inner peace. Keep flowing! 🌊",
@@ -9789,89 +9836,66 @@ class AppreciationManager {
       "Your practice is a gift to yourself. Cherish it! 🎁",
       "Strength and flexibility grow with each session. Stay strong! 💪",
       "Mindfulness begins with awareness. You're cultivating it beautifully! 🧘",
-    ];
-
-    // Personalized messages based on streak
+    ]
     if (this.stats.currentStreak >= 7) {
-      messages.push("Your consistency is remarkable! Keep the streak alive! 🔥");
+      messages.push("Your consistency is remarkable! Keep the streak alive! 🔥")
     }
-
     if (this.stats.totalSessions >= 25) {
-      messages.push("You're building a beautiful yoga journey. Proud of you! 🌟");
+      messages.push("You're building a beautiful yoga journey. Proud of you! 🌟")
     }
-
-    return messages[Math.floor(Math.random() * messages.length)];
+    return messages[Math.floor(Math.random() * messages.length)]
   }
 
-  // Get achievement summary for sharing
   getAchievementSummary(): string {
-    return `I've completed ${this.stats.totalSessions} yoga sessions with a ${this.stats.currentStreak}-day streak! 🧘 #YogaJourney #ProjectEvolvingYoga`;
+    return `I've completed ${this.stats.totalSessions} yoga sessions with a ${this.stats.currentStreak}-day streak! 🧘 #YogaJourney #ProjectEvolvingYoga`
   }
 
-  // Reset stats (for testing or user request)
   resetStats(): void {
-    this.stats = {
-      totalSessions: 0,
-      totalPracticeTime: 0,
-      currentStreak: 0,
-      longestStreak: 0,
-      favoritePose: '',
-      averageSessionLength: 0,
-      badges: [],
-      lastPracticeDate: '',
-      weeklyGoal: 150,
-      monthlyGoal: 600,
-    };
-    this.saveStats();
+    try {
+      localStorage.removeItem(this.STORAGE_KEY)
+      localStorage.removeItem('yoga.gamification.v1')
+    } catch {
+      // ignore
+    }
+    this.stats = this.defaultStats()
+    this.saveStats()
   }
 }
 
-// Export singleton instance
-export const appreciationManager = new AppreciationManager();
+export const appreciationManager = new AppreciationManager()
 
-// Utility functions for UI display
 export const appreciationUIUtils = {
-  // Format time duration
   formatDuration(minutes: number): string {
-    if (minutes < 60) {
-      return `${Math.round(minutes)}m`;
-    }
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = Math.round(minutes % 60);
-    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+    if (minutes < 60) return `${Math.round(minutes)}m`
+    const hours = Math.floor(minutes / 60)
+    const remainingMinutes = Math.round(minutes % 60)
+    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`
   },
 
-  // Get badge color based on category
   getBadgeColor(category: Badge['category']): string {
-    const colors = {
-      practice: '#3498db',
-      streak: '#e74c3c',
+    const colors: Record<string, string> = {
+      practice: '#b38b59',
+      streak: '#9a7040',
       achievement: '#27ae60',
       pose: '#f39c12',
-    };
-    return colors[category] || '#95a5a6';
-  },
-
-  // Calculate progress percentage
-  calculateProgress(current: number, target: number): number {
-    return Math.min((current / target) * 100, 100);
-  },
-
-  // Get encouragement message based on progress
-  getEncouragementMessage(progress: number): string {
-    if (progress >= 100) {
-      return "Congratulations! Goal achieved! 🎉";
-    } else if (progress >= 75) {
-      return "You're so close! Keep going! 🚀";
-    } else if (progress >= 50) {
-      return "Halfway there! You're doing great! 💪";
-    } else if (progress >= 25) {
-      return "Great start! Keep the momentum! 🌟";
-    } else {
-      return "Every session counts! You've got this! 🌱";
+      test: '#4a90d9',
+      gamification: '#9b59b6',
     }
+    return colors[category] || '#95a5a6'
   },
-};
+
+  calculateProgress(current: number, target: number): number {
+    return target > 0 ? Math.min((current / target) * 100, 100) : 0
+  },
+
+  getEncouragementMessage(progress: number): string {
+    if (progress >= 100) return "Congratulations! Goal achieved! 🎉"
+    if (progress >= 75) return "You're so close! Keep going! 🚀"
+    if (progress >= 50) return "Halfway there! You're doing great! 💪"
+    if (progress >= 25) return "Great start! Keep the momentum! 🌟"
+    return "Every session counts! You've got this! 🌱"
+  },
+}
 
 
 
@@ -10010,13 +10034,20 @@ export interface GamificationState {
   sessionXP: number
   perfectHolds: number
   bestCombo: number
+  morningSessions: number
+  categoriesPracticed: string[]
+  totalPosesCompleted: number
 }
 
 function loadState(): GamificationState | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
-    return JSON.parse(raw)
+    const parsed = JSON.parse(raw)
+    if (parsed.categoriesPracticed === undefined) parsed.categoriesPracticed = []
+    if (parsed.morningSessions === undefined) parsed.morningSessions = 0
+    if (parsed.totalPosesCompleted === undefined) parsed.totalPosesCompleted = 0
+    return parsed
   } catch {
     return null
   }
@@ -10040,6 +10071,9 @@ function defaultState(): GamificationState {
     sessionXP: 0,
     perfectHolds: 0,
     bestCombo: 0,
+    morningSessions: 0,
+    categoriesPracticed: [],
+    totalPosesCompleted: 0,
   }
 }
 
@@ -10087,6 +10121,24 @@ class GamificationManager {
     this.save()
   }
 
+  recordSession(result: {
+    durationSeconds: number
+    categoriesPracticed: string[]
+    hour: number
+    posesCompleted: number
+  }): void {
+    if (result.hour < 8) {
+      this.state.morningSessions++
+    }
+    for (const cat of result.categoriesPracticed) {
+      if (!this.state.categoriesPracticed.includes(cat)) {
+        this.state.categoriesPracticed.push(cat)
+      }
+    }
+    this.state.totalPosesCompleted += result.posesCompleted
+    this.save()
+  }
+
   resetSession(): void {
     this.state.sessionXP = 0
     this.state.combo = 0
@@ -10095,7 +10147,14 @@ class GamificationManager {
   }
 
   getState(): GamificationState {
-    return { ...this.state }
+    return { ...this.state, categoriesPracticed: [...this.state.categoriesPracticed] }
+  }
+
+  getXPProgress(): { current: number; needed: number; pct: number } {
+    const current = this.state.totalXP % 500
+    const needed = 500
+    const pct = needed > 0 ? (current / needed) * 100 : 0
+    return { current, needed, pct: Math.min(100, pct) }
   }
 
   private save(): void {
@@ -14478,6 +14537,53 @@ export const POSES: Pose[] = [
 ]
 
 
+# FILE: ./src/data/badgeDefinitions.ts
+
+export interface BadgeDefinition {
+  id: string
+  name: string
+  icon: string
+  description: string
+  category: 'practice' | 'streak' | 'achievement' | 'pose' | 'test' | 'gamification'
+  howToEarn: string
+  rarity: 'common' | 'rare' | 'epic' | 'legendary'
+}
+
+export const BADGE_DEFINITIONS: BadgeDefinition[] = [
+  { id: 'first_session',  name: 'First Step',       icon: '🌱', category: 'practice',     rarity: 'common',    description: 'Completed your first session',            howToEarn: 'Complete any yoga session' },
+  { id: 'sessions_5',     name: 'Regular Visitor',  icon: '📅', category: 'practice',     rarity: 'common',    description: '5 sessions completed',                    howToEarn: 'Complete 5 sessions' },
+  { id: 'sessions_10',    name: 'Steady Practice',  icon: '📿', category: 'practice',     rarity: 'common',    description: '10 sessions completed',                   howToEarn: 'Complete 10 sessions' },
+  { id: 'sessions_50',    name: 'Yoga Warrior',     icon: '⚔️', category: 'practice',     rarity: 'rare',      description: '50 sessions completed',                   howToEarn: 'Complete 50 sessions' },
+  { id: 'streak_3',       name: 'Consistent Yogi',  icon: '🔥', category: 'streak',       rarity: 'common',    description: '3-day practice streak',                   howToEarn: 'Practice 3 days in a row' },
+  { id: 'streak_7',       name: 'Devoted Seeker',   icon: '⚡', category: 'streak',       rarity: 'rare',      description: '7-day practice streak',                   howToEarn: 'Practice 7 days in a row' },
+  { id: 'streak_30',      name: 'Iron Will',        icon: '👑', category: 'streak',       rarity: 'legendary', description: '30-day practice streak',                  howToEarn: 'Practice 30 days in a row' },
+  { id: 'xp_500',         name: 'Sapling',          icon: '🌿', category: 'gamification', rarity: 'common',    description: 'Earned 500 XP',                           howToEarn: 'Earn 500 total XP' },
+  { id: 'xp_2000',        name: 'Banyan Tree',      icon: '🌳', category: 'gamification', rarity: 'rare',      description: 'Earned 2000 XP',                          howToEarn: 'Earn 2000 total XP' },
+  { id: 'xp_5000',        name: 'Ancient Grove',    icon: '🏔️', category: 'gamification', rarity: 'epic',      description: 'Earned 5000 XP',                          howToEarn: 'Earn 5000 total XP' },
+  { id: 'perfect_hold',   name: 'Pure Form',        icon: '✨', category: 'achievement',  rarity: 'rare',      description: 'Perfect hold on a pose',                  howToEarn: 'Average ≥88% match score on a hold' },
+  { id: 'perfect_5',      name: 'Form Master',      icon: '💎', category: 'achievement',  rarity: 'epic',      description: '5 perfect holds across sessions',         howToEarn: 'Achieve 5 perfect holds' },
+  { id: 'combo_3',        name: 'On Fire',          icon: '🌶️', category: 'gamification', rarity: 'common',    description: '3× pose combo',                           howToEarn: '3 poses in a row with ≥65% match' },
+  { id: 'combo_5',        name: 'Flow State',       icon: '🌊', category: 'gamification', rarity: 'rare',      description: '5× pose combo',                           howToEarn: '5 poses in a row with ≥65% match' },
+  { id: 'morning_5',      name: 'Dawn Warrior',     icon: '☀️', category: 'achievement',  rarity: 'rare',      description: '5 morning sessions (before 8 AM)',        howToEarn: 'Complete 5 sessions before 8:00 AM' },
+  { id: 'all_categories', name: 'Explorer',         icon: '🗺️', category: 'achievement',  rarity: 'epic',      description: 'Practiced all pose categories',           howToEarn: 'Practice poses from 7+ categories' },
+  { id: 'time_60min',     name: 'Hour Hero',        icon: '⏰', category: 'achievement',  rarity: 'common',    description: 'Total practice time: 1 hour',             howToEarn: 'Accumulate 60 minutes of practice' },
+  { id: 'time_600min',    name: 'Zen Master',       icon: '🧘', category: 'achievement',  rarity: 'epic',      description: 'Total practice time: 10 hours',           howToEarn: 'Accumulate 600 minutes of practice' },
+  { id: 'poses_100',      name: 'Pose Collector',   icon: '📖', category: 'pose',         rarity: 'rare',      description: 'Completed 100 poses across all sessions', howToEarn: 'Complete 100 poses total' },
+]
+
+export function getBadgeDef(id: string): BadgeDefinition | undefined {
+  return BADGE_DEFINITIONS.find(b => b.id === id)
+}
+
+export const RARITY_COLORS: Record<string, string> = {
+  common:    '#b38b59',
+  rare:      '#4a90d9',
+  epic:      '#9b59b6',
+  legendary: '#f39c12',
+}
+
+
+
 # FILE: ./src/data/postures.json
 
 [
@@ -14496,6 +14602,16 @@ export const POSES: Pose[] = [
       "Engage thighs, lift kneecaps, tuck tailbone slightly.",
       "Roll shoulders back and down, palms forward.",
       "Lengthen spine, gaze forward, breathe for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "beginner"
     ]
   },
   {
@@ -14512,6 +14628,18 @@ export const POSES: Pose[] = [
       "Bend right knee to 90 degrees, align over ankle.",
       "Square hips forward, raise arms overhead, palms facing.",
       "Gaze upward or forward, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -14528,6 +14656,18 @@ export const POSES: Pose[] = [
       "Extend arms parallel to floor.",
       "Hinge at right hip, reach right hand to shin or floor, left arm up.",
       "Gaze at left hand, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14544,6 +14684,18 @@ export const POSES: Pose[] = [
       "Raise arms overhead, palms facing or touching.",
       "Sink hips back, keep chest lifted.",
       "Hold for 5-10 breaths, release."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -14560,6 +14712,16 @@ export const POSES: Pose[] = [
       "Place right forearm on thigh or hand on floor, extend left arm over ear.",
       "Rotate chest open, gaze up or forward.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "beginner"
     ]
   },
   {
@@ -14575,6 +14737,21 @@ export const POSES: Pose[] = [
       "From triangle stance, place left hand outside right foot.",
       "Twist torso, extend right arm up.",
       "Gaze at right hand, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "twist",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14590,6 +14767,18 @@ export const POSES: Pose[] = [
       "From wide stance, turn right foot out 90 degrees, left foot slightly in.",
       "Bend right knee over ankle, extend arms parallel to floor.",
       "Gaze over right hand, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -14605,6 +14794,19 @@ export const POSES: Pose[] = [
       "From warrior II, place left elbow outside right knee.",
       "Press palms together, twist torso, gaze upward.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "spine",
+      "core",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -14620,6 +14822,18 @@ export const POSES: Pose[] = [
       "Stand with feet wide apart, toes slightly in.",
       "Hinge at hips, bring head toward floor, hands on floor or blocks.",
       "Lengthen spine, hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14635,6 +14849,18 @@ export const POSES: Pose[] = [
       "Stand, hinge at hips, bring head toward floor.",
       "Place hands on floor or shins.",
       "Hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "standing",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14651,6 +14877,16 @@ export const POSES: Pose[] = [
       "Place hands on knees, palms up or down.",
       "Lengthen spine, relax shoulders.",
       "Close eyes, breathe deeply for 1-5 minutes."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "restorative",
+      "beginner",
+      "meditation",
+      "breathing"
     ]
   },
   {
@@ -14667,6 +14903,13 @@ export const POSES: Pose[] = [
       "Place hands beside hips, fingers forward.",
       "Lengthen spine, press thighs down.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "beginner"
     ]
   },
   {
@@ -14683,6 +14926,17 @@ export const POSES: Pose[] = [
       "Inhale, lengthen spine; exhale, fold forward from hips.",
       "Reach hands to feet or shins.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14699,6 +14953,15 @@ export const POSES: Pose[] = [
       "Hold feet, lengthen spine.",
       "Gently press knees down with elbows if comfortable.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "hip-opener",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14715,6 +14978,21 @@ export const POSES: Pose[] = [
       "Inhale lengthen, exhale fold over right leg.",
       "Reach hands to foot or shin.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back",
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "inversion",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14731,6 +15009,17 @@ export const POSES: Pose[] = [
       "Inhale, lengthen spine; exhale, fold forward from hips.",
       "Place hands on floor or reach for feet.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14746,6 +15035,17 @@ export const POSES: Pose[] = [
       "Sit with right leg bent, heel near pelvis, left leg extended.",
       "Inhale, lengthen spine; exhale, fold over left leg.",
       "Reach for foot or shin, hold for 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "seated",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -14761,6 +15061,15 @@ export const POSES: Pose[] = [
       "Sit with right leg bent, foot flat, left leg extended.",
       "Wrap right arm around right knee, left hand back.",
       "Twist right, hold for 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "twist"
     ]
   },
   {
@@ -14776,6 +15085,15 @@ export const POSES: Pose[] = [
       "Sit with right leg in lotus, left leg bent, foot flat.",
       "Wrap left arm around left knee, right hand back.",
       "Twist left, hold for 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "twist"
     ]
   },
   {
@@ -14791,6 +15109,15 @@ export const POSES: Pose[] = [
       "Sit, right leg in lotus, left leg bent, foot flat.",
       "Wrap right arm around back, left arm around left knee.",
       "Twist left, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "seated",
+      "twist"
     ]
   },
   {
@@ -14806,6 +15133,15 @@ export const POSES: Pose[] = [
       "Lie flat on back, legs apart, arms at sides, palms up.",
       "Close eyes, relax muscles.",
       "Breathe naturally for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -14821,6 +15157,18 @@ export const POSES: Pose[] = [
       "Lie on back, soles together, knees out.",
       "Place arms at sides or overhead.",
       "Relax for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "spine",
+      "back",
+      "hips"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner",
+      "hip-opener",
+      "flexibility"
     ]
   },
   {
@@ -14836,6 +15184,15 @@ export const POSES: Pose[] = [
       "Lie on back, draw knees to chest.",
       "Grab outer feet, knees wide.",
       "Gently rock side to side, hold for 5 breaths."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -14851,6 +15208,15 @@ export const POSES: Pose[] = [
       "Sit next to wall, swing legs up wall.",
       "Lie back, hips close to wall.",
       "Arms at sides, relax for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -14866,6 +15232,16 @@ export const POSES: Pose[] = [
       "Lie on back, arms out in T.",
       "Draw knees to chest, drop to right.",
       "Gaze left, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "back",
+      "core"
+    ],
+    "tags": [
+      "supine",
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -14881,6 +15257,14 @@ export const POSES: Pose[] = [
       "Lie on back, lift right leg, hold big toe with right hand.",
       "Extend leg toward ceiling, keep left leg on floor.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "back"
+    ],
+    "tags": [
+      "supine",
+      "beginner"
     ]
   },
   {
@@ -14896,6 +15280,16 @@ export const POSES: Pose[] = [
       "Lie face down, hands under shoulders.",
       "Inhale, lift chest, keep elbows bent.",
       "Gaze forward, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "chest"
+    ],
+    "tags": [
+      "prone",
+      "backbend",
+      "beginner"
     ]
   },
   {
@@ -14911,6 +15305,16 @@ export const POSES: Pose[] = [
       "Lie face down, arms at sides.",
       "Inhale, lift head, chest, arms, and legs.",
       "Hold for 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -14926,6 +15330,16 @@ export const POSES: Pose[] = [
       "Lie face down, bend knees, grab ankles.",
       "Inhale, lift chest and thighs.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "chest"
+    ],
+    "tags": [
+      "prone",
+      "backbend",
+      "beginner"
     ]
   },
   {
@@ -14941,6 +15355,15 @@ export const POSES: Pose[] = [
       "Lie face down, forehead on stacked hands.",
       "Legs apart, heels in.",
       "Breathe deeply for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "back",
+      "core"
+    ],
+    "tags": [
+      "prone",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -14956,6 +15379,16 @@ export const POSES: Pose[] = [
       "Lie face down.",
       "Lift right leg and left arm.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -14972,6 +15405,15 @@ export const POSES: Pose[] = [
       "Place right foot on inner left thigh or calf.",
       "Hands to heart or overhead.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -14987,6 +15429,17 @@ export const POSES: Pose[] = [
       "Stand, cross right thigh over left, hook foot if possible.",
       "Cross left arm over right, bend elbows, palms together.",
       "Bend standing knee, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "shoulders"
+    ],
+    "tags": [
+      "balance",
+      "shoulder-opener",
+      "intermediate"
     ]
   },
   {
@@ -15002,6 +15455,17 @@ export const POSES: Pose[] = [
       "From plank, shift to right hand and outer foot.",
       "Stack left foot on right, raise left arm.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms"
+    ],
+    "tags": [
+      "balance",
+      "strength",
+      "intermediate"
     ]
   },
   {
@@ -15017,6 +15481,15 @@ export const POSES: Pose[] = [
       "Squat, place hands on floor shoulder-width.",
       "Bend elbows, place knees on upper arms.",
       "Lift feet, balance on hands, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -15032,6 +15505,17 @@ export const POSES: Pose[] = [
       "Stand, grab right ankle with right hand.",
       "Extend left arm forward, kick foot into hand.",
       "Hinge forward, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -15047,6 +15531,15 @@ export const POSES: Pose[] = [
       "Squat, twist torso to right, place hands on floor.",
       "Place knees on left upper arm, bend elbows.",
       "Lift feet, balance, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -15062,6 +15555,15 @@ export const POSES: Pose[] = [
       "Squat, place hands on floor shoulder-width.",
       "Bend elbows, place knees on upper arms, keep knees bent.",
       "Lift feet, balance, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -15077,6 +15579,17 @@ export const POSES: Pose[] = [
       "Sit in lotus or cross-legged, place hands beside hips.",
       "Press hands down, lift hips and legs off floor.",
       "Balance, hold for 5 breaths."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms"
+    ],
+    "tags": [
+      "balance",
+      "strength",
+      "intermediate"
     ]
   },
   {
@@ -15092,6 +15605,21 @@ export const POSES: Pose[] = [
       "Stand, place right shin over left upper arm.",
       "Bend elbows, lean forward, extend left leg back.",
       "Balance on hands, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "back",
+      "chest",
+      "hips"
+    ],
+    "tags": [
+      "balance",
+      "backbend",
+      "hip-opener",
+      "intermediate",
+      "flexibility"
     ]
   },
   {
@@ -15107,6 +15635,15 @@ export const POSES: Pose[] = [
       "From triangle, bend right knee, place right hand on floor.",
       "Lift left leg parallel to floor, extend left arm up.",
       "Gaze at floor or up, hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles"
+    ],
+    "tags": [
+      "balance",
+      "intermediate"
     ]
   },
   {
@@ -15122,6 +15659,16 @@ export const POSES: Pose[] = [
       "From hands and knees, lift hips up and back.",
       "Hands shoulder-width, feet hip-width.",
       "Press chest toward thighs, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -15137,6 +15684,16 @@ export const POSES: Pose[] = [
       "Lie on back, lift legs overhead.",
       "Support lower back with hands, elbows on floor.",
       "Extend legs up, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -15152,6 +15709,16 @@ export const POSES: Pose[] = [
       "From shoulder stand, lower toes to floor behind head.",
       "Hands interlocked or supporting back.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -15167,6 +15734,16 @@ export const POSES: Pose[] = [
       "Kneel, interlace fingers, place crown on floor.",
       "Lift knees, walk feet in.",
       "Lift legs up, balance, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -15182,6 +15759,16 @@ export const POSES: Pose[] = [
       "Forearms on floor, elbows under shoulders.",
       "Walk feet in, lift one leg, then both.",
       "Balance, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -15197,6 +15784,16 @@ export const POSES: Pose[] = [
       "Place hands shoulder-width on floor, facing wall.",
       "Kick one leg up, then the other, balance against wall.",
       "Keep arms straight, hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   },
   {
@@ -15212,6 +15809,18 @@ export const POSES: Pose[] = [
       "Lie on back, knees bent, feet flat.",
       "Lift hips, interlace hands under back.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "backbend",
+      "inversion",
+      "intermediate"
     ]
   },
   {
@@ -15227,6 +15836,16 @@ export const POSES: Pose[] = [
       "Kneel, hands on lower back.",
       "Arch back, reach for heels.",
       "Head back if comfortable, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders",
+      "arms"
+    ],
+    "tags": [
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -15242,6 +15861,15 @@ export const POSES: Pose[] = [
       "Lie on back, hands by ears, feet flat.",
       "Press up, straighten arms and legs.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "advanced"
     ]
   },
   {
@@ -15257,6 +15885,15 @@ export const POSES: Pose[] = [
       "Lie on back, legs extended.",
       "Lift chest, place crown on floor.",
       "Hands under hips, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -15272,6 +15909,17 @@ export const POSES: Pose[] = [
       "Lie prone, forearms on floor.",
       "Lift chest, gaze forward.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "restorative",
+      "prone",
+      "beginner"
     ]
   },
   {
@@ -15287,6 +15935,15 @@ export const POSES: Pose[] = [
       "Lie prone, hands under shoulders.",
       "Press up, straighten arms, lift thighs off floor.",
       "Gaze forward, hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -15302,6 +15959,18 @@ export const POSES: Pose[] = [
       "Kneel, lean back, place hands near feet.",
       "Arch back, bring head toward feet.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "chest",
+      "shoulders",
+      "hips"
+    ],
+    "tags": [
+      "backbend",
+      "hip-opener",
+      "advanced",
+      "flexibility"
     ]
   },
   {
@@ -15317,6 +15986,14 @@ export const POSES: Pose[] = [
       "Sit with legs extended, bend knees to left.",
       "Twist right, hand behind, left on knee.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -15332,6 +16009,17 @@ export const POSES: Pose[] = [
       "Sit, right foot over left thigh.",
       "Twist left, elbow outside right knee.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core",
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "twist",
+      "backbend",
+      "intermediate"
     ]
   },
   {
@@ -15347,6 +16035,18 @@ export const POSES: Pose[] = [
       "From triangle, place left hand outside right foot.",
       "Twist, right arm up.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "twist",
+      "forward-bend",
+      "intermediate",
+      "flexibility"
     ]
   },
   {
@@ -15362,6 +16062,14 @@ export const POSES: Pose[] = [
       "Sit, bend right knee, foot flat.",
       "Twist left, elbow outside knee.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "twist",
+      "intermediate"
     ]
   },
   {
@@ -15377,6 +16085,14 @@ export const POSES: Pose[] = [
       "Lie back, knees to chest.",
       "Drop knees right, arms out.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "tags": [
+      "twist",
+      "beginner"
     ]
   },
   {
@@ -15392,6 +16108,13 @@ export const POSES: Pose[] = [
       "Kneel, sit on heels.",
       "Fold forward, arms extended.",
       "Forehead to floor, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "full-body"
+    ],
+    "tags": [
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -15407,6 +16130,13 @@ export const POSES: Pose[] = [
       "Lie back with bolster under knees.",
       "Arms out, eyes closed.",
       "Relax for 10 minutes."
+    ],
+    "bodyParts": [
+      "full-body"
+    ],
+    "tags": [
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -15422,6 +16152,13 @@ export const POSES: Pose[] = [
       "Sit between heels, lie back on bolster.",
       "Arms overhead.",
       "Hold 5 minutes."
+    ],
+    "bodyParts": [
+      "full-body"
+    ],
+    "tags": [
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -15437,6 +16174,16 @@ export const POSES: Pose[] = [
       "Place block under upper back.",
       "Lie back, head down.",
       "Relax arms, hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "full-body",
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "restorative",
+      "backbend",
+      "beginner"
     ]
   },
   {
@@ -15452,6 +16199,17 @@ export const POSES: Pose[] = [
       "Kneel, spread knees wide, fold forward.",
       "Extend arms forward.",
       "Hold 5-10 breaths."
+    ],
+    "bodyParts": [
+      "full-body",
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "restorative",
+      "forward-bend",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -15468,6 +16226,17 @@ export const POSES: Pose[] = [
       "Raise right arm, bend elbow, reach hand down back.",
       "Reach left arm behind, clasp hands if possible.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "shoulders"
+    ],
+    "tags": [
+      "seated",
+      "hip-opener",
+      "shoulder-opener",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -15483,6 +16252,14 @@ export const POSES: Pose[] = [
       "Kneel, sit between heels.",
       "Place hands on thighs, lengthen spine.",
       "Hold for 5-10 breaths."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -15498,6 +16275,15 @@ export const POSES: Pose[] = [
       "Sit, place right heel near perineum, left heel over right.",
       "Rest hands on knees, palms up.",
       "Lengthen spine, hold for 1-5 minutes."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "meditation",
+      "breathing",
+      "beginner"
     ]
   },
   {
@@ -15513,6 +16299,15 @@ export const POSES: Pose[] = [
       "Sit, place right foot on left thigh, left foot on right thigh.",
       "Rest hands on knees, palms up.",
       "Lengthen spine, hold for 1-5 minutes."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "meditation",
+      "breathing",
+      "beginner"
     ]
   },
   {
@@ -15528,6 +16323,15 @@ export const POSES: Pose[] = [
       "Sit, place right foot on left thigh, left foot under right thigh.",
       "Rest hands on knees, palms up.",
       "Lengthen spine, hold for 5-10 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips"
+    ],
+    "tags": [
+      "seated",
+      "meditation",
+      "breathing",
+      "beginner"
     ]
   },
   {
@@ -15543,6 +16347,16 @@ export const POSES: Pose[] = [
       "Lie on back, thread right arm under body, rest shoulder on floor.",
       "Place right knee over left, twist gently.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "spine",
+      "back",
+      "shoulders"
+    ],
+    "tags": [
+      "supine",
+      "shoulder-opener",
+      "beginner"
     ]
   },
   {
@@ -15558,6 +16372,20 @@ export const POSES: Pose[] = [
       "Lie on back, knees bent, feet flat.",
       "Place block under sacrum, lift hips.",
       "Relax arms, hold for 5-10 minutes."
+    ],
+    "bodyParts": [
+      "full-body",
+      "back",
+      "chest",
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "restorative",
+      "backbend",
+      "beginner",
+      "inversion"
     ]
   },
   {
@@ -15573,6 +16401,18 @@ export const POSES: Pose[] = [
       "From all fours, bring right shin forward, left leg back.",
       "Square hips, fold forward over shin.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "hips",
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "seated",
+      "backbend",
+      "hip-opener",
+      "beginner",
+      "flexibility"
     ]
   },
   {
@@ -15588,6 +16428,15 @@ export const POSES: Pose[] = [
       "Lie face down, arms extended back.",
       "Lift chest, legs, and arms simultaneously.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength"
     ]
   },
   {
@@ -15603,6 +16452,16 @@ export const POSES: Pose[] = [
       "From plank, lower body until elbows at 90 degrees.",
       "Keep body parallel to floor, elbows over wrists.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "back",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "prone",
+      "strength",
+      "beginner"
     ]
   },
   {
@@ -15618,6 +16477,15 @@ export const POSES: Pose[] = [
       "Kneel, extend right leg to side, toes pointing right.",
       "Reach right arm to right foot, left arm over ear.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles"
+    ],
+    "tags": [
+      "standing",
+      "restorative",
+      "beginner"
     ]
   },
   {
@@ -15633,6 +16501,18 @@ export const POSES: Pose[] = [
       "From lunge, lower left knee to floor, right knee over ankle.",
       "Raise arms overhead, arch back slightly.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "ankles",
+      "hips",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "standing",
+      "hip-opener",
+      "beginner"
     ]
   },
   {
@@ -15648,6 +16528,18 @@ export const POSES: Pose[] = [
       "From standing, hinge forward, lift left leg back.",
       "Extend arms forward, body parallel to floor.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "arms",
+      "shoulders"
+    ],
+    "tags": [
+      "balance",
+      "strength",
+      "intermediate"
     ]
   },
   {
@@ -15663,6 +16555,17 @@ export const POSES: Pose[] = [
       "From half moon, place left hand on floor, twist torso right.",
       "Extend right arm up, lift left leg parallel.",
       "Hold 5 breaths, switch sides."
+    ],
+    "bodyParts": [
+      "legs",
+      "core",
+      "ankles",
+      "spine"
+    ],
+    "tags": [
+      "balance",
+      "twist",
+      "advanced"
     ]
   },
   {
@@ -15678,9 +16581,20 @@ export const POSES: Pose[] = [
       "From plow pose, bend knees toward ears.",
       "Rest knees on floor near head, hands supporting back.",
       "Hold 5 breaths."
+    ],
+    "bodyParts": [
+      "shoulders",
+      "arms",
+      "core",
+      "spine"
+    ],
+    "tags": [
+      "inversion",
+      "advanced"
     ]
   }
 ]
+
 
 
 # FILE: ./scripts/generate_sample_posture_image.py

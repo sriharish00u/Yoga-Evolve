@@ -1,8 +1,11 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import POSTURES from '../data/postures.json'
 import { CATEGORY_DIFFICULTY } from '../types/yoga'
 import type { PoseData, DifficultyLevel } from '../types/yoga'
+import { BODY_PARTS } from '../types/yoga'
+import BodyPartFilter from '../components/BodyPartFilter'
 import { addPendingPose } from '../store/routineStore'
 import './PosturesPage.css'
 
@@ -21,6 +24,8 @@ export default function PosturesPage() {
   const [level, setLevel] = useState<DifficultyLevel | 'All'>('All')
   const [sort, setSort] = useState<SortMode>('name')
   const [selected, setSelected] = useState<PoseData | null>(null)
+  const [bodyParts, setBodyParts] = useState<string[]>([])
+  const [addedSet, setAddedSet] = useState<Set<string>>(new Set())
 
   const poses = POSTURES as PoseData[]
 
@@ -38,13 +43,20 @@ export default function PosturesPage() {
     if (level !== 'All') {
       result = result.filter(p => getDifficulty(p) === level)
     }
+    if (bodyParts.length > 0) {
+      result = result.filter(p => {
+        const pb = p.bodyParts ?? []
+        return bodyParts.some(bp => pb.includes(bp))
+      })
+    }
     if (search) {
       const s = search.toLowerCase()
       result = result.filter(
         p =>
           p.name.toLowerCase().includes(s) ||
           p.benefits.some(b => b.toLowerCase().includes(s)) ||
-          p.category.toLowerCase().includes(s)
+          p.category.toLowerCase().includes(s) ||
+          (p.tags ?? []).some(t => t.toLowerCase().includes(s))
       )
     }
 
@@ -65,12 +77,34 @@ export default function PosturesPage() {
     }
 
     return result
-  }, [poses, category, level, search, sort])
+  }, [poses, category, level, search, sort, bodyParts])
 
   const diffDots = (d: DifficultyLevel) => {
     const idx = LEVELS.indexOf(d) + 1
     return '●'.repeat(idx) + '○'.repeat(3 - idx)
   }
+
+  const handleAdd = useCallback((pose: PoseData) => {
+    addPendingPose(pose)
+    setAddedSet(prev => new Set(prev).add(pose.name))
+    setTimeout(() => {
+      setAddedSet(prev => {
+        const next = new Set(prev)
+        next.delete(pose.name)
+        return next
+      })
+    }, 2000)
+  }, [])
+
+  const closeModal = useCallback(() => setSelected(null), [])
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') closeModal()
+    }
+    if (selected) window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [selected, closeModal])
 
   return (
     <div className="page-wrapper postures-page">
@@ -108,6 +142,7 @@ export default function PosturesPage() {
               </select>
             </div>
           </div>
+          <BodyPartFilter poses={poses} selected={bodyParts} onChange={setBodyParts} />
         </div>
         <p className="postures-count">{filtered.length} pose{filtered.length !== 1 ? 's' : ''}</p>
       </div>
@@ -115,6 +150,7 @@ export default function PosturesPage() {
       <div className="postures-grid">
         {filtered.map(p => {
           const diff = getDifficulty(p)
+          const added = addedSet.has(p.name)
           return (
             <article
               key={p.name}
@@ -130,19 +166,34 @@ export default function PosturesPage() {
               <span className="pose-category-tag">{p.category}</span>
               <h3 className="pose-card-name">{p.name}</h3>
               <span className="pose-difficulty">{diffDots(diff)}</span>
+              {p.bodyParts && p.bodyParts.length > 0 && (
+                <div className="pose-bodypart-mini">
+                  {p.bodyParts.slice(0, 3).map(bp => {
+                    const meta = BODY_PARTS.find(m => m.id === bp)
+                    return meta ? (
+                      <span key={bp} className="bodypart-mini-chip" title={meta.label}>
+                        {meta.icon}
+                      </span>
+                    ) : null
+                  })}
+                </div>
+              )}
               <div className="pose-benefit-tags">
                 {p.benefits.slice(0, 3).map(b => (
                   <span key={b} className="benefit-tag">{b.split(' ').slice(0, 3).join(' ')}</span>
                 ))}
               </div>
               <div className="pose-card-actions">
-                <button className="btn-add" onClick={(e) => {
-                  e.stopPropagation()
-                  addPendingPose(p)
-                  navigate('/practice')
-                }}>
-                  + Add to Routine
-                </button>
+                {added ? (
+                  <span className="btn-added">✓ Added</span>
+                ) : (
+                  <button className="btn-add" onClick={(e) => {
+                    e.stopPropagation()
+                    handleAdd(p)
+                  }}>
+                    + Add to Routine
+                  </button>
+                )}
               </div>
             </article>
           )
@@ -155,10 +206,10 @@ export default function PosturesPage() {
         </div>
       )}
 
-      {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
+      {selected && createPortal(
+        <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content pose-detail-modal" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close">✕</button>
+            <button className="modal-close" onClick={closeModal} aria-label="Close">✕</button>
             <div className="pose-detail-layout">
               <img
                 src={`/${selected.image}`}
@@ -169,6 +220,33 @@ export default function PosturesPage() {
                 <span className="pose-category-tag">{selected.category}</span>
                 <h2>{selected.name}</h2>
                 <span className="pose-difficulty">{diffDots(getDifficulty(selected))}</span>
+
+                {selected.bodyParts && selected.bodyParts.length > 0 && (
+                  <>
+                    <h4>Target Areas</h4>
+                    <div className="pose-detail-bodyparts">
+                      {selected.bodyParts.map(bp => {
+                        const meta = BODY_PARTS.find(m => m.id === bp)
+                        return meta ? (
+                          <span key={bp} className="bodypart-chip-static" style={{ borderColor: meta.color }}>
+                            {meta.icon} {meta.label}
+                          </span>
+                        ) : null
+                      })}
+                    </div>
+                  </>
+                )}
+
+                {selected.tags && selected.tags.length > 0 && (
+                  <>
+                    <h4>Tags</h4>
+                    <div className="pose-detail-tags">
+                      {selected.tags.map(t => (
+                        <span key={t} className="pose-tag">{t}</span>
+                      ))}
+                    </div>
+                  </>
+                )}
 
                 <h4>Benefits</h4>
                 <ul className="benefits-list">
@@ -197,7 +275,8 @@ export default function PosturesPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )

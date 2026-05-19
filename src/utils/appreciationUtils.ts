@@ -1,64 +1,105 @@
-// User appreciation utilities for yoga training
-// Handles badges, streaks, progress tracking, and motivational features
+import type { GamificationState } from './gamification'
 
-export interface SessionResultData {
-  completedPoses: number
-  totalXP: number
-  avgMatchScore: number
-  bestCombo: number
-  durationSeconds: number
-  badgesUnlocked: string[]
-  posesAttempted: number
+export interface RecentSession {
+  date: string
+  durationMinutes: number
+  energy: number
+  xp: number
+  categories: string[]
+  posesCompleted: number
 }
 
 export interface UserStats {
-  totalSessions: number;
-  totalPracticeTime: number; // in minutes
-  currentStreak: number;
-  longestStreak: number;
-  favoritePose: string;
-  averageSessionLength: number;
-  badges: Badge[];
-  lastPracticeDate: string;
-  weeklyGoal: number; // minutes per week
-  monthlyGoal: number; // minutes per month
-  recentSessions?: { date: string; durationMinutes: number; energy: number }[];
+  totalSessions: number
+  totalPracticeTime: number
+  currentStreak: number
+  longestStreak: number
+  favoritePose: string
+  averageSessionLength: number
+  badges: Badge[]
+  lastPracticeDate: string
+  weeklyGoal: number
+  monthlyGoal: number
+  recentSessions: RecentSession[]
+  totalPosesCompleted: number
+  categoriesPracticed: string[]
 }
 
 export interface Badge {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  earnedDate: string;
-  category: 'practice' | 'streak' | 'achievement' | 'pose';
+  id: string
+  name: string
+  description: string
+  icon: string
+  earnedDate: string
+  category: 'practice' | 'streak' | 'achievement' | 'pose' | 'test' | 'gamification'
 }
 
 export interface ProgressMilestone {
-  id: string;
-  title: string;
-  description: string;
-  target: number;
-  current: number;
-  unit: string;
-  reward: string;
+  id: string
+  title: string
+  description: string
+  target: number
+  current: number
+  unit: string
+  reward: string
 }
 
+interface BadgeCheckInput {
+  id: string
+  check: (stats: UserStats, gstate: GamificationState) => boolean
+  name: string
+  icon: string
+  description: string
+  category: Badge['category']
+}
+
+const BADGE_CHECKS: BadgeCheckInput[] = [
+  { id: 'first_session',  check: (s) => s.totalSessions >= 1,        name: 'First Step',       icon: '🌱', description: 'Completed your first session',            category: 'practice' },
+  { id: 'sessions_5',     check: (s) => s.totalSessions >= 5,        name: 'Regular Visitor',  icon: '📅', description: '5 sessions completed',                    category: 'practice' },
+  { id: 'sessions_10',    check: (s) => s.totalSessions >= 10,       name: 'Steady Practice',  icon: '📿', description: '10 sessions completed',                   category: 'practice' },
+  { id: 'sessions_50',    check: (s) => s.totalSessions >= 50,       name: 'Yoga Warrior',     icon: '⚔️', description: '50 sessions completed',                   category: 'practice' },
+  { id: 'streak_3',       check: (s) => s.currentStreak >= 3,        name: 'Consistent Yogi',  icon: '🔥', description: '3-day practice streak',                   category: 'streak' },
+  { id: 'streak_7',       check: (s) => s.currentStreak >= 7,        name: 'Devoted Seeker',   icon: '⚡', description: '7-day practice streak',                   category: 'streak' },
+  { id: 'streak_30',      check: (s) => s.longestStreak >= 30,       name: 'Iron Will',        icon: '👑', description: '30-day practice streak',                  category: 'streak' },
+  { id: 'xp_500',         check: (_, g) => g.totalXP >= 500,         name: 'Sapling',          icon: '🌿', description: 'Earned 500 XP',                           category: 'gamification' },
+  { id: 'xp_2000',        check: (_, g) => g.totalXP >= 2000,        name: 'Banyan Tree',      icon: '🌳', description: 'Earned 2000 XP',                          category: 'gamification' },
+  { id: 'xp_5000',        check: (_, g) => g.totalXP >= 5000,        name: 'Ancient Grove',    icon: '🏔️', description: 'Earned 5000 XP',                          category: 'gamification' },
+  { id: 'perfect_hold',   check: (_, g) => g.perfectHolds >= 1,      name: 'Pure Form',        icon: '✨', description: 'Perfect hold on a pose',                  category: 'achievement' },
+  { id: 'perfect_5',      check: (_, g) => g.perfectHolds >= 5,      name: 'Form Master',      icon: '💎', description: '5 perfect holds across sessions',         category: 'achievement' },
+  { id: 'combo_3',        check: (_, g) => g.bestCombo >= 3,         name: 'On Fire',          icon: '🌶️', description: '3× pose combo',                           category: 'gamification' },
+  { id: 'combo_5',        check: (_, g) => g.bestCombo >= 5,         name: 'Flow State',       icon: '🌊', description: '5× pose combo',                           category: 'gamification' },
+  { id: 'morning_5',      check: (_, g) => g.morningSessions >= 5,   name: 'Dawn Warrior',     icon: '☀️', description: '5 morning sessions (before 8 AM)',          category: 'achievement' },
+  { id: 'all_categories', check: (s) => s.categoriesPracticed.length >= 7, name: 'Explorer',  icon: '🗺️', description: 'Practiced all pose categories',           category: 'achievement' },
+  { id: 'time_60min',     check: (s) => s.totalPracticeTime >= 60,   name: 'Hour Hero',        icon: '⏰', description: 'Total practice time: 1 hour',              category: 'achievement' },
+  { id: 'time_600min',    check: (s) => s.totalPracticeTime >= 600,  name: 'Zen Master',       icon: '🧘', description: 'Total practice time: 10 hours',            category: 'achievement' },
+  { id: 'poses_100',      check: (_, g) => g.totalPosesCompleted >= 100, name: 'Pose Collector', icon: '📖', description: 'Completed 100 poses across all sessions', category: 'pose' },
+]
+
 class AppreciationManager {
-  private stats: UserStats;
-  private readonly STORAGE_KEY = 'yoga.appreciation.v1';
+  private stats: UserStats
+  private readonly STORAGE_KEY = 'yoga.appreciation.v1'
 
   constructor() {
-    this.stats = this.loadStats();
+    this.stats = this.loadStats()
   }
 
-  // Load user stats from localStorage
   private loadStats(): UserStats {
-    const stored = localStorage.getItem(this.STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY)
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        if (!parsed.recentSessions) parsed.recentSessions = []
+        if (!parsed.totalPosesCompleted) parsed.totalPosesCompleted = 0
+        if (!parsed.categoriesPracticed) parsed.categoriesPracticed = []
+        return parsed
+      }
+    } catch {
+      // ignore
     }
+    return this.defaultStats()
+  }
 
+  private defaultStats(): UserStats {
     return {
       totalSessions: 0,
       totalPracticeTime: 0,
@@ -68,181 +109,135 @@ class AppreciationManager {
       averageSessionLength: 0,
       badges: [],
       lastPracticeDate: '',
-      weeklyGoal: 150, // 2.5 hours per week
-      monthlyGoal: 600, // 10 hours per month
-    };
+      weeklyGoal: 150,
+      monthlyGoal: 600,
+      recentSessions: [],
+      totalPosesCompleted: 0,
+      categoriesPracticed: [],
+    }
   }
 
-  // Save user stats to localStorage
   private saveStats(): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.stats));
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.stats))
+    } catch {
+      // ignore
+    }
   }
 
-  // Record session from result data
-  recordSessionFromResult(result: SessionResultData): void {
-    this.recordSession(result.durationSeconds / 60);
+  recordSessionFromResult(
+    result: {
+      durationSeconds: number
+      avgMatchScore: number
+      posesCompleted: number
+      categoriesPracticed: string[]
+      xpEarned: number
+    },
+    gstate: GamificationState
+  ): string[] {
+    const durationMinutes = Math.round(result.durationSeconds / 60)
+    const today = new Date().toISOString().split('T')[0]
+    const lastPractice = this.stats.lastPracticeDate
 
-    const recent = this.stats.recentSessions || [];
-    recent.push({
-      date: new Date().toISOString(),
-      durationMinutes: Math.round(result.durationSeconds / 60),
-      energy: result.avgMatchScore,
-    });
-    if (recent.length > 30) recent.shift();
-    this.stats.recentSessions = recent;
-    this.saveStats();
-  }
+    this.stats.totalSessions++
+    this.stats.totalPracticeTime += durationMinutes
+    this.stats.averageSessionLength = this.stats.totalPracticeTime / this.stats.totalSessions
 
-  // Record a completed session
-  recordSession(sessionLength: number, poseName?: string): void {
-    const today = new Date().toISOString().split('T')[0];
-    const lastPractice = this.stats.lastPracticeDate;
-
-    // Update basic stats
-    this.stats.totalSessions++;
-    this.stats.totalPracticeTime += sessionLength;
-    this.stats.averageSessionLength = this.stats.totalPracticeTime / this.stats.totalSessions;
-
-    // Update streak
     if (lastPractice === today) {
-      // Already practiced today, don't change streak
+      // same day, no streak change
     } else if (this.isConsecutiveDay(lastPractice, today)) {
-      this.stats.currentStreak++;
+      this.stats.currentStreak++
     } else {
-      this.stats.currentStreak = 1;
+      this.stats.currentStreak = 1
     }
 
-    this.stats.longestStreak = Math.max(this.stats.longestStreak, this.stats.currentStreak);
-    this.stats.lastPracticeDate = today;
+    this.stats.longestStreak = Math.max(this.stats.longestStreak, this.stats.currentStreak)
+    this.stats.lastPracticeDate = today
 
-    // Update favorite pose
-    if (poseName) {
-      this.updateFavoritePose(poseName);
+    if (result.posesCompleted > 0) {
+      this.stats.totalPosesCompleted += result.posesCompleted
     }
 
-    // Check for new badges
-    this.checkForBadges();
+    for (const cat of result.categoriesPracticed) {
+      if (!this.stats.categoriesPracticed.includes(cat)) {
+        this.stats.categoriesPracticed.push(cat)
+      }
+    }
 
-    this.saveStats();
+    this.stats.recentSessions.push({
+      date: new Date().toISOString(),
+      durationMinutes,
+      energy: result.avgMatchScore,
+      xp: result.xpEarned,
+      categories: [...result.categoriesPracticed],
+      posesCompleted: result.posesCompleted,
+    })
+    if (this.stats.recentSessions.length > 60) {
+      this.stats.recentSessions = this.stats.recentSessions.slice(-60)
+    }
+
+    const newBadges = this.checkForBadges(gstate)
+    this.saveStats()
+    return newBadges
   }
 
-  // Check if two dates are consecutive
   private isConsecutiveDay(date1: string, date2: string): boolean {
-    if (!date1) return false;
-
-    const d1 = new Date(date1);
-    const d2 = new Date(date2);
-    const diffTime = Math.abs(d2.getTime() - d1.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    return diffDays === 1;
+    if (!date1) return false
+    const d1 = new Date(date1)
+    const d2 = new Date(date2)
+    const diffTime = Math.abs(d2.getTime() - d1.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays === 1
   }
 
-  // Update favorite pose tracking
-  private updateFavoritePose(poseName: string): void {
-    // Simple implementation - could be enhanced with pose usage tracking
-    this.stats.favoritePose = poseName;
+  private checkForBadges(gstate: GamificationState): string[] {
+    const newIds: string[] = []
+    for (const bc of BADGE_CHECKS) {
+      if (this.hasBadge(bc.id)) continue
+      if (bc.check(this.stats, gstate)) {
+        this.stats.badges.push({
+          id: bc.id,
+          name: bc.name,
+          description: bc.description,
+          icon: bc.icon,
+          earnedDate: new Date().toISOString(),
+          category: bc.category,
+        })
+        newIds.push(bc.id)
+      }
+    }
+    return newIds
   }
 
-  // Check and award badges
-  private checkForBadges(): void {
-    const newBadges: Badge[] = [];
-
-    // Practice badges
-    if (this.stats.totalSessions >= 1 && !this.hasBadge('first-session')) {
-      newBadges.push({
-        id: 'first-session',
-        name: 'First Steps',
-        description: 'Completed your first yoga session',
-        icon: '🌱',
-        earnedDate: new Date().toISOString(),
-        category: 'practice',
-      });
-    }
-
-    if (this.stats.totalSessions >= 10 && !this.hasBadge('dedicated-practitioner')) {
-      newBadges.push({
-        id: 'dedicated-practitioner',
-        name: 'Dedicated Practitioner',
-        description: 'Completed 10 yoga sessions',
-        icon: '💪',
-        earnedDate: new Date().toISOString(),
-        category: 'practice',
-      });
-    }
-
-    if (this.stats.totalSessions >= 50 && !this.hasBadge('yoga-warrior')) {
-      newBadges.push({
-        id: 'yoga-warrior',
-        name: 'Yoga Warrior',
-        description: 'Completed 50 yoga sessions',
-        icon: '⚔️',
-        earnedDate: new Date().toISOString(),
-        category: 'practice',
-      });
-    }
-
-    // Streak badges
-    if (this.stats.currentStreak >= 7 && !this.hasBadge('week-warrior')) {
-      newBadges.push({
-        id: 'week-warrior',
-        name: 'Week Warrior',
-        description: 'Maintained a 7-day practice streak',
-        icon: '🔥',
-        earnedDate: new Date().toISOString(),
-        category: 'streak',
-      });
-    }
-
-    if (this.stats.longestStreak >= 30 && !this.hasBadge('month-master')) {
-      newBadges.push({
-        id: 'month-master',
-        name: 'Month Master',
-        description: 'Maintained a 30-day practice streak',
-        icon: '👑',
-        earnedDate: new Date().toISOString(),
-        category: 'streak',
-      });
-    }
-
-    // Time-based badges
-    if (this.stats.totalPracticeTime >= 60 && !this.hasBadge('hour-hero')) {
-      newBadges.push({
-        id: 'hour-hero',
-        name: 'Hour Hero',
-        description: 'Practiced for a total of 1 hour',
-        icon: '⏰',
-        earnedDate: new Date().toISOString(),
-        category: 'achievement',
-      });
-    }
-
-    if (this.stats.totalPracticeTime >= 600 && !this.hasBadge('zen-master')) {
-      newBadges.push({
-        id: 'zen-master',
-        name: 'Zen Master',
-        description: 'Practiced for a total of 10 hours',
-        icon: '🧘',
-        earnedDate: new Date().toISOString(),
-        category: 'achievement',
-      });
-    }
-
-    // Add new badges to stats
-    this.stats.badges.push(...newBadges);
-  }
-
-  // Check if user has a specific badge
   private hasBadge(badgeId: string): boolean {
-    return this.stats.badges.some(badge => badge.id === badgeId);
+    return this.stats.badges.some(b => b.id === badgeId)
   }
 
-  // Get current user stats
   getStats(): UserStats {
-    return { ...this.stats };
+    return { ...this.stats, recentSessions: [...this.stats.recentSessions], categoriesPracticed: [...this.stats.categoriesPracticed] }
   }
 
-  // Get progress milestones
+  getWeeklyActivityData(): { day: string; minutes: number }[] {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const result: { day: string; minutes: number }[] = []
+    const now = new Date()
+
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now)
+      d.setDate(d.getDate() - i)
+      const dateStr = d.toISOString().split('T')[0]
+      const dayLabel = days[d.getDay()]
+
+      const totalMin = this.stats.recentSessions
+        .filter(s => s.date.startsWith(dateStr))
+        .reduce((sum, s) => sum + s.durationMinutes, 0)
+
+      result.push({ day: dayLabel, minutes: totalMin })
+    }
+
+    return result
+  }
+
   getProgressMilestones(): ProgressMilestone[] {
     return [
       {
@@ -272,24 +267,28 @@ class AppreciationManager {
         unit: 'days',
         reward: 'Consistency Champion Badge',
       },
-    ];
+    ]
   }
 
-  // Get practice time for current week
   private getWeeklyPracticeTime(): number {
-    // Simplified implementation - would need session history with dates
-    // For now, return total practice time (placeholder)
-    return this.stats.totalPracticeTime;
+    const now = new Date()
+    const weekStart = new Date(now)
+    weekStart.setDate(now.getDate() - now.getDay())
+    const startStr = weekStart.toISOString().split('T')[0]
+    return this.stats.recentSessions
+      .filter(s => s.date >= startStr)
+      .reduce((sum, s) => sum + s.durationMinutes, 0)
   }
 
-  // Get practice time for current month
   private getMonthlyPracticeTime(): number {
-    // Simplified implementation - would need session history with dates
-    // For now, return total practice time (placeholder)
-    return this.stats.totalPracticeTime;
+    const now = new Date()
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    const startStr = monthStart.toISOString().split('T')[0]
+    return this.stats.recentSessions
+      .filter(s => s.date >= startStr)
+      .reduce((sum, s) => sum + s.durationMinutes, 0)
   }
 
-  // Generate motivational message based on stats
   generateMotivationalMessage(): string {
     const messages = [
       "Every pose is a step toward inner peace. Keep flowing! 🌊",
@@ -299,86 +298,63 @@ class AppreciationManager {
       "Your practice is a gift to yourself. Cherish it! 🎁",
       "Strength and flexibility grow with each session. Stay strong! 💪",
       "Mindfulness begins with awareness. You're cultivating it beautifully! 🧘",
-    ];
-
-    // Personalized messages based on streak
+    ]
     if (this.stats.currentStreak >= 7) {
-      messages.push("Your consistency is remarkable! Keep the streak alive! 🔥");
+      messages.push("Your consistency is remarkable! Keep the streak alive! 🔥")
     }
-
     if (this.stats.totalSessions >= 25) {
-      messages.push("You're building a beautiful yoga journey. Proud of you! 🌟");
+      messages.push("You're building a beautiful yoga journey. Proud of you! 🌟")
     }
-
-    return messages[Math.floor(Math.random() * messages.length)];
+    return messages[Math.floor(Math.random() * messages.length)]
   }
 
-  // Get achievement summary for sharing
   getAchievementSummary(): string {
-    return `I've completed ${this.stats.totalSessions} yoga sessions with a ${this.stats.currentStreak}-day streak! 🧘 #YogaJourney #ProjectEvolvingYoga`;
+    return `I've completed ${this.stats.totalSessions} yoga sessions with a ${this.stats.currentStreak}-day streak! 🧘 #YogaJourney #ProjectEvolvingYoga`
   }
 
-  // Reset stats (for testing or user request)
   resetStats(): void {
-    this.stats = {
-      totalSessions: 0,
-      totalPracticeTime: 0,
-      currentStreak: 0,
-      longestStreak: 0,
-      favoritePose: '',
-      averageSessionLength: 0,
-      badges: [],
-      lastPracticeDate: '',
-      weeklyGoal: 150,
-      monthlyGoal: 600,
-    };
-    this.saveStats();
+    try {
+      localStorage.removeItem(this.STORAGE_KEY)
+      localStorage.removeItem('yoga.gamification.v1')
+    } catch {
+      // ignore
+    }
+    this.stats = this.defaultStats()
+    this.saveStats()
   }
 }
 
-// Export singleton instance
-export const appreciationManager = new AppreciationManager();
+export const appreciationManager = new AppreciationManager()
 
-// Utility functions for UI display
 export const appreciationUIUtils = {
-  // Format time duration
   formatDuration(minutes: number): string {
-    if (minutes < 60) {
-      return `${Math.round(minutes)}m`;
-    }
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = Math.round(minutes % 60);
-    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+    if (minutes < 60) return `${Math.round(minutes)}m`
+    const hours = Math.floor(minutes / 60)
+    const remainingMinutes = Math.round(minutes % 60)
+    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`
   },
 
-  // Get badge color based on category
   getBadgeColor(category: Badge['category']): string {
-    const colors = {
-      practice: '#3498db',
-      streak: '#e74c3c',
+    const colors: Record<string, string> = {
+      practice: '#b38b59',
+      streak: '#9a7040',
       achievement: '#27ae60',
       pose: '#f39c12',
-    };
-    return colors[category] || '#95a5a6';
-  },
-
-  // Calculate progress percentage
-  calculateProgress(current: number, target: number): number {
-    return Math.min((current / target) * 100, 100);
-  },
-
-  // Get encouragement message based on progress
-  getEncouragementMessage(progress: number): string {
-    if (progress >= 100) {
-      return "Congratulations! Goal achieved! 🎉";
-    } else if (progress >= 75) {
-      return "You're so close! Keep going! 🚀";
-    } else if (progress >= 50) {
-      return "Halfway there! You're doing great! 💪";
-    } else if (progress >= 25) {
-      return "Great start! Keep the momentum! 🌟";
-    } else {
-      return "Every session counts! You've got this! 🌱";
+      test: '#4a90d9',
+      gamification: '#9b59b6',
     }
+    return colors[category] || '#95a5a6'
   },
-};
+
+  calculateProgress(current: number, target: number): number {
+    return target > 0 ? Math.min((current / target) * 100, 100) : 0
+  },
+
+  getEncouragementMessage(progress: number): string {
+    if (progress >= 100) return "Congratulations! Goal achieved! 🎉"
+    if (progress >= 75) return "You're so close! Keep going! 🚀"
+    if (progress >= 50) return "Halfway there! You're doing great! 💪"
+    if (progress >= 25) return "Great start! Keep the momentum! 🌟"
+    return "Every session counts! You've got this! 🌱"
+  },
+}

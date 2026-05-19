@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { PoseData, SessionPhase } from '../types/yoga'
 import { sessionStore } from '../store/sessionStore'
 import { useWebcam } from '../hooks/useWebcam'
 import { usePoseDetection } from '../hooks/usePoseDetection'
 import { generateFeedback } from '../utils/feedbackEngine'
-import { gamification } from '../utils/gamification'
+import { gamification, XP_REWARDS } from '../utils/gamification'
 import { launchConfetti } from '../utils/confetti'
 import { showToast } from '../components/XPToast'
 import CountdownRing from '../components/CountdownRing'
@@ -28,9 +28,10 @@ export default function SessionPage() {
   const [completedPoses, setCompletedPoses] = useState(0)
   const [scores, setScores] = useState<number[]>([])
   const [showSkip, setShowSkip] = useState(false)
+  const holdScoresRef = useRef<number[]>([])
 
   const holdTotal = config?.holdSeconds ?? 30
-  const poses = config?.poses ?? []
+  const poses = useMemo(() => config?.poses ?? [], [config])
   const currentPose: PoseData | undefined = poses[poseIdx]
 
   const { isReady: webcamReady, error: webcamError } = useWebcam(videoRef)
@@ -51,26 +52,30 @@ export default function SessionPage() {
   useEffect(() => {
     if (!config || poses.length === 0) {
       redirectToPractice()
+      return
     }
+    gamification.resetSession()
+    holdScoresRef.current = []
   }, [config, poses.length, redirectToPractice])
 
-  // Prepare countdown
   useEffect(() => {
     if (phase !== 'prepare') return
     if (prepareCount <= 0) {
       setPhase('hold')
       setHoldRemaining(holdTotal)
       setShowSkip(false)
+      holdScoresRef.current = []
       return
     }
     const t = setTimeout(() => setPrepareCount(p => p - 1), 1000)
     return () => clearTimeout(t)
   }, [phase, prepareCount, holdTotal])
 
-  // Hold countdown
   useEffect(() => {
     if (phase !== 'hold') return
-    if (matchScore < 30) return // paused
+    if (matchScore < 30) return
+
+    holdScoresRef.current.push(matchScore)
 
     const t = setTimeout(() => {
       setHoldRemaining(prev => {
@@ -84,7 +89,6 @@ export default function SessionPage() {
     return () => clearTimeout(t)
   }, [phase, holdRemaining, matchScore])
 
-  // Skip button after holdTotal * 2
   useEffect(() => {
     if (phase !== 'hold') return
     const t = setTimeout(() => setShowSkip(true), holdTotal * 2 * 1000)
@@ -92,11 +96,17 @@ export default function SessionPage() {
   }, [phase, holdTotal])
 
   const handlePoseComplete = useCallback(() => {
-    const baseXP = 50
-    const isPerfect = matchScore >= 88
+    const holdScores = holdScoresRef.current
+    const avgHoldScore = holdScores.length > 0
+      ? Math.round(holdScores.reduce((a, b) => a + b, 0) / holdScores.length)
+      : matchScore
+    const score = Math.max(avgHoldScore, matchScore)
+
+    const baseXP = XP_REWARDS.poseComplete
+    const isPerfect = score >= 88
     const earned = gamification.awardXP(baseXP, isPerfect ? 'Perfect Hold' : 'Pose Complete')
     setSessionXP(prev => prev + earned.earned)
-    setScores(prev => [...prev, matchScore])
+    setScores(prev => [...prev, score])
     setCompletedPoses(prev => prev + 1)
     showToast(earned.toast)
 
@@ -105,7 +115,7 @@ export default function SessionPage() {
       gamification.recordPerfectHold()
       const state = gamification.getState()
       setCombo(state.combo)
-    } else if (matchScore >= 80) {
+    } else if (score >= 65) {
       gamification.incrementCombo()
       const state = gamification.getState()
       setCombo(state.combo)
@@ -123,6 +133,7 @@ export default function SessionPage() {
       setPhase('prepare')
       setPrepareCount(3)
       setShowSkip(false)
+      holdScoresRef.current = []
     } else {
       finishSession()
     }
@@ -141,6 +152,18 @@ export default function SessionPage() {
     const state = gamification.getState()
     const avg = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0
 
+    const categories = new Set<string>()
+    for (const p of poses) {
+      if (p.category) categories.add(p.category)
+    }
+
+    gamification.recordSession({
+      durationSeconds: duration,
+      categoriesPracticed: [...categories],
+      hour: new Date().getHours(),
+      posesCompleted: completedPoses,
+    })
+
     const result = {
       completedPoses,
       totalXP: state.sessionXP,
@@ -148,24 +171,46 @@ export default function SessionPage() {
       bestCombo: state.bestCombo,
       durationSeconds: duration,
       badgesUnlocked: [] as string[],
+      poseScores: scores,
+      categoriesPracticed: [...categories],
     }
 
     sessionStore.setResult(result)
 
-    // Record session in appreciation manager
-    appreciationManager.recordSession(duration / 60, currentPose?.name)
+    const newBadgeIds = appreciationManager.recordSessionFromResult(
+      {
+        durationSeconds: duration,
+        avgMatchScore: avg,
+        posesCompleted: completedPoses,
+        categoriesPracticed: [...categories],
+        xpEarned: state.sessionXP,
+      },
+      gamification.getState()
+    )
+    result.badgesUnlocked = newBadgeIds
 
     setPhase('summary')
 
-    // Launch confetti
     if (confettiCanvasRef.current) {
       confettiCanvasRef.current.width = window.innerWidth
       confettiCanvasRef.current.height = window.innerHeight
       launchConfetti(confettiCanvasRef.current)
     }
 
+    if (newBadgeIds.length > 0) {
+      const badgeNames = newBadgeIds.map(id => {
+        const def = appreciationManager.getStats().badges.find(b => b.id === id)
+        return def ? `${def.icon} ${def.name}` : id
+      })
+      showToast(`🏆 Badges unlocked: ${badgeNames.join(', ')}`)
+    }
+
+    if (state.totalXP === state.sessionXP && state.sessionXP > 0) {
+      showToast(`🎁 First session bonus! +${XP_REWARDS.firstSession} XP`)
+    }
+
     gamification.resetSession()
-  }, [sessionStartTime, scores, completedPoses, currentPose?.name])
+  }, [sessionStartTime, scores, completedPoses, poses])
 
   const handlePracticeAgain = useCallback(() => {
     sessionStore.clear()
@@ -182,8 +227,8 @@ export default function SessionPage() {
   }
 
   if (phase === 'summary') {
-      const state = gamification.getState()
-      const avg = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0
+    const state = gamification.getState()
+    const avg = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0
     const duration = Math.round((Date.now() - sessionStartTime) / 1000)
     const minutes = Math.floor(duration / 60)
     const seconds = duration % 60

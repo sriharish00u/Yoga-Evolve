@@ -1,0 +1,75 @@
+.bodypart-filter {
+  margin-bottom: 1rem;
+}
+
+.bodypart-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.bodypart-filter-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-color, #333);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bodypart-filter-clear {
+  background: none;
+  border: 1px solid var(--primary-color, #b38b59);
+  border-radius: 12px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  color: var(--primary-color, #b38b59);
+  cursor: pointer;
+}
+
+.bodypart-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.bodypart-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 16px;
+  background: var(--card-bg, #fff);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+  color: var(--text-color, #333);
+}
+
+.bodypart-chip:hover:not(.disabled) {
+  border-color: var(--primary-color, #b38b59);
+  background: var(--secondary-color, #f5deb3);
+}
+
+.bodypart-chip.active {
+  border-color: var(--primary-color, #b38b59);
+  background: rgba(179, 139, 89, 0.12);
+  font-weight: 600;
+}
+
+.bodypart-chip.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+}
+
+.bodypart-chip-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.bodypart-chip-label {
+  font-size: 0.78rem;
+  white-space: nowrap;
+}

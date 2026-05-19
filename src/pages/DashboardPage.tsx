@@ -1,54 +1,47 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { appreciationManager, appreciationUIUtils } from '../utils/appreciationUtils'
 import { gamification } from '../utils/gamification'
-import type { UserStats } from '../utils/appreciationUtils'
+import type { UserStats, RecentSession } from '../utils/appreciationUtils'
 import type { GamificationState } from '../utils/gamification'
+import { BADGE_DEFINITIONS, RARITY_COLORS } from '../data/badgeDefinitions'
+import type { BadgeDefinition } from '../data/badgeDefinitions'
+import BadgeModal from '../components/BadgeModal'
 import './DashboardPage.css'
 
-interface BadgeDef {
-  id: string
-  name: string
-  icon: string
-  desc: string
-  earned: boolean
-}
-
-function getWeeklyActivity(stats: UserStats): number[] {
-  const result = [0, 0, 0, 0, 0, 0, 0]
-  if (stats.totalSessions > 0) {
-    const today = new Date().getDay()
-    const dayIdx = today === 0 ? 6 : today - 1
-    result[dayIdx] = Math.min(stats.totalPracticeTime, 60)
-    if (stats.currentStreak > 1) {
-      for (let i = 1; i < Math.min(stats.currentStreak, 7); i++) {
-        const idx = (dayIdx - i + 7) % 7
-        result[idx] = Math.max(result[idx], 10 + Math.floor(Math.random() * 20))
-      }
-    }
-  }
-  return result
-}
-
 export default function DashboardPage() {
-  const [stats] = useState<UserStats>(() => appreciationManager.getStats())
-  const [gstate] = useState<GamificationState>(() => gamification.getState())
+  const [stats, setStats] = useState<UserStats>(() => appreciationManager.getStats())
+  const [gstate, setGstate] = useState<GamificationState>(() => gamification.getState())
   const [milestones] = useState(() => appreciationManager.getProgressMilestones())
   const [message, setMessage] = useState(() => appreciationManager.generateMotivationalMessage())
-  const [activity] = useState(() => getWeeklyActivity(stats))
+  const [focusBadge, setFocusBadge] = useState<BadgeDefinition | null>(null)
+  const [focusBadgeDate, setFocusBadgeDate] = useState<string | undefined>()
 
-  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const maxActivity = Math.max(...activity, 1)
+  const refresh = useCallback(() => {
+    setStats(appreciationManager.getStats())
+    setGstate(gamification.getState())
+    setMessage(appreciationManager.generateMotivationalMessage())
+  }, [])
 
-  const allBadges: BadgeDef[] = [
-    { id: 'first_session', name: 'First Step', icon: '🌱', desc: 'Complete your first session', earned: stats.totalSessions >= 1 },
-    { id: 'streak_3', name: 'Consistent Yogi', icon: '🔥', desc: '3-day streak', earned: stats.currentStreak >= 3 },
-    { id: 'streak_7', name: 'Devoted Seeker', icon: '⚡', desc: '7-day streak', earned: stats.currentStreak >= 7 },
-    { id: 'xp_500', name: 'Sapling', icon: '🌿', desc: 'Earn 500 XP', earned: gstate.totalXP >= 500 },
-    { id: 'xp_2000', name: 'Banyan Tree', icon: '🌳', desc: 'Earn 2000 XP', earned: gstate.totalXP >= 2000 },
-    { id: 'sessions_10', name: 'Steady Practice', icon: '📿', desc: 'Complete 10 sessions', earned: stats.totalSessions >= 10 },
-    { id: 'perfect_hold', name: 'Pure Form', icon: '✨', desc: 'Land a perfect hold (match ≥ 88%)', earned: gstate.perfectHolds >= 1 },
-    { id: 'combo_5', name: 'Flow State', icon: '🌊', desc: '5× combo in a session', earned: gstate.bestCombo >= 5 },
-  ]
+  useEffect(() => {
+    refresh()
+    const onFocus = () => refresh()
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [refresh])
+
+  const weeklyActivity = appreciationManager.getWeeklyActivityData()
+
+  const xpProgress = gamification.getXPProgress()
+
+  const showBadge = useCallback((badge: BadgeDefinition) => {
+    const earned = stats.badges.find(b => b.id === badge.id)
+    setFocusBadge(badge)
+    setFocusBadgeDate(earned?.earnedDate)
+  }, [stats.badges])
+
+  const earnedBadgeIds = new Set(stats.badges.map(b => b.id))
+
+  const recentSessions: RecentSession[] = stats.recentSessions.slice(-10).reverse()
 
   return (
     <div className="page-wrapper dashboard-page">
@@ -57,11 +50,16 @@ export default function DashboardPage() {
           {gstate.levelName} — Level {gstate.level + 1}
         </div>
         <div className="xp-bar-wrapper">
-          <div className="xp-bar-label">{gstate.totalXP} / {(gstate.level + 1) * 500} XP</div>
+          <div className="xp-bar-label">
+            {gstate.totalXP} XP
+            <span className="xp-bar-level-progress">
+              {xpProgress.current} / {xpProgress.needed} to next level
+            </span>
+          </div>
           <div className="xp-bar">
             <div
               className="xp-bar-fill"
-              style={{ width: `${(gstate.totalXP % 500) / 500 * 100}%` }}
+              style={{ width: `${xpProgress.pct}%` }}
             />
           </div>
         </div>
@@ -96,46 +94,90 @@ export default function DashboardPage() {
             <span className="dash-stat-label">Total XP</span>
           </div>
         </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">🧘</span>
+          <div>
+            <span className="dash-stat-value">{gstate.totalPosesCompleted}</span>
+            <span className="dash-stat-label">Poses Completed</span>
+          </div>
+        </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">🏆</span>
+          <div>
+            <span className="dash-stat-value">{stats.badges.length}</span>
+            <span className="dash-stat-label">Badges Earned</span>
+          </div>
+        </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">🌅</span>
+          <div>
+            <span className="dash-stat-value">{gstate.morningSessions}</span>
+            <span className="dash-stat-label">Morning Sessions</span>
+          </div>
+        </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">💎</span>
+          <div>
+            <span className="dash-stat-value">{gstate.perfectHolds}</span>
+            <span className="dash-stat-label">Perfect Holds</span>
+          </div>
+        </div>
       </div>
 
       <section className="dashboard-section">
         <h2>This Week</h2>
         <div className="weekly-chart">
-          {activity.map((val, i) => (
-            <div key={i} className="weekly-bar-col">
-              <div
-                className="weekly-bar"
-                style={{
-                  height: `${(val / maxActivity) * 100}%`,
-                  opacity: val > 0 ? 1 : 0.3,
-                }}
-              />
-              <span className="weekly-label">{DAYS[i]}</span>
-            </div>
-          ))}
+          {weeklyActivity.map((d, i) => {
+            const maxMin = Math.max(...weeklyActivity.map(w => w.minutes), 1)
+            return (
+              <div key={i} className="weekly-bar-col">
+                <div
+                  className="weekly-bar"
+                  style={{
+                    height: `${(d.minutes / maxMin) * 100}%`,
+                    opacity: d.minutes > 0 ? 1 : 0.3,
+                  }}
+                />
+                <span className="weekly-label">{d.day}</span>
+                <span className="weekly-value">{d.minutes}m</span>
+              </div>
+            )
+          })}
         </div>
       </section>
 
       <section className="dashboard-section">
-        <h2>Your Badges</h2>
+        <h2>All Badges ({stats.badges.length}/{BADGE_DEFINITIONS.length})</h2>
         <div className="badge-grid">
-          {allBadges.map(b => (
-            <div key={b.id} className={`badge-card ${b.earned ? 'earned' : 'locked'}`}>
-              <span className="badge-icon">{b.earned ? b.icon : '🔒'}</span>
-              <div className="badge-info">
-                <strong>{b.earned ? b.name : '???'}</strong>
-                <p>{b.earned ? b.desc : 'Keep practicing to unlock'}</p>
+          {BADGE_DEFINITIONS.map(b => {
+            const earned = earnedBadgeIds.has(b.id)
+            const rarityColor = RARITY_COLORS[b.rarity] || '#b38b59'
+            return (
+              <div
+                key={b.id}
+                className={`badge-card ${earned ? 'earned' : 'locked'}`}
+                style={{ borderColor: earned ? rarityColor : undefined }}
+                onClick={() => showBadge(b)}
+              >
+                <span className="badge-icon">{earned ? b.icon : '🔒'}</span>
+                <div className="badge-info">
+                  <strong>{earned ? b.name : '???'}</strong>
+                  <span className="badge-rarity" style={{ color: rarityColor }}>
+                    {b.rarity}
+                  </span>
+                  <p>{earned ? b.description : 'Keep practicing to unlock'}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
-      {stats.badges && stats.badges.length > 0 && (
+      {stats.badges.length > 0 && (
         <section className="dashboard-section">
-          <h2>Milestones Earned</h2>
+          <h2>Recently Earned</h2>
           <div className="milestone-list">
-            {stats.badges.map(b => (
+            {stats.badges.slice(-5).reverse().map(b => (
               <div key={b.id} className="milestone-item">
                 <span className="milestone-icon">{b.icon}</span>
                 <div>
@@ -148,6 +190,48 @@ export default function DashboardPage() {
           </div>
         </section>
       )}
+
+      <section className="dashboard-section">
+        <h2>Categories Practiced ({gstate.categoriesPracticed.length})</h2>
+        <div className="category-pills">
+          {gstate.categoriesPracticed.length === 0 ? (
+            <p className="text-muted">No categories yet. Complete a session!</p>
+          ) : (
+            gstate.categoriesPracticed.map(c => (
+              <span key={c} className="category-pill" style={{ borderColor: 'var(--primary-color)' }}>
+                {c}
+              </span>
+            ))
+          )}
+        </div>
+      </section>
+
+      <section className="dashboard-section">
+        <h2>Recent Sessions</h2>
+        {recentSessions.length === 0 ? (
+          <p className="text-muted">No sessions yet. Start your first practice!</p>
+        ) : (
+          <div className="session-history-list">
+            {recentSessions.map((s, i) => (
+              <div key={i} className="session-history-item">
+                <span className="session-history-date">
+                  {new Date(s.date).toLocaleDateString()}
+                </span>
+                <span className="session-history-duration">
+                  {appreciationUIUtils.formatDuration(s.durationMinutes)}
+                </span>
+                <span className="session-history-xp">+{s.xp} XP</span>
+                <span className="session-history-poses">{s.posesCompleted} poses</span>
+                <div className="session-history-categories">
+                  {s.categories.slice(0, 3).map(c => (
+                    <span key={c} className="mini-cat-tag">{c}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       <section className="dashboard-section">
         <h2>Progress Goals</h2>
@@ -198,6 +282,8 @@ export default function DashboardPage() {
           🔄 Reset Progress
         </button>
       </div>
+
+      <BadgeModal badge={focusBadge} earnedDate={focusBadgeDate} onClose={() => setFocusBadge(null)} />
     </div>
   )
 }

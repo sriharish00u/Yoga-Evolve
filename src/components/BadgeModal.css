@@ -1,0 +1,109 @@
+.badge-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.badge-modal-content {
+  background: var(--card-bg, #fff);
+  border-radius: 16px;
+  border: 2px solid;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.badge-modal-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+}
+
+.badge-modal-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.8rem;
+}
+
+.badge-modal-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.badge-modal-name {
+  margin: 0 0 0.4rem;
+  font-size: 1.3rem;
+  color: var(--text-color, #333);
+}
+
+.badge-modal-rarity {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+}
+
+.badge-modal-desc {
+  color: var(--text-secondary, #666);
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.badge-modal-howto {
+  background: var(--bg-secondary, #f9f6f0);
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.badge-modal-howto strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--text-color, #333);
+}
+
+.badge-modal-howto p {
+  margin: 0;
+  color: var(--text-secondary, #666);
+}
+
+.badge-modal-earned {
+  font-size: 0.8rem;
+  color: var(--primary-color, #b38b59);
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+
+.badge-modal-gotit {
+  background: var(--primary-color, #b38b59);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
