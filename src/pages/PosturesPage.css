@@ -1,0 +1,271 @@
+.postures-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.postures-header {
+  margin-bottom: 2rem;
+}
+.postures-header h1 {
+  color: var(--accent-color);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.postures-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.postures-search {
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(101,67,33,0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--light-bg);
+  color: var(--text-color);
+  width: 100%;
+  max-width: 500px;
+}
+.postures-search:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.postures-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.filter-group label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+.filter-group select {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(101,67,33,0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--light-bg);
+  color: var(--text-color);
+}
+
+.postures-count {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.postures-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.pose-card {
+  background: var(--light-bg);
+  border: 1px solid rgba(101,67,33,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.pose-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(101,67,33,0.12);
+}
+
+.pose-card .pose-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.pose-category-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--primary-color);
+  color: white;
+  margin: 0.75rem 0.75rem 0 0.75rem;
+  align-self: flex-start;
+}
+
+.pose-card-name {
+  font-size: 1.05rem;
+  color: var(--accent-color);
+  margin: 0.5rem 0.75rem;
+  line-height: 1.2;
+}
+
+.pose-difficulty {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  margin: 0 0.75rem 0.5rem;
+  letter-spacing: 2px;
+}
+
+.pose-benefit-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0 0.75rem;
+}
+.benefit-tag {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(179,139,89,0.12);
+  color: var(--text-light);
+}
+
+.pose-card-actions {
+  margin-top: auto;
+  padding: 0.75rem;
+}
+.btn-add {
+  width: 100%;
+  padding: 0.55rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--primary-color);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  font-family: inherit;
+}
+.btn-add:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.postures-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-light);
+  font-size: 1.05rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+.modal-content {
+  background: white;
+  border-radius: 14px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2rem;
+}
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-light);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+.modal-close:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.pose-detail-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+}
+.pose-detail-img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.pose-detail-info h2 {
+  color: var(--accent-color);
+  font-size: 1.6rem;
+  margin: 0.5rem 0;
+}
+.pose-detail-info h4 {
+  color: var(--accent-color);
+  margin: 1rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.benefits-list, .steps-list {
+  padding-left: 1.25rem;
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.detail-actions .btn-primary {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.92rem;
+  transition: background 0.3s ease;
+}
+.detail-actions .btn-primary:hover {
+  background: var(--primary-hover);
+}
+.detail-actions .btn-secondary {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 0.7rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.92rem;
+  transition: background 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .postures-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .postures-grid { grid-template-columns: 1fr; }
+  .pose-detail-layout { grid-template-columns: 1fr; }
+  .pose-detail-img { max-height: 240px; }
+}

@@ -1,24 +1,57 @@
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { gamification } from '../utils/gamification'
 import './Navigation.css'
 
+const navLinks = [
+  { to: '/', label: 'Home', icon: '🏠' },
+  { to: '/postures', label: 'Postures', icon: '🧘' },
+  { to: '/practice', label: 'Practice', icon: '▶️' },
+  { to: '/dashboard', label: 'Dashboard', icon: '📊' },
+  { to: '/benefits', label: 'Benefits', icon: '🌿' },
+  { to: '/tests', label: 'Self-Tests', icon: '📋' },
+]
+
 export default function Navigation() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  const [menuOpen, setMenuOpen] = useState(false)
+  const gstate = gamification.getState()
 
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <h1 className="nav-logo">Project Evolving Yoga</h1>
-        <ul className="nav-menu">
-          <li><button onClick={() => scrollToSection('intro')}>Introduction</button></li>
-          <li><button onClick={() => scrollToSection('benefits')}>Benefits</button></li>
-          <li><button onClick={() => scrollToSection('branches')}>Branches</button></li>
-          <li><button onClick={() => scrollToSection('postures')}>Postures</button></li>
-          <li><button onClick={() => scrollToSection('user-tests')}>Tests</button></li>
-          <li><button onClick={() => scrollToSection('contact')}>Contact</button></li>
+        <NavLink to="/" className="nav-logo">
+          🧘 Project Evolving Yoga
+        </NavLink>
+
+        <div className="nav-level-pill">
+          {gstate.levelName} — Lv.{gstate.level + 1}
+        </div>
+
+        <button
+          className={`nav-hamburger ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <ul className={`nav-menu ${menuOpen ? 'open' : ''}`}>
+          {navLinks.map(link => (
+            <li key={link.to}>
+              <NavLink
+                to={link.to}
+                end={link.to === '/'}
+                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                onClick={() => setMenuOpen(false)}
+              >
+                <span className="nav-link-icon">{link.icon}</span>
+                {link.label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
     </nav>

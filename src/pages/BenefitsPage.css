@@ -1,0 +1,208 @@
+.benefits-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.benefits-hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(160deg, rgba(74,44,6,0.08) 0%, transparent 100%);
+  border-radius: 16px;
+  margin-bottom: 3rem;
+}
+.benefits-hero h1 {
+  font-size: 2.8rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+.benefits-hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.benefits-section-inner {
+  margin-bottom: 3rem;
+}
+.benefits-section-inner h2 {
+  color: var(--accent-color);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.benefits-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.benefit-card {
+  background: var(--light-bg);
+  border: 1px solid rgba(101,67,33,0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(101,67,33,0.12);
+}
+.benefit-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.benefit-card h3 {
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+}
+.benefit-card p {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.limbs-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.limb-card {
+  background: var(--light-bg);
+  border: 1px solid rgba(101,67,33,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+.limb-card:hover {
+  box-shadow: 0 4px 12px rgba(101,67,33,0.1);
+}
+.limb-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: var(--accent-color);
+}
+.limb-number {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  min-width: 2rem;
+}
+.limb-chevron {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+.limb-chevron.rotated {
+  transform: rotate(180deg);
+}
+.limb-body {
+  padding: 0 1.25rem 1rem 1.25rem;
+  color: var(--text-light);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(101,67,33,0.1);
+  padding-top: 0.75rem;
+}
+.limb-body p {
+  margin: 0;
+}
+
+.branches-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.branch-card {
+  background: var(--light-bg);
+  border: 1px solid rgba(101,67,33,0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.branch-card h3 {
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+.branch-level {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+.branch-level.beginner { background: rgba(39,174,96,0.15); color: #27ae60; }
+.branch-level.intermediate { background: rgba(243,156,18,0.15); color: #f39c12; }
+.branch-level.advanced { background: rgba(231,76,60,0.15); color: #e74c3c; }
+.branch-card p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.pranayama-table-wrapper {
+  overflow-x: auto;
+}
+.pranayama-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.pranayama-table th {
+  background: var(--dark-bg);
+  color: var(--secondary-color);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+.pranayama-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(101,67,33,0.1);
+}
+.pranayama-table tbody tr:nth-child(odd) td {
+  background: var(--light-bg);
+}
+.pranayama-table tbody tr:nth-child(even) td {
+  background: #fff8e7;
+}
+
+.benefits-cta {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--dark-bg);
+  border-radius: 16px;
+  margin-top: 2rem;
+}
+.benefits-cta h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+}
+.cta-button-large {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.cta-button-large:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .benefits-grid-3 { grid-template-columns: 1fr; }
+  .branches-grid { grid-template-columns: 1fr; }
+  .benefits-hero h1 { font-size: 2rem; }
+  .pranayama-table { font-size: 0.82rem; }
+}

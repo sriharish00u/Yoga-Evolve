@@ -237,6 +237,37 @@ img {
   }
 }
 
+/* App main — nav clearance */
+.app-main {
+  padding-top: 60px;
+  min-height: calc(100vh - 60px);
+}
+
+/* Page entry animation */
+.page-wrapper {
+  animation: pageEnter 0.35s ease-out both;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Page header utility */
+.page-header {
+  text-align: center;
+  padding: 2rem 2rem 0;
+}
+.page-header h1 {
+  color: var(--accent-color);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.page-header p {
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
 /* Responsive breakpoints */
 @media (max-width: 768px) {
   :root {

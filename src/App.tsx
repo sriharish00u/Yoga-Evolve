@@ -1,38 +1,32 @@
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation'
-import IntroSection from './components/IntroSection'
-import BranchesSection from './components/BranchesSection'
-import PostureCategories from './components/PostureCategories'
-import UserTests from './components/UserTests'
-import AppreciationDashboard from './components/AppreciationDashboard'
 import Footer from './components/Footer'
+import XPToastStack from './components/XPToast'
+import HomePage from './pages/HomePage'
+import PosturesPage from './pages/PosturesPage'
+import PracticePage from './pages/PracticePage'
+import SessionPage from './pages/SessionPage'
+import DashboardPage from './pages/DashboardPage'
+import BenefitsPage from './pages/BenefitsPage'
+import TestsPage from './pages/TestsPage'
 
-function App() {
+export default function App() {
   return (
     <>
       <Navigation />
-      <main>
-        <IntroSection />
-        <section id="benefits" className="benefits-section">
-          <div className="container">
-            <h2>Benefits of Yoga</h2>
-            <ul>
-              <li>Improves flexibility, strength, and balance</li>
-              <li>Reduces stress and promotes relaxation</li>
-              <li>Enhances mental clarity and focus</li>
-              <li>Supports cardiovascular and respiratory health</li>
-              <li>Encourages mindfulness and spiritual growth</li>
-            </ul>
-          </div>
-        </section>
-        <BranchesSection />
-        <PostureCategories />
-        <UserTests />
-        <AppreciationDashboard />
-        <Footer />
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/postures" element={<PosturesPage />} />
+          <Route path="/practice" element={<PracticePage />} />
+          <Route path="/session" element={<SessionPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/benefits" element={<BenefitsPage />} />
+          <Route path="/tests" element={<TestsPage />} />
+        </Routes>
       </main>
+      <Footer />
+      <XPToastStack />
     </>
   )
 }
-
-export default App

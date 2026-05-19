@@ -1,6 +1,16 @@
 // User appreciation utilities for yoga training
 // Handles badges, streaks, progress tracking, and motivational features
 
+export interface SessionResultData {
+  completedPoses: number
+  totalXP: number
+  avgMatchScore: number
+  bestCombo: number
+  durationSeconds: number
+  badgesUnlocked: string[]
+  posesAttempted: number
+}
+
 export interface UserStats {
   totalSessions: number;
   totalPracticeTime: number; // in minutes
@@ -12,6 +22,7 @@ export interface UserStats {
   lastPracticeDate: string;
   weeklyGoal: number; // minutes per week
   monthlyGoal: number; // minutes per month
+  recentSessions?: { date: string; durationMinutes: number; energy: number }[];
 }
 
 export interface Badge {
@@ -65,6 +76,21 @@ class AppreciationManager {
   // Save user stats to localStorage
   private saveStats(): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.stats));
+  }
+
+  // Record session from result data
+  recordSessionFromResult(result: SessionResultData): void {
+    this.recordSession(result.durationSeconds / 60);
+
+    const recent = this.stats.recentSessions || [];
+    recent.push({
+      date: new Date().toISOString(),
+      durationMinutes: Math.round(result.durationSeconds / 60),
+      energy: result.avgMatchScore,
+    });
+    if (recent.length > 30) recent.shift();
+    this.stats.recentSessions = recent;
+    this.saveStats();
   }
 
   // Record a completed session

@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom'
 import './Footer.css'
 
 export default function Footer() {
   return (
-    <footer id="contact" className="footer">
+    <footer className="footer">
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
@@ -13,10 +14,12 @@ export default function Footer() {
           <div className="footer-section">
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="#intro">Introduction</a></li>
-              <li><a href="#benefits">Benefits</a></li>
-              <li><a href="#branches">Branches</a></li>
-              <li><a href="#postures">Postures</a></li>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/postures">Postures</Link></li>
+              <li><Link to="/practice">Practice</Link></li>
+              <li><Link to="/dashboard">Dashboard</Link></li>
+              <li><Link to="/benefits">Benefits</Link></li>
+              <li><Link to="/tests">Self-Tests</Link></li>
             </ul>
           </div>
           <div className="footer-section">

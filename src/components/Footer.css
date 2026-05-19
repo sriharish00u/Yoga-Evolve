@@ -45,7 +45,7 @@
 }
 
 .footer-section ul li a:hover {
-  color: #3498db;
+  color: var(--primary-color);
 }
 
 .footer-section:last-child {

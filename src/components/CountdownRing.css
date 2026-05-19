@@ -1,0 +1,44 @@
+.countdown-ring-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.countdown-ring {
+  width: 120px;
+  height: 120px;
+}
+
+.ring-bg {
+  fill: none;
+  stroke: #4a2c06;
+  stroke-width: 8;
+}
+
+.ring-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+}
+
+.ring-text {
+  fill: #f5deb3;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Baloo Thambi 2', sans-serif;
+}
+
+.ring-pause-label {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  font-weight: 500;
+  animation: pulseText 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
