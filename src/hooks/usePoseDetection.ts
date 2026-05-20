@@ -1,5 +1,3 @@
-/// <reference path="../types/mediapipe.d.ts" />
-
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { scorePose, resetPoseBuffer } from '../utils/poseMatch'
 
@@ -14,7 +12,7 @@ export function usePoseDetection(
 
   const fpsRef = useRef<number[]>([])
   const animRef = useRef<number | null>(null)
-  const cameraRef = useRef<any>(null)
+  const cameraRef = useRef<CameraInstance | null>(null)
 
   const drawSkeleton = useCallback((landmarks: NormalizedLandmark[]) => {
     const canvas = canvasRef.current
@@ -90,10 +88,10 @@ export function usePoseDetection(
       minTrackingConfidence: 0.5,
     })
 
-    pose.onResults((results: any) => {
+    pose.onResults((results) => {
       if (!results.poseLandmarks) return
 
-      const detected = results.poseLandmarks as NormalizedLandmark[]
+      const detected = results.poseLandmarks
       setLandmarks(detected)
       drawSkeleton(detected)
       const sc = scorePose(detected)
@@ -114,14 +112,11 @@ export function usePoseDetection(
       // camera start failed — fallback
     })
 
+    const cam = camera
+    const anim = animRef.current
     return () => {
-      if (cameraRef.current) {
-        cameraRef.current.stop()
-        cameraRef.current = null
-      }
-      if (animRef.current) {
-        cancelAnimationFrame(animRef.current)
-      }
+      if (cam) cam.stop()
+      if (anim) cancelAnimationFrame(anim)
     }
   }, [isActive, videoRef, canvasRef, drawSkeleton, trackFps])
 

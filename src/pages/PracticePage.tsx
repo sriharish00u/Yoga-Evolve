@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import POSTURES from '../data/postures.json'
 import type { PoseData } from '../types/yoga'
+import { PracticeSEO } from '../components/JSONLD'
 import { sessionStore } from '../store/sessionStore'
 import { getPendingPoses, clearPendingPoses, removePendingPose } from '../store/routineStore'
 import './PracticePage.css'
@@ -101,6 +102,7 @@ export default function PracticePage() {
 
   return (
     <div className="page-wrapper practice-page">
+      <PracticeSEO />
       <div className="practice-layout">
         <div className="practice-selector">
           <h1>Build Your Routine</h1>

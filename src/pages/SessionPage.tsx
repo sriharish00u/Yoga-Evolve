@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { PoseData, SessionPhase } from '../types/yoga'
+import { SessionSEO } from '../components/JSONLD'
 import { sessionStore } from '../store/sessionStore'
 import { useWebcam } from '../hooks/useWebcam'
 import { usePoseDetection } from '../hooks/usePoseDetection'
@@ -29,6 +30,8 @@ export default function SessionPage() {
   const [scores, setScores] = useState<number[]>([])
   const [showSkip, setShowSkip] = useState(false)
   const holdScoresRef = useRef<number[]>([])
+  const matchScoreRef = useRef(0)
+  const finishSessionRef = useRef<() => void>(() => {})
 
   const holdTotal = config?.holdSeconds ?? 30
   const poses = useMemo(() => config?.poses ?? [], [config])
@@ -40,6 +43,8 @@ export default function SessionPage() {
     canvasRef,
     phase === 'hold' && !webcamError
   )
+
+  useEffect(() => { matchScoreRef.current = matchScore }, [matchScore])
 
   const feedback = currentPose
     ? generateFeedback(landmarks, currentPose.name, matchScore)
@@ -73,9 +78,10 @@ export default function SessionPage() {
 
   useEffect(() => {
     if (phase !== 'hold') return
-    if (matchScore < 30) return
+    const ms = matchScoreRef.current
+    if (ms < 30) return
 
-    holdScoresRef.current.push(matchScore)
+    holdScoresRef.current.push(ms)
 
     const t = setTimeout(() => {
       setHoldRemaining(prev => {
@@ -87,7 +93,8 @@ export default function SessionPage() {
       })
     }, 1000)
     return () => clearTimeout(t)
-  }, [phase, holdRemaining, matchScore])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, holdRemaining])
 
   useEffect(() => {
     if (phase !== 'hold') return
@@ -96,11 +103,12 @@ export default function SessionPage() {
   }, [phase, holdTotal])
 
   const handlePoseComplete = useCallback(() => {
+    const currentMatch = matchScoreRef.current
     const holdScores = holdScoresRef.current
     const avgHoldScore = holdScores.length > 0
       ? Math.round(holdScores.reduce((a, b) => a + b, 0) / holdScores.length)
-      : matchScore
-    const score = Math.max(avgHoldScore, matchScore)
+      : currentMatch
+    const score = Math.max(avgHoldScore, currentMatch)
 
     const baseXP = XP_REWARDS.poseComplete
     const isPerfect = score >= 88
@@ -125,7 +133,7 @@ export default function SessionPage() {
     }
 
     setPhase('complete')
-  }, [matchScore])
+  }, [])
 
   const handleNext = useCallback(() => {
     if (poseIdx + 1 < poses.length) {
@@ -135,7 +143,7 @@ export default function SessionPage() {
       setShowSkip(false)
       holdScoresRef.current = []
     } else {
-      finishSession()
+      finishSessionRef.current()
     }
   }, [poseIdx, poses.length])
 
@@ -212,6 +220,10 @@ export default function SessionPage() {
     gamification.resetSession()
   }, [sessionStartTime, scores, completedPoses, poses])
 
+  useEffect(() => {
+    finishSessionRef.current = finishSession
+  }, [finishSession])
+
   const handlePracticeAgain = useCallback(() => {
     sessionStore.clear()
     navigate('/practice')
@@ -277,6 +289,7 @@ export default function SessionPage() {
 
   return (
     <div className="session-page">
+      <SessionSEO />
       <div className="session-topbar">
         <button className="session-quit" onClick={handleGoHome}>← Quit</button>
         <span className="session-progress">

@@ -113,7 +113,7 @@ export default function UserJourney() {
   // Example function to add a practice session (for demo/testing)
   const addPracticeSession = (duration: number) => {
     const todayStr = new Date().toISOString().split('T')[0];
-    let updatedData = [...dailyPracticeData];
+    const updatedData = [...dailyPracticeData];
     const existingIndex = updatedData.findIndex(d => d.date === todayStr);
     if (existingIndex >= 0) {
       updatedData[existingIndex].duration += duration;

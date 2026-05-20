@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { DashboardSEO } from '../components/JSONLD'
 import { appreciationManager, appreciationUIUtils } from '../utils/appreciationUtils'
 import { gamification } from '../utils/gamification'
 import type { UserStats, RecentSession } from '../utils/appreciationUtils'
@@ -45,6 +46,7 @@ export default function DashboardPage() {
 
   return (
     <div className="page-wrapper dashboard-page">
+      <DashboardSEO />
       <div className="dashboard-hero">
         <div className="level-pill">
           {gstate.levelName} — Level {gstate.level + 1}

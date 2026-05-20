@@ -1,0 +1,13 @@
+{
+  "name": "Yoga Evolve",
+  "short_name": "Yoga Evolve",
+  "description": "Adaptive yoga trainer with AI pose tracking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#b38b59",
+  "icons": [
+    { "src": "/logo3.jpg", "sizes": "192x192", "type": "image/jpg" },
+    { "src": "/logo3.jpg", "sizes": "512x512", "type": "image/jpg" }
+  ]
+}

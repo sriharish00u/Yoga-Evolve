@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { loadState, saveState } from '../utils/localStorage'
 import './YogaTrainer.css'
 import POSTURES from '../data/postures.json'
+import type { PoseData } from '../types/yoga'
 
 type SessionData = {
   date: string
@@ -17,13 +18,13 @@ type TrainerState = {
 }
 
 const STORAGE_KEY = 'yoga.trainer.v1'
+const postures = POSTURES as PoseData[]
 
 function defaultState(): TrainerState {
   return { sessions: [], nextHoldSeconds: 20, streak: 0 }
 }
 
 function calcEnergy(hr: number | null, motion: number, consistency: number) {
-  // simple normalized energy metric 0..100
   const hrScore = hr ? Math.max(0, Math.min(1, (220 - hr) / 100)) : 0.5
   const motionScore = Math.max(0, Math.min(1, motion))
   const consScore = Math.max(0, Math.min(1, consistency))
@@ -39,8 +40,8 @@ export default function YogaTrainer() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState<string>('All')
 
-  const categories = Array.from(new Set(['All', ...POSTURES.map((p: any) => p.category)]))
-  const [selected, setSelected] = useState<any | null>(null)
+  const categories = Array.from(new Set(['All', ...postures.map((p) => p.category)]))
+  const [selected, setSelected] = useState<PoseData | null>(null)
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -113,7 +114,7 @@ export default function YogaTrainer() {
   return (
     <div className="trainer-root">
       <section className="mandala-wrap">
-        <div className="mandala" style={{ ['--energy' as any]: `${energy}%` }} aria-hidden>
+        <div className="mandala" style={{ '--energy': `${energy}%` } as React.CSSProperties} aria-hidden>
           <div className="mandala-core">{energy}</div>
         </div>
         <div className="trainer-stats">
@@ -162,12 +163,12 @@ export default function YogaTrainer() {
         </div>
 
         <div className="poses">
-          {POSTURES.filter((p: any) => {
+          {postures.filter((p) => {
             if (category !== 'All' && p.category !== category) return false
             if (!search) return true
             const s = search.toLowerCase()
-            return p.name.toLowerCase().includes(s) || (p.benefits || []).some((b: string) => b.toLowerCase().includes(s))
-          }).map((p: any) => (
+            return p.name.toLowerCase().includes(s) || p.benefits.some((b) => b.toLowerCase().includes(s))
+          }).map((p) => (
             <article key={p.name} className="pose" tabIndex={0} onClick={() => setSelected(p)} onKeyDown={(e) => { if (e.key === 'Enter') setSelected(p) }}>
               <div className="pose-head">
                 <h4>{p.name}</h4>
@@ -177,7 +178,7 @@ export default function YogaTrainer() {
                 <img src={`/${p.image}`} alt={p.name} width={160} height={120} loading="lazy" />
                 <div className="pose-info">
                   <ul>
-                    {(p.benefits || []).slice(0, 4).map((b: string, i: number) => <li key={i}>{b}</li>)}
+                    {p.benefits.slice(0, 4).map((b, i) => <li key={i}>{b}</li>)}
                   </ul>
                   <div className="actions">
                     <button onClick={(ev) => { ev.stopPropagation(); setSelected(p) }}>View details</button>
@@ -198,7 +199,7 @@ export default function YogaTrainer() {
                   <h2>{selected.name}</h2>
                   <p className="muted">{selected.category}</p>
                   <h4>Benefits</h4>
-                  <ul>{(selected.benefits || []).map((b: string, i: number) => <li key={i}>{b}</li>)}</ul>
+                  <ul>{selected.benefits.map((b, i) => <li key={i}>{b}</li>)}</ul>
                 </div>
               </div>
             </div>

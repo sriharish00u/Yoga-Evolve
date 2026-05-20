@@ -31,7 +31,7 @@ class SensorManager {
       // Request motion sensor permission
       if (typeof DeviceMotionEvent !== 'undefined' &&
           'requestPermission' in DeviceMotionEvent) {
-        const permission = await (DeviceMotionEvent as any).requestPermission();
+        const permission = await (DeviceMotionEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission();
         if (permission !== 'granted') {
           console.warn('Motion sensor permission denied');
           return false;
@@ -39,7 +39,7 @@ class SensorManager {
       }
 
       // Request heart rate sensor permission (if available)
-      if ('bluetooth' in navigator && 'getDevices' in (navigator as any).bluetooth) {
+      if ('bluetooth' in navigator && typeof (navigator as Navigator & { bluetooth?: { getDevices: () => void } }).bluetooth?.getDevices === 'function') {
         // Heart rate sensor setup would go here
         console.log('Heart rate sensor available');
       }

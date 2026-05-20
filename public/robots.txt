@@ -1,0 +1,6 @@
+# Allow full crawling
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://yogaevolve.app/sitemap.xml

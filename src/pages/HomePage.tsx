@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BranchesSection from '../components/BranchesSection'
+import { HomeSEO } from '../components/JSONLD'
 import './HomePage.css'
 
 const QUOTES = [
@@ -55,6 +56,7 @@ export default function HomePage() {
 
   return (
     <div className="page-wrapper home-page">
+      <HomeSEO />
       <section className="hero-section">
         <div className="hero-bg-om">ॐ</div>
         <div className="hero-content">

@@ -7,12 +7,11 @@ interface Toast {
 }
 
 let nextId = 0
-let addToastFn: ((text: string) => void) | null = null
 
+/* eslint-disable react-refresh/only-export-components */
 export function showToast(text: string): void {
-  if (addToastFn) {
-    addToastFn(text)
-  }
+  const fn = (window as unknown as Record<string, unknown>).__addToast as ((t: string) => void) | undefined
+  if (fn) fn(text)
 }
 
 export default function XPToastStack() {
@@ -30,15 +29,16 @@ export default function XPToastStack() {
   }, [])
 
   useEffect(() => {
-    addToastFn = addToast
+    (window as unknown as Record<string, unknown>).__addToast = addToast
     return () => {
-      addToastFn = null
+      delete (window as unknown as Record<string, unknown>).__addToast
     }
   }, [addToast])
 
   useEffect(() => {
+    const timers = timersRef.current
     return () => {
-      for (const timer of timersRef.current.values()) {
+      for (const timer of timers.values()) {
         clearTimeout(timer)
       }
     }

@@ -6,6 +6,7 @@ import { CATEGORY_DIFFICULTY } from '../types/yoga'
 import type { PoseData, DifficultyLevel } from '../types/yoga'
 import { BODY_PARTS } from '../types/yoga'
 import BodyPartFilter from '../components/BodyPartFilter'
+import { PosturesSEO } from '../components/JSONLD'
 import { addPendingPose } from '../store/routineStore'
 import './PosturesPage.css'
 
@@ -108,6 +109,7 @@ export default function PosturesPage() {
 
   return (
     <div className="page-wrapper postures-page">
+      <PosturesSEO />
       <div className="postures-header">
         <h1>Pose Library</h1>
         <div className="postures-controls">

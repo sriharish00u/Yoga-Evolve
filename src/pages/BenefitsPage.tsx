@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BenefitsSEO } from '../components/JSONLD'
 import './BenefitsPage.css'
 
 const LIMBS = [
@@ -51,6 +52,7 @@ export default function BenefitsPage() {
 
   return (
     <div className="page-wrapper benefits-page">
+      <BenefitsSEO />
       <section className="benefits-hero">
         <h1>Why Yoga?</h1>
         <p className="benefits-hero-sub">

@@ -4622,6 +4622,7 @@ img {
 @import url('https://fonts.googleapis.com/css2?family=Gurajada:wght@400&family=Baloo+Thambi+2:wght@400;500;600;700&display=swap');
 
 :root {
+  font-size: 18px;
   font-family: 'Gurajada', 'Baloo Thambi 2', serif;
   line-height: 1.5;
   font-weight: 400;
@@ -4728,6 +4729,11 @@ a:focus {
   top: 6px;
 }
 
+h1 { font-size: 2.4rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.2rem; }
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--space-md) 0;
   font-weight: 600;
@@ -4735,6 +4741,11 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--secondary-color);
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   letter-spacing: 0.5px;
+}
+
+p, li, label, span, small {
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 p {
@@ -5732,6 +5743,120 @@ export default function CountdownRing({ total, remaining, matchScore }: Countdow
 
 
 
+# FILE: ./src/components/BadgeModal.css
+
+.badge-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.badge-modal-content {
+  background: var(--card-bg, #fff);
+  border-radius: 16px;
+  border: 2px solid;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.badge-modal-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+}
+
+.badge-modal-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.8rem;
+}
+
+.badge-modal-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.badge-modal-name {
+  margin: 0 0 0.4rem;
+  font-size: 1.3rem;
+  color: var(--text-color, #333);
+}
+
+.badge-modal-rarity {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+}
+
+.badge-modal-desc {
+  color: var(--text-secondary, #666);
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.badge-modal-howto {
+  background: var(--bg-secondary, #f9f6f0);
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.badge-modal-howto strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--text-color, #333);
+}
+
+.badge-modal-howto p {
+  margin: 0;
+  color: var(--text-secondary, #666);
+}
+
+.badge-modal-earned {
+  font-size: 0.8rem;
+  color: var(--primary-color, #b38b59);
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+
+.badge-modal-gotit {
+  background: var(--primary-color, #b38b59);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+
 # FILE: ./src/components/AppreciationDashboard.css
 
 .appreciation-dashboard {
@@ -6464,6 +6589,119 @@ input[type="number"]:focus {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
+.tests-summary-bar {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.summary-stat {
+  text-align: center;
+}
+.summary-stat-num {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+.summary-stat-desc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tests-category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+.test-cat-tab {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(101,67,33,0.2);
+  background: transparent;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+.test-cat-tab.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+.test-cat-tab:hover:not(.active) {
+  background: rgba(179,139,89,0.1);
+}
+.test-cat-count {
+  display: inline-block;
+  margin-left: 0.3rem;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.test-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.test-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.test-sparkline {
+  flex-shrink: 0;
+}
+.trend-icon {
+  font-size: 0.9rem;
+}
+.test-unit {
+  font-size: 0.8rem !important;
+  color: var(--text-light) !important;
+}
+
+.benchmark-level {
+  font-weight: 600;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.input-row input {
+  flex: 1;
+  max-width: 120px;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.input-row button {
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.result-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
 @media (max-width: 768px) {
   .tests-container {
     grid-template-columns: 1fr;
@@ -6787,6 +7025,86 @@ export default function Navigation() {
 
 
 
+# FILE: ./src/components/BodyPartFilter.css
+
+.bodypart-filter {
+  margin-bottom: 1rem;
+}
+
+.bodypart-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.bodypart-filter-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-color, #333);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bodypart-filter-clear {
+  background: none;
+  border: 1px solid var(--primary-color, #b38b59);
+  border-radius: 12px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  color: var(--primary-color, #b38b59);
+  cursor: pointer;
+}
+
+.bodypart-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.bodypart-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 16px;
+  background: var(--card-bg, #fff);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+  color: var(--text-color, #333);
+}
+
+.bodypart-chip:hover:not(.disabled) {
+  border-color: var(--primary-color, #b38b59);
+  background: var(--secondary-color, #f5deb3);
+}
+
+.bodypart-chip.active {
+  border-color: var(--primary-color, #b38b59);
+  background: rgba(179, 139, 89, 0.12);
+  font-weight: 600;
+}
+
+.bodypart-chip.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+}
+
+.bodypart-chip-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.bodypart-chip-label {
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+
+
 # FILE: ./src/components/Footer.css
 
 .footer {
@@ -6923,7 +7241,7 @@ export default function Navigation() {
 
 # FILE: ./src/components/UserTests.tsx
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { loadState, saveState } from '../utils/localStorage'
 import './UserTests.css'
 
@@ -6934,72 +7252,202 @@ interface TestResult {
   timestamp: string
 }
 
+interface TestDef {
+  name: string
+  type: 'timer' | 'count' | 'measurement' | 'scale' | 'yesno'
+  unit: string
+  benchmarks?: { poor: number; fair: number; good: number; excellent: number; lowerIsBetter?: boolean }
+}
+
+interface TestCategory {
+  category: string
+  tests: TestDef[]
+}
+
 const STORAGE_KEY = 'yoga.user.tests.v1'
+const TEST_XP_KEY = 'yoga.test.xp.v1'
+
+const TEST_CATEGORIES: TestCategory[] = [
+  {
+    category: 'Breath & Lung Efficiency',
+    tests: [
+      { name: 'Breath-Holding Test', type: 'timer', unit: 'seconds', benchmarks: { poor: 20, fair: 40, good: 60, excellent: 90 } },
+      { name: 'Controlled Breathing Test', type: 'yesno', unit: '' },
+      { name: 'Pranayama Duration', type: 'timer', unit: 'seconds', benchmarks: { poor: 30, fair: 60, good: 120, excellent: 300 } },
+      { name: 'Exhale Length Test', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 20, good: 30, excellent: 45 } },
+    ],
+  },
+  {
+    category: 'Balance & Coordination',
+    tests: [
+      { name: 'Single-Leg Stand', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 25, good: 45, excellent: 60 } },
+      { name: 'Closed-Eyes Balance', type: 'timer', unit: 'seconds', benchmarks: { poor: 5, fair: 15, good: 30, excellent: 60 } },
+      { name: 'Dynamic Balance', type: 'count', unit: 'transitions', benchmarks: { poor: 3, fair: 6, good: 10, excellent: 15 } },
+      { name: 'Tree Pose Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 20, good: 40, excellent: 90 } },
+    ],
+  },
+  {
+    category: 'Flexibility & Mobility',
+    tests: [
+      { name: 'Forward Bend Test', type: 'measurement', unit: 'cm from floor', benchmarks: { poor: 30, fair: 15, good: 5, excellent: 0, lowerIsBetter: true } },
+      { name: 'Side Stretch Test', type: 'measurement', unit: 'cm', benchmarks: { poor: 30, fair: 20, good: 10, excellent: 5, lowerIsBetter: true } },
+      { name: 'Spinal Twist Test', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+      { name: 'Backbend Test', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+    ],
+  },
+  {
+    category: 'Posture Endurance & Strength',
+    tests: [
+      { name: 'Plank Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 20, fair: 45, good: 90, excellent: 180 } },
+      { name: 'Chair Pose Endurance', type: 'timer', unit: 'seconds', benchmarks: { poor: 15, fair: 30, good: 60, excellent: 120 } },
+      { name: 'Warrior II Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 20, fair: 40, good: 75, excellent: 150 } },
+      { name: 'Boat Pose Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 25, good: 45, excellent: 90 } },
+    ],
+  },
+  {
+    category: 'Yoga Flow & Endurance',
+    tests: [
+      { name: 'Sun Salutation Reps', type: 'count', unit: 'cycles', benchmarks: { poor: 3, fair: 6, good: 12, excellent: 25 } },
+      { name: 'Flow Continuity', type: 'count', unit: 'poses', benchmarks: { poor: 3, fair: 6, good: 10, excellent: 15 } },
+      { name: 'Recovery Rate', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 9 } },
+      { name: 'Active Flow Duration', type: 'timer', unit: 'minutes', benchmarks: { poor: 5, fair: 15, good: 30, excellent: 60 } },
+    ],
+  },
+  {
+    category: 'Relaxation & Mindfulness',
+    tests: [
+      { name: 'Savasana Duration', type: 'timer', unit: 'seconds', benchmarks: { poor: 60, fair: 180, good: 300, excellent: 600 } },
+      { name: 'Guided Breathing Focus', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+      { name: 'Body Scan Awareness', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+      { name: 'Meditation Duration', type: 'timer', unit: 'minutes', benchmarks: { poor: 2, fair: 5, good: 10, excellent: 20 } },
+    ],
+  },
+  {
+    category: 'Hip & Lower Body',
+    tests: [
+      { name: 'Pigeon Pose Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 15, fair: 30, good: 60, excellent: 120 } },
+      { name: 'Frog Pose Depth', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+      { name: 'Squat Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 20, fair: 45, good: 90, excellent: 180 } },
+    ],
+  },
+  {
+    category: 'Core Strength',
+    tests: [
+      { name: 'Dolphin Plank Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 15, fair: 30, good: 60, excellent: 120 } },
+      { name: 'Side Plank Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 20, good: 40, excellent: 90 } },
+      { name: 'Boat Pose Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 25, good: 45, excellent: 90 } },
+    ],
+  },
+  {
+    category: 'Upper Body & Shoulders',
+    tests: [
+      { name: 'Crow Pose Attempt', type: 'scale', unit: '/10', benchmarks: { poor: 2, fair: 4, good: 6, excellent: 9 } },
+      { name: 'Shoulder Flexibility', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+      { name: 'Wrist Mobility Test', type: 'scale', unit: '/10', benchmarks: { poor: 3, fair: 5, good: 7, excellent: 10 } },
+    ],
+  },
+  {
+    category: 'Advanced Poses',
+    tests: [
+      { name: 'Headstand Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 5, fair: 15, good: 30, excellent: 60 } },
+      { name: 'Handstand Kick-Up', type: 'scale', unit: '/10', benchmarks: { poor: 2, fair: 4, good: 6, excellent: 9 } },
+      { name: 'Wheel Pose Hold', type: 'timer', unit: 'seconds', benchmarks: { poor: 10, fair: 20, good: 40, excellent: 90 } },
+    ],
+  },
+]
+
+function getBenchmark(benchmarks: TestDef['benchmarks'], value: number): { level: string; color: string } {
+  if (!benchmarks) return { level: 'Completed', color: '#b38b59' }
+  const b = benchmarks
+  if (b.lowerIsBetter) {
+    if (value <= b.excellent) return { level: 'Excellent!', color: '#27ae60' }
+    if (value <= b.good) return { level: 'Good job', color: '#2ecc71' }
+    if (value <= b.fair) return { level: 'Keep practicing', color: '#f39c12' }
+    return { level: 'Need effort', color: '#e74c3c' }
+  }
+  if (value >= b.excellent) return { level: 'Excellent!', color: '#27ae60' }
+  if (value >= b.good) return { level: 'Good job', color: '#2ecc71' }
+  if (value >= b.fair) return { level: 'Keep practicing', color: '#f39c12' }
+  return { level: 'Need effort', color: '#e74c3c' }
+}
+
+function getTrend(history: TestResult[]): 'up' | 'down' | 'stable' | null {
+  if (history.length < 2) return null
+  const recent = history.slice(0, 3)
+  if (recent.length < 2) return null
+  const vals = recent.map(r => typeof r.value === 'number' ? r.value : 0)
+  const firstHalf = vals.slice(0, Math.floor(vals.length / 2)).reduce((a, b) => a + b, 0) / Math.floor(vals.length / 2)
+  const secondHalf = vals.slice(Math.floor(vals.length / 2)).reduce((a, b) => a + b, 0) / (vals.length - Math.floor(vals.length / 2))
+  const diff = secondHalf - firstHalf
+  if (Math.abs(diff) < 0.5) return 'stable'
+  return diff > 0 ? 'up' : 'down'
+}
+
+function aggregateResults(results: TestResult[]): Record<string, TestResult[]> {
+  const map: Record<string, TestResult[]> = {}
+  for (const r of results) {
+    if (!map[r.name]) map[r.name] = []
+    map[r.name].push(r)
+  }
+  for (const key of Object.keys(map)) {
+    map[key].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+  }
+  return map
+}
+
+function TestSparkline({ history }: { history: TestResult[] }) {
+  if (history.length < 2) return null
+  const vals = history.slice(0, 5).map(r => (typeof r.value === 'number' ? r.value : 0)).reverse()
+  const max = Math.max(...vals, 1)
+  const w = 48
+  const h = 20
+  const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * w},${h - (v / max) * h}`).join(' ')
+  return (
+    <svg className="test-sparkline" width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
+      <polyline fill="none" stroke="#b38b59" strokeWidth="1.5" points={pts} />
+    </svg>
+  )
+}
 
 export default function UserTests() {
   const [results, setResults] = useState<TestResult[]>(() => loadState(STORAGE_KEY) || [])
+  const [testXP, setTestXP] = useState<number>(() => loadState(TEST_XP_KEY) || 0)
+  const [activeCategory, setActiveCategory] = useState(TEST_CATEGORIES[0].category)
   const [timers, setTimers] = useState<Map<string, { startTime: number | null; interval: number | null }>>(new Map())
   const [runningTests, setRunningTests] = useState<Set<string>>(new Set())
-
-  const tests = [
-    {
-      category: 'Breath & Lung Efficiency',
-      tests: [
-        { name: 'Breath-Holding Test', type: 'timer', unit: 'seconds' },
-        { name: 'Controlled Breathing Test', type: 'yesno' }
-      ]
-    },
-    {
-      category: 'Balance & Coordination',
-      tests: [
-        { name: 'Single-Leg Stand', type: 'timer', unit: 'seconds' },
-        { name: 'Closed-Eyes Balance Test', type: 'timer', unit: 'seconds' },
-        { name: 'Dynamic Balance Test', type: 'count', unit: 'transitions' }
-      ]
-    },
-    {
-      category: 'Flexibility & Mobility',
-      tests: [
-        { name: 'Forward Bend Test', type: 'measurement', unit: 'cm' },
-        { name: 'Side Stretch Test', type: 'measurement', unit: 'cm' },
-        { name: 'Spinal Twist Test', type: 'scale', unit: '/10' },
-        { name: 'Backbend Test', type: 'scale', unit: '/10' }
-      ]
-    },
-    {
-      category: 'Posture Endurance & Strength',
-      tests: [
-        { name: 'Plank Hold', type: 'timer', unit: 'seconds' },
-        { name: 'Chair Pose Endurance', type: 'timer', unit: 'seconds' },
-        { name: 'Warrior II Hold', type: 'timer', unit: 'seconds' },
-        { name: 'Boat Pose Hold', type: 'timer', unit: 'seconds' }
-      ]
-    },
-    {
-      category: 'Relaxation & Mindfulness',
-      tests: [
-        { name: 'Savasana Duration', type: 'timer', unit: 'seconds' },
-        { name: 'Guided Breathing Focus', type: 'scale', unit: '/10' }
-      ]
-    },
-    {
-      category: 'Yoga Flow & Endurance',
-      tests: [
-        { name: 'Sun Salutation Repetitions', type: 'count', unit: 'cycles' },
-        { name: 'Yoga Flow Continuity', type: 'count', unit: 'poses' },
-        { name: 'Recovery Test', type: 'scale', unit: '/10' }
-      ]
-    }
-  ]
+  const [inputValues, setInputValues] = useState<Record<string, string>>({})
 
   useEffect(() => {
     saveState(STORAGE_KEY, results)
   }, [results])
 
+  useEffect(() => {
+    saveState(TEST_XP_KEY, testXP)
+  }, [testXP])
+
+  const grouped = useMemo(() => aggregateResults(results), [results])
+
+  const categoryStats = useMemo(() => {
+    const map: Record<string, { completed: number; improving: number; total: number; xp: number }> = {}
+    for (const tc of TEST_CATEGORIES) {
+      const catResults = results.filter(r => r.category === tc.category)
+      const completed = new Set(catResults.map(r => r.name)).size
+      const improving = tc.tests.filter(t => {
+        const hist = grouped[t.name]
+        return hist && getTrend(hist) === 'up'
+      }).length
+      map[tc.category] = { completed, improving, total: tc.tests.length, xp: 0 }
+    }
+    return map
+  }, [results, grouped])
+
+  const totalTestsCompleted = useMemo(() => new Set(results.map(r => r.name)).size, [results])
+  const totalPossible = useMemo(() => TEST_CATEGORIES.reduce((s, c) => s + c.tests.length, 0), [])
+  const totalImproving = useMemo(() => Object.values(categoryStats).reduce((s, c) => s + c.improving, 0), [categoryStats])
+
   const startTimer = useCallback((testName: string) => {
     setRunningTests(prev => new Set(prev).add(testName))
     const interval = window.setInterval(() => {
-      // Force re-render to update display
       setTimers(current => new Map(current))
     }, 100)
     setTimers(prev => {
@@ -7029,16 +7477,19 @@ export default function UserTests() {
     return Math.floor((Date.now() - timerData.startTime) / 1000)
   }, [timers])
 
+  const awardTestXP = useCallback(() => {
+    setTestXP(prev => prev + 10)
+  }, [])
+
   const saveResult = useCallback((testName: string, value: number | string, category: string) => {
     const newResult: TestResult = {
       name: testName,
       value,
       category,
-      timestamp: new Date().toLocaleString()
+      timestamp: new Date().toISOString(),
     }
     setResults(prev => [newResult, ...prev])
-
-    // Clean up timer for this test
+    awardTestXP()
     const timerData = timers.get(testName)
     if (timerData?.interval) {
       clearInterval(timerData.interval)
@@ -7053,7 +7504,7 @@ export default function UserTests() {
       newSet.delete(testName)
       return newSet
     })
-  }, [timers])
+  }, [timers, awardTestXP])
 
   const getLatestResult = useCallback((testName: string): TestResult | null => {
     return results.find(result => result.name === testName) || null
@@ -7064,174 +7515,241 @@ export default function UserTests() {
   }, [])
 
   const clearAllResults = useCallback(() => {
-    if (window.confirm('Are you sure you want to delete all test results? This action cannot be undone.')) {
+    if (window.confirm('Are you sure you want to delete all test results?')) {
       setResults([])
+      setTestXP(0)
     }
   }, [])
 
-  const getPerformanceLevel = useCallback((testName: string, value: number | string): string => {
-    if (typeof value === 'string') return 'Completed'
-
-    switch (testName) {
-      case 'Breath-Holding Test':
-        if (value < 20) return 'Need effort'
-        if (value < 40) return 'Keep practicing'
-        if (value < 60) return 'Good job'
-        return 'Excellent!'
-      case 'Single-Leg Stand':
-        if (value < 15) return 'Need effort'
-        if (value < 30) return 'Keep practicing'
-        if (value < 60) return 'Good job'
-        return 'Excellent!'
-      case 'Forward Bend Test':
-        if (value > 20) return 'Need effort'
-        if (value > 10) return 'Keep practicing'
-        if (value > 0) return 'Good job'
-        return 'Excellent!'
-      default:
-        return 'Completed'
-    }
-  }, [results])
+  const activeCategoryDef = TEST_CATEGORIES.find(c => c.category === activeCategory)
 
   return (
     <section id="user-tests" className="user-tests-section">
       <h2>Yoga Self-Assessment Tests</h2>
-      <p>Test your yoga capabilities and track your progress over time.</p>
+      <p>Test your capabilities and track progress over time. Each test earns 10 XP!</p>
+
+      <div className="tests-summary-bar">
+        <div className="summary-stat">
+          <span className="summary-stat-num">{totalTestsCompleted}/{totalPossible}</span>
+          <span className="summary-stat-desc">Tests Completed</span>
+        </div>
+        <div className="summary-stat">
+          <span className="summary-stat-num">{testXP}</span>
+          <span className="summary-stat-desc">Test XP</span>
+        </div>
+        <div className="summary-stat">
+          <span className="summary-stat-num">{totalImproving}</span>
+          <span className="summary-stat-desc">Improving</span>
+        </div>
+      </div>
+
+      <div className="tests-category-tabs">
+        {TEST_CATEGORIES.map(tc => (
+          <button
+            key={tc.category}
+            className={`test-cat-tab ${tc.category === activeCategory ? 'active' : ''}`}
+            onClick={() => setActiveCategory(tc.category)}
+          >
+            {tc.category}
+            <span className="test-cat-count">{categoryStats[tc.category].completed}/{tc.tests.length}</span>
+          </button>
+        ))}
+      </div>
 
       <div className="tests-container">
-        {tests.map(category => (
-          <div key={category.category} className="test-category">
-            <h3>{category.category}</h3>
+        {activeCategoryDef && (
+          <div key={activeCategoryDef.category} className="test-category">
+            <h3>{activeCategoryDef.category}</h3>
             <div className="test-list">
-              {category.tests.map(test => {
+              {activeCategoryDef.tests.map(test => {
                 const latestResult = getLatestResult(test.name)
+                const history = grouped[test.name] || []
+                const trend = getTrend(history)
+                const trendIcon = trend === 'up' ? '📈' : trend === 'down' ? '📉' : trend === 'stable' ? '➡️' : ''
+                const inputKey = test.name
+
                 return (
                   <div key={test.name} className="test-item">
-                    <h4>{test.name}</h4>
-                    <p>{test.unit}</p>
+                    <div className="test-item-header">
+                      <h4>{test.name}</h4>
+                      <div className="test-trend">
+                        <TestSparkline history={history} />
+                        {trendIcon && <span className="trend-icon">{trendIcon}</span>}
+                      </div>
+                    </div>
+                    <p className="test-unit">{test.unit}</p>
                     {latestResult && (
                       <div className="latest-result">
                         <small>
-                          Latest: {latestResult.value} {typeof latestResult.value === 'number' ? getPerformanceLevel(test.name, latestResult.value) : ''}
-                          <span className="result-date">({new Date(latestResult.timestamp).toLocaleDateString()})</span>
+                          Latest: {latestResult.value} {test.unit}
+                          {typeof latestResult.value === 'number' && test.benchmarks && (
+                            <span
+                              className="benchmark-level"
+                              style={{ color: getBenchmark(test.benchmarks, latestResult.value).color }}
+                            >
+                              {' '}— {getBenchmark(test.benchmarks, latestResult.value).level}
+                            </span>
+                          )}
+                          <span className="result-date"> ({new Date(latestResult.timestamp).toLocaleDateString()})</span>
                         </small>
                       </div>
                     )}
 
-                  {test.type === 'timer' && (
-                    <div className="timer-controls">
-                      <div className="timer-display">{runningTests.has(test.name) ? getElapsedTime(test.name) : 0}s</div>
-                      <button
-                        onClick={() => {
-                          if (runningTests.has(test.name)) {
-                            const time = stopTimer(test.name)
-                            saveResult(test.name, time, category.category)
-                          } else {
-                            startTimer(test.name)
-                          }
-                        }}
-                      >
-                        {runningTests.has(test.name) ? 'Stop' : 'Start'}
-                      </button>
-                    </div>
-                  )}
+                    {test.type === 'timer' && (
+                      <div className="timer-controls">
+                        <div className="timer-display">{runningTests.has(test.name) ? getElapsedTime(test.name) : 0}s</div>
+                        <button
+                          onClick={() => {
+                            if (runningTests.has(test.name)) {
+                              const time = stopTimer(test.name)
+                              saveResult(test.name, time, activeCategoryDef.category)
+                            } else {
+                              startTimer(test.name)
+                            }
+                          }}
+                        >
+                          {runningTests.has(test.name) ? 'Stop' : 'Start'}
+                        </button>
+                      </div>
+                    )}
 
-                  {test.type === 'count' && (
-                    <input
-                      type="number"
-                      placeholder="Enter count"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          const value = parseInt((e.target as HTMLInputElement).value)
+                    {test.type === 'count' && (
+                      <div className="input-row">
+                        <input
+                          type="number"
+                          placeholder="Enter count"
+                          value={inputValues[inputKey] ?? ''}
+                          onChange={e => setInputValues(prev => ({ ...prev, [inputKey]: e.target.value }))}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const value = parseInt((e.target as HTMLInputElement).value)
+                              if (!isNaN(value)) {
+                                saveResult(test.name, value, activeCategoryDef.category)
+                                setInputValues(prev => ({ ...prev, [inputKey]: '' }))
+                              }
+                            }
+                          }}
+                        />
+                        <button onClick={() => {
+                          const value = parseInt(inputValues[inputKey])
                           if (!isNaN(value)) {
-                            saveResult(test.name, value, category.category)
-                            ;(e.target as HTMLInputElement).value = ''
+                            saveResult(test.name, value, activeCategoryDef.category)
+                            setInputValues(prev => ({ ...prev, [inputKey]: '' }))
                           }
-                        }
-                      }}
-                    />
-                  )}
+                        }}>Save</button>
+                      </div>
+                    )}
 
-                  {test.type === 'measurement' && (
-                    <input
-                      type="number"
-                      placeholder="Enter measurement"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          const value = parseFloat((e.target as HTMLInputElement).value)
+                    {test.type === 'measurement' && (
+                      <div className="input-row">
+                        <input
+                          type="number"
+                          step="0.5"
+                          placeholder="Enter measurement"
+                          value={inputValues[inputKey] ?? ''}
+                          onChange={e => setInputValues(prev => ({ ...prev, [inputKey]: e.target.value }))}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const value = parseFloat((e.target as HTMLInputElement).value)
+                              if (!isNaN(value)) {
+                                saveResult(test.name, value, activeCategoryDef.category)
+                                setInputValues(prev => ({ ...prev, [inputKey]: '' }))
+                              }
+                            }
+                          }}
+                        />
+                        <button onClick={() => {
+                          const value = parseFloat(inputValues[inputKey])
                           if (!isNaN(value)) {
-                            saveResult(test.name, value, category.category)
-                            ;(e.target as HTMLInputElement).value = ''
+                            saveResult(test.name, value, activeCategoryDef.category)
+                            setInputValues(prev => ({ ...prev, [inputKey]: '' }))
                           }
-                        }
-                      }}
-                    />
-                  )}
+                        }}>Save</button>
+                      </div>
+                    )}
 
-                  {test.type === 'scale' && (
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      placeholder="1-10"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          const value = parseInt((e.target as HTMLInputElement).value)
+                    {test.type === 'scale' && (
+                      <div className="input-row">
+                        <input
+                          type="number"
+                          min="1"
+                          max="10"
+                          placeholder="1-10"
+                          value={inputValues[inputKey] ?? ''}
+                          onChange={e => setInputValues(prev => ({ ...prev, [inputKey]: e.target.value }))}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const value = parseInt((e.target as HTMLInputElement).value)
+                              if (value >= 1 && value <= 10) {
+                                saveResult(test.name, value, activeCategoryDef.category)
+                                setInputValues(prev => ({ ...prev, [inputKey]: '' }))
+                              }
+                            }
+                          }}
+                        />
+                        <button onClick={() => {
+                          const value = parseInt(inputValues[inputKey])
                           if (value >= 1 && value <= 10) {
-                            saveResult(test.name, value, category.category)
-                            ;(e.target as HTMLInputElement).value = ''
+                            saveResult(test.name, value, activeCategoryDef.category)
+                            setInputValues(prev => ({ ...prev, [inputKey]: '' }))
                           }
-                        }
-                      }}
-                    />
-                  )}
+                        }}>Save</button>
+                      </div>
+                    )}
 
-                  {test.type === 'yesno' && (
-                    <div className="yesno-buttons">
-                      <button onClick={() => saveResult(test.name, 'Yes', category.category)}>Yes</button>
-                      <button onClick={() => saveResult(test.name, 'No', category.category)}>No</button>
-                    </div>
-                  )}
+                    {test.type === 'yesno' && (
+                      <div className="yesno-buttons">
+                        <button onClick={() => saveResult(test.name, 'Yes', activeCategoryDef.category)}>Yes</button>
+                        <button onClick={() => saveResult(test.name, 'No', activeCategoryDef.category)}>No</button>
+                      </div>
+                    )}
                   </div>
                 )
               })}
             </div>
           </div>
-        ))}
+        )}
       </div>
 
       <div className="results-section">
         <div className="results-header">
-          <h3>Your Test Results</h3>
+          <h3>Your Test Results ({results.length})</h3>
           {results.length > 0 && (
             <button className="clear-all-btn" onClick={clearAllResults}>
-              Clear All Results
+              Clear All
             </button>
           )}
         </div>
         {results.length === 0 ? (
-          <p>No tests completed yet. Start testing above!</p>
+          <p>No tests completed yet. Select a category above and start testing!</p>
         ) : (
           <div className="results-list">
-            {results.map((result, index) => (
+            {results.slice(0, 50).map((result, index) => (
               <div key={index} className="result-item">
                 <div className="result-content">
-                  <div className="result-header">
+                  <div className="result-header-row">
                     <strong>{result.name}</strong>
                     <span className="category">{result.category}</span>
                   </div>
                   <div className="result-value">
-                    {result.value} {typeof result.value === 'number' ? getPerformanceLevel(result.name, result.value) : ''}
+                    {result.value} {result.value !== 'Yes' && result.value !== 'No' ? activeCategoryDef?.tests.find(t => t.name === result.name)?.unit || '' : ''}
+                    {typeof result.value === 'number' && (
+                      <span className="benchmark-level" style={{
+                        color: getBenchmark(
+                          activeCategoryDef?.tests.find(t => t.name === result.name)?.benchmarks,
+                          result.value
+                        ).color
+                      }}>
+                        {' '}— {getBenchmark(
+                          activeCategoryDef?.tests.find(t => t.name === result.name)?.benchmarks,
+                          result.value
+                        ).level}
+                      </span>
+                    )}
                   </div>
-                  <div className="result-time">{result.timestamp}</div>
+                  <div className="result-time">{new Date(result.timestamp).toLocaleString()}</div>
                 </div>
-                <button
-                  className="delete-result-btn"
-                  onClick={() => deleteResult(index)}
-                  title="Delete this result"
-                >
-                  ×
-                </button>
+                <button className="delete-result-btn" onClick={() => deleteResult(index)} title="Delete this result">×</button>
               </div>
             ))}
           </div>
@@ -7255,7 +7773,6 @@ export default function UserTests() {
 }
 .trainer-root:hover {
   box-shadow: 0 8px 24px rgba(43, 47, 74, 0.1);
-  transform: translateY(-4px);
 }
 .mandala-wrap {
   display: flex;
@@ -7288,9 +7805,9 @@ export default function UserTests() {
 .mandala:hover .mandala-core {
   background-color: #ffe082;
 }
-.trainer-stats { font-size: 14px }
+.trainer-stats { font-size: 1rem; }
 .controls { display:flex; gap:12px; align-items:center }
-.timer { font-size: 18px; font-weight:600 }
+.timer { font-size: 1.1rem; font-weight:600 }
 .buttons button { margin-right:8px; transition: background-color 0.3s ease; }
 .buttons button:hover {
   background-color: #2980b9;
@@ -7312,19 +7829,19 @@ export default function UserTests() {
   min-height: 240px; /* ensure enough room for image + text */
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
-.pose h4 { margin: 0 0 6px; font-size: 16px }
+.pose h4 { margin: 0 0 6px; font-size: 1rem; }
 .pose:focus { outline: 3px solid rgba(43,47,74,0.08); outline-offset:4px }
 .pose-head { display:flex; justify-content:space-between; align-items:center; gap:8px }
-.pose-head .cat { color:#666; font-size:12px }
-.pose .short { margin: 0 0 8px; font-size: 14px; color: #333 }
+.pose-head .cat { color:#666; font-size: 0.9rem; }
+.pose .short { margin: 0 0 8px; font-size: 1rem; color: #333 }
 .pose .meta ul { margin: 6px 0 8px 18px }
-.tag { display:inline-block; background:#f0f0f8; padding:4px 8px; margin-right:6px; border-radius:999px; font-size:12px }
+.tag { display:inline-block; background:#f0f0f8; padding:4px 8px; margin-right:6px; border-radius:999px; font-size: 0.85rem; }
 
 .pose-controls { display:flex; gap:12px; align-items:center; margin-bottom:12px }
 .pose-controls input { padding:8px 10px; border-radius:6px; border:1px solid #ddd }
 .search-wrap { position:relative }
 .search-wrap .clear { position:absolute; right:6px; top:6px; border:0; background:transparent; cursor:pointer }
-.tabs button { margin-right:6px; padding:6px 10px; border-radius:6px; border:1px solid #ddd; background:transparent }
+.tabs button { margin-right:6px; padding:8px 14px; border-radius:6px; border:1px solid #ddd; background:transparent; font-size: 0.95rem; }
 .tabs button.active { background:#2b2f4a; color:#fff }
 .pose-body {
   display:flex;
@@ -7360,16 +7877,41 @@ export default function UserTests() {
 }
 
 /* Modal styles */
-.modal { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,0.45); z-index: 40 }
-.modal-content { background: white; border-radius: 12px; padding: 18px; max-width: 900px; width: calc(100% - 40px); box-shadow: 0 20px 60px rgba(11,22,50,0.25) }
-.modal-close { position: absolute; right: 18px; top: 18px; border: 0; background: transparent; font-size: 18px; cursor: pointer }
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  padding: 1rem;
+}
+.modal-content {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 860px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(11,22,50,0.25);
+}
+.modal-close { position: absolute; right: 1rem; top: 1rem; border: 0; background: transparent; font-size: 1.25rem; cursor: pointer }
 .modal-row { display:flex; gap:16px; align-items:flex-start }
-.modal-row img { border-radius:8px; width:320px; height:240px; object-fit:cover }
+.modal-row img { border-radius:8px; width:320px; height:240px; object-fit:cover; filter: contrast(1.2) brightness(1.05) saturate(0.95); background: #f5f0eb; }
 .modal h2 { margin:0 0 6px }
 .muted { color:#666; margin-top:0 }
 .actions { margin-top:auto; display:flex; justify-content:flex-end }
 .actions button { padding:8px 10px; border-radius:8px; border:0; background:#2b2f4a; color:#fff; cursor:pointer }
 .actions button:focus { box-shadow: 0 0 0 3px rgba(43,47,74,0.12) }
+
+.pose-body img,
+.modal-row img {
+  filter: contrast(1.2) brightness(1.05) saturate(0.95);
+  background: #f5f0eb;
+}
 
 /* ensure View details does not overflow card on narrow screens */
 .pose .actions button { white-space:nowrap }
@@ -7474,6 +8016,64 @@ export default function UserTests() {
 
 
 
+# FILE: ./src/components/BadgeModal.tsx
+
+import type { BadgeDefinition } from '../data/badgeDefinitions'
+import { RARITY_COLORS } from '../data/badgeDefinitions'
+import './BadgeModal.css'
+
+interface BadgeModalProps {
+  badge: BadgeDefinition | null
+  earnedDate?: string
+  onClose: () => void
+}
+
+export default function BadgeModal({ badge, earnedDate, onClose }: BadgeModalProps) {
+  if (!badge) return null
+
+  const rarityColor = RARITY_COLORS[badge.rarity] || '#b38b59'
+
+  return (
+    <div className="badge-modal-overlay" onClick={onClose}>
+      <div className="badge-modal-content" onClick={e => e.stopPropagation()} style={{ borderColor: rarityColor }}>
+        <button className="badge-modal-close" onClick={onClose}>✕</button>
+
+        <div className="badge-modal-icon-wrapper" style={{ backgroundColor: rarityColor + '20' }}>
+          <span className="badge-modal-icon" style={{ color: rarityColor }}>{badge.icon}</span>
+        </div>
+
+        <h2 className="badge-modal-name">{badge.name}</h2>
+
+        <span
+          className="badge-modal-rarity"
+          style={{ backgroundColor: rarityColor, color: '#fff' }}
+        >
+          {badge.rarity.toUpperCase()}
+        </span>
+
+        <p className="badge-modal-desc">{badge.description}</p>
+
+        <div className="badge-modal-howto">
+          <strong>How to earn:</strong>
+          <p>{badge.howToEarn}</p>
+        </div>
+
+        {earnedDate && (
+          <p className="badge-modal-earned">
+            Earned on {new Date(earnedDate).toLocaleDateString()}
+          </p>
+        )}
+
+        <button className="badge-modal-gotit" onClick={onClose}>
+          Got it!
+        </button>
+      </div>
+    </div>
+  )
+}
+
+
+
 # FILE: ./src/components/BranchesSection.tsx
 
 import './BranchesSection.css'
@@ -7531,6 +8131,75 @@ export default function BranchesSection() {
         </div>
       </div>
     </section>
+  )
+}
+
+
+
+# FILE: ./src/components/BodyPartFilter.tsx
+
+import { useMemo } from 'react'
+import type { PoseData } from '../types/yoga'
+import { BODY_PARTS } from '../types/yoga'
+import './BodyPartFilter.css'
+
+interface BodyPartFilterProps {
+  poses: PoseData[]
+  selected: string[]
+  onChange: (ids: string[]) => void
+}
+
+export default function BodyPartFilter({ poses, selected, onChange }: BodyPartFilterProps) {
+  const available = useMemo(() => {
+    const set = new Set<string>()
+    for (const p of poses) {
+      for (const bp of p.bodyParts ?? []) {
+        set.add(bp)
+      }
+    }
+    return set
+  }, [poses])
+
+  const toggle = (id: string) => {
+    if (selected.includes(id)) {
+      onChange(selected.filter(s => s !== id))
+    } else {
+      onChange([...selected, id])
+    }
+  }
+
+  const clear = () => onChange([])
+
+  return (
+    <div className="bodypart-filter">
+      <div className="bodypart-filter-header">
+        <span className="bodypart-filter-label">Target Areas</span>
+        {selected.length > 0 && (
+          <button className="bodypart-filter-clear" onClick={clear}>
+            Clear ({selected.length})
+          </button>
+        )}
+      </div>
+      <div className="bodypart-chips">
+        {BODY_PARTS.map(bp => {
+          const active = selected.includes(bp.id)
+          const disabled = !available.has(bp.id)
+          return (
+            <button
+              key={bp.id}
+              className={`bodypart-chip ${active ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
+              style={active ? { borderColor: bp.color, backgroundColor: bp.color + '20' } : undefined}
+              onClick={() => !disabled && toggle(bp.id)}
+              disabled={disabled}
+              title={bp.label}
+            >
+              <span className="bodypart-chip-icon">{bp.icon}</span>
+              <span className="bodypart-chip-label">{bp.label}</span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 
@@ -10168,11 +10837,14 @@ export const gamification = new GamificationManager()
 
 # FILE: ./src/pages/PosturesPage.tsx
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import POSTURES from '../data/postures.json'
 import { CATEGORY_DIFFICULTY } from '../types/yoga'
 import type { PoseData, DifficultyLevel } from '../types/yoga'
+import { BODY_PARTS } from '../types/yoga'
+import BodyPartFilter from '../components/BodyPartFilter'
 import { addPendingPose } from '../store/routineStore'
 import './PosturesPage.css'
 
@@ -10191,6 +10863,8 @@ export default function PosturesPage() {
   const [level, setLevel] = useState<DifficultyLevel | 'All'>('All')
   const [sort, setSort] = useState<SortMode>('name')
   const [selected, setSelected] = useState<PoseData | null>(null)
+  const [bodyParts, setBodyParts] = useState<string[]>([])
+  const [addedSet, setAddedSet] = useState<Set<string>>(new Set())
 
   const poses = POSTURES as PoseData[]
 
@@ -10208,13 +10882,20 @@ export default function PosturesPage() {
     if (level !== 'All') {
       result = result.filter(p => getDifficulty(p) === level)
     }
+    if (bodyParts.length > 0) {
+      result = result.filter(p => {
+        const pb = p.bodyParts ?? []
+        return bodyParts.some(bp => pb.includes(bp))
+      })
+    }
     if (search) {
       const s = search.toLowerCase()
       result = result.filter(
         p =>
           p.name.toLowerCase().includes(s) ||
           p.benefits.some(b => b.toLowerCase().includes(s)) ||
-          p.category.toLowerCase().includes(s)
+          p.category.toLowerCase().includes(s) ||
+          (p.tags ?? []).some(t => t.toLowerCase().includes(s))
       )
     }
 
@@ -10235,12 +10916,34 @@ export default function PosturesPage() {
     }
 
     return result
-  }, [poses, category, level, search, sort])
+  }, [poses, category, level, search, sort, bodyParts])
 
   const diffDots = (d: DifficultyLevel) => {
     const idx = LEVELS.indexOf(d) + 1
     return '●'.repeat(idx) + '○'.repeat(3 - idx)
   }
+
+  const handleAdd = useCallback((pose: PoseData) => {
+    addPendingPose(pose)
+    setAddedSet(prev => new Set(prev).add(pose.name))
+    setTimeout(() => {
+      setAddedSet(prev => {
+        const next = new Set(prev)
+        next.delete(pose.name)
+        return next
+      })
+    }, 2000)
+  }, [])
+
+  const closeModal = useCallback(() => setSelected(null), [])
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') closeModal()
+    }
+    if (selected) window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [selected, closeModal])
 
   return (
     <div className="page-wrapper postures-page">
@@ -10278,6 +10981,7 @@ export default function PosturesPage() {
               </select>
             </div>
           </div>
+          <BodyPartFilter poses={poses} selected={bodyParts} onChange={setBodyParts} />
         </div>
         <p className="postures-count">{filtered.length} pose{filtered.length !== 1 ? 's' : ''}</p>
       </div>
@@ -10285,6 +10989,7 @@ export default function PosturesPage() {
       <div className="postures-grid">
         {filtered.map(p => {
           const diff = getDifficulty(p)
+          const added = addedSet.has(p.name)
           return (
             <article
               key={p.name}
@@ -10300,19 +11005,34 @@ export default function PosturesPage() {
               <span className="pose-category-tag">{p.category}</span>
               <h3 className="pose-card-name">{p.name}</h3>
               <span className="pose-difficulty">{diffDots(diff)}</span>
+              {p.bodyParts && p.bodyParts.length > 0 && (
+                <div className="pose-bodypart-mini">
+                  {p.bodyParts.slice(0, 3).map(bp => {
+                    const meta = BODY_PARTS.find(m => m.id === bp)
+                    return meta ? (
+                      <span key={bp} className="bodypart-mini-chip" title={meta.label}>
+                        {meta.icon}
+                      </span>
+                    ) : null
+                  })}
+                </div>
+              )}
               <div className="pose-benefit-tags">
                 {p.benefits.slice(0, 3).map(b => (
                   <span key={b} className="benefit-tag">{b.split(' ').slice(0, 3).join(' ')}</span>
                 ))}
               </div>
               <div className="pose-card-actions">
-                <button className="btn-add" onClick={(e) => {
-                  e.stopPropagation()
-                  addPendingPose(p)
-                  navigate('/practice')
-                }}>
-                  + Add to Routine
-                </button>
+                {added ? (
+                  <span className="btn-added">✓ Added</span>
+                ) : (
+                  <button className="btn-add" onClick={(e) => {
+                    e.stopPropagation()
+                    handleAdd(p)
+                  }}>
+                    + Add to Routine
+                  </button>
+                )}
               </div>
             </article>
           )
@@ -10325,10 +11045,10 @@ export default function PosturesPage() {
         </div>
       )}
 
-      {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
+      {selected && createPortal(
+        <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content pose-detail-modal" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close">✕</button>
+            <button className="modal-close" onClick={closeModal} aria-label="Close">✕</button>
             <div className="pose-detail-layout">
               <img
                 src={`/${selected.image}`}
@@ -10339,6 +11059,33 @@ export default function PosturesPage() {
                 <span className="pose-category-tag">{selected.category}</span>
                 <h2>{selected.name}</h2>
                 <span className="pose-difficulty">{diffDots(getDifficulty(selected))}</span>
+
+                {selected.bodyParts && selected.bodyParts.length > 0 && (
+                  <>
+                    <h4>Target Areas</h4>
+                    <div className="pose-detail-bodyparts">
+                      {selected.bodyParts.map(bp => {
+                        const meta = BODY_PARTS.find(m => m.id === bp)
+                        return meta ? (
+                          <span key={bp} className="bodypart-chip-static" style={{ borderColor: meta.color }}>
+                            {meta.icon} {meta.label}
+                          </span>
+                        ) : null
+                      })}
+                    </div>
+                  </>
+                )}
+
+                {selected.tags && selected.tags.length > 0 && (
+                  <>
+                    <h4>Tags</h4>
+                    <div className="pose-detail-tags">
+                      {selected.tags.map(t => (
+                        <span key={t} className="pose-tag">{t}</span>
+                      ))}
+                    </div>
+                  </>
+                )}
 
                 <h4>Benefits</h4>
                 <ul className="benefits-list">
@@ -10367,7 +11114,8 @@ export default function PosturesPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
@@ -11265,6 +12013,55 @@ export default function PracticePage() {
   transition: background 0.3s ease;
 }
 
+.pose-bodypart-mini {
+  display: flex;
+  gap: 0.2rem;
+  margin: 0 0.75rem 0.3rem;
+}
+.bodypart-mini-chip {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+.btn-added {
+  display: block;
+  text-align: center;
+  padding: 0.55rem;
+  border-radius: 6px;
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.pose-detail-bodyparts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.bodypart-chip-static {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid;
+  font-size: 0.78rem;
+}
+.pose-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+.pose-tag {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(179,139,89,0.1);
+  color: var(--text-light);
+  text-transform: lowercase;
+}
+
 @media (max-width: 1024px) {
   .postures-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -11278,14 +12075,14 @@ export default function PracticePage() {
 
 # FILE: ./src/pages/SessionPage.tsx
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { PoseData, SessionPhase } from '../types/yoga'
 import { sessionStore } from '../store/sessionStore'
 import { useWebcam } from '../hooks/useWebcam'
 import { usePoseDetection } from '../hooks/usePoseDetection'
 import { generateFeedback } from '../utils/feedbackEngine'
-import { gamification } from '../utils/gamification'
+import { gamification, XP_REWARDS } from '../utils/gamification'
 import { launchConfetti } from '../utils/confetti'
 import { showToast } from '../components/XPToast'
 import CountdownRing from '../components/CountdownRing'
@@ -11308,9 +12105,10 @@ export default function SessionPage() {
   const [completedPoses, setCompletedPoses] = useState(0)
   const [scores, setScores] = useState<number[]>([])
   const [showSkip, setShowSkip] = useState(false)
+  const holdScoresRef = useRef<number[]>([])
 
   const holdTotal = config?.holdSeconds ?? 30
-  const poses = config?.poses ?? []
+  const poses = useMemo(() => config?.poses ?? [], [config])
   const currentPose: PoseData | undefined = poses[poseIdx]
 
   const { isReady: webcamReady, error: webcamError } = useWebcam(videoRef)
@@ -11331,26 +12129,30 @@ export default function SessionPage() {
   useEffect(() => {
     if (!config || poses.length === 0) {
       redirectToPractice()
+      return
     }
+    gamification.resetSession()
+    holdScoresRef.current = []
   }, [config, poses.length, redirectToPractice])
 
-  // Prepare countdown
   useEffect(() => {
     if (phase !== 'prepare') return
     if (prepareCount <= 0) {
       setPhase('hold')
       setHoldRemaining(holdTotal)
       setShowSkip(false)
+      holdScoresRef.current = []
       return
     }
     const t = setTimeout(() => setPrepareCount(p => p - 1), 1000)
     return () => clearTimeout(t)
   }, [phase, prepareCount, holdTotal])
 
-  // Hold countdown
   useEffect(() => {
     if (phase !== 'hold') return
-    if (matchScore < 30) return // paused
+    if (matchScore < 30) return
+
+    holdScoresRef.current.push(matchScore)
 
     const t = setTimeout(() => {
       setHoldRemaining(prev => {
@@ -11364,7 +12166,6 @@ export default function SessionPage() {
     return () => clearTimeout(t)
   }, [phase, holdRemaining, matchScore])
 
-  // Skip button after holdTotal * 2
   useEffect(() => {
     if (phase !== 'hold') return
     const t = setTimeout(() => setShowSkip(true), holdTotal * 2 * 1000)
@@ -11372,11 +12173,17 @@ export default function SessionPage() {
   }, [phase, holdTotal])
 
   const handlePoseComplete = useCallback(() => {
-    const baseXP = 50
-    const isPerfect = matchScore >= 88
+    const holdScores = holdScoresRef.current
+    const avgHoldScore = holdScores.length > 0
+      ? Math.round(holdScores.reduce((a, b) => a + b, 0) / holdScores.length)
+      : matchScore
+    const score = Math.max(avgHoldScore, matchScore)
+
+    const baseXP = XP_REWARDS.poseComplete
+    const isPerfect = score >= 88
     const earned = gamification.awardXP(baseXP, isPerfect ? 'Perfect Hold' : 'Pose Complete')
     setSessionXP(prev => prev + earned.earned)
-    setScores(prev => [...prev, matchScore])
+    setScores(prev => [...prev, score])
     setCompletedPoses(prev => prev + 1)
     showToast(earned.toast)
 
@@ -11385,7 +12192,7 @@ export default function SessionPage() {
       gamification.recordPerfectHold()
       const state = gamification.getState()
       setCombo(state.combo)
-    } else if (matchScore >= 80) {
+    } else if (score >= 65) {
       gamification.incrementCombo()
       const state = gamification.getState()
       setCombo(state.combo)
@@ -11403,6 +12210,7 @@ export default function SessionPage() {
       setPhase('prepare')
       setPrepareCount(3)
       setShowSkip(false)
+      holdScoresRef.current = []
     } else {
       finishSession()
     }
@@ -11421,6 +12229,18 @@ export default function SessionPage() {
     const state = gamification.getState()
     const avg = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0
 
+    const categories = new Set<string>()
+    for (const p of poses) {
+      if (p.category) categories.add(p.category)
+    }
+
+    gamification.recordSession({
+      durationSeconds: duration,
+      categoriesPracticed: [...categories],
+      hour: new Date().getHours(),
+      posesCompleted: completedPoses,
+    })
+
     const result = {
       completedPoses,
       totalXP: state.sessionXP,
@@ -11428,24 +12248,46 @@ export default function SessionPage() {
       bestCombo: state.bestCombo,
       durationSeconds: duration,
       badgesUnlocked: [] as string[],
+      poseScores: scores,
+      categoriesPracticed: [...categories],
     }
 
     sessionStore.setResult(result)
 
-    // Record session in appreciation manager
-    appreciationManager.recordSession(duration / 60, currentPose?.name)
+    const newBadgeIds = appreciationManager.recordSessionFromResult(
+      {
+        durationSeconds: duration,
+        avgMatchScore: avg,
+        posesCompleted: completedPoses,
+        categoriesPracticed: [...categories],
+        xpEarned: state.sessionXP,
+      },
+      gamification.getState()
+    )
+    result.badgesUnlocked = newBadgeIds
 
     setPhase('summary')
 
-    // Launch confetti
     if (confettiCanvasRef.current) {
       confettiCanvasRef.current.width = window.innerWidth
       confettiCanvasRef.current.height = window.innerHeight
       launchConfetti(confettiCanvasRef.current)
     }
 
+    if (newBadgeIds.length > 0) {
+      const badgeNames = newBadgeIds.map(id => {
+        const def = appreciationManager.getStats().badges.find(b => b.id === id)
+        return def ? `${def.icon} ${def.name}` : id
+      })
+      showToast(`🏆 Badges unlocked: ${badgeNames.join(', ')}`)
+    }
+
+    if (state.totalXP === state.sessionXP && state.sessionXP > 0) {
+      showToast(`🎁 First session bonus! +${XP_REWARDS.firstSession} XP`)
+    }
+
     gamification.resetSession()
-  }, [sessionStartTime, scores, completedPoses, currentPose?.name])
+  }, [sessionStartTime, scores, completedPoses, poses])
 
   const handlePracticeAgain = useCallback(() => {
     sessionStore.clear()
@@ -11462,8 +12304,8 @@ export default function SessionPage() {
   }
 
   if (phase === 'summary') {
-      const state = gamification.getState()
-      const avg = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0
+    const state = gamification.getState()
+    const avg = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0
     const duration = Math.round((Date.now() - sessionStartTime) / 1000)
     const minutes = Math.floor(duration / 60)
     const seconds = duration % 60
@@ -12166,6 +13008,12 @@ export default function BenefitsPage() {
   font-size: 0.82rem;
   color: var(--secondary-color);
   margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+}
+.xp-bar-level-progress {
+  font-size: 0.72rem;
+  opacity: 0.7;
 }
 .xp-bar {
   height: 8px;
@@ -12183,7 +13031,7 @@ export default function BenefitsPage() {
 .dashboard-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 2rem;
 }
 
@@ -12260,6 +13108,11 @@ export default function BenefitsPage() {
   font-size: 0.72rem;
   color: var(--text-light);
 }
+.weekly-value {
+  font-size: 0.62rem;
+  color: var(--text-light);
+  opacity: 0.7;
+}
 
 .badge-grid {
   display: grid;
@@ -12289,6 +13142,13 @@ export default function BenefitsPage() {
   font-size: 1.6rem;
   width: 40px;
   text-align: center;
+}
+.badge-rarity {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 .badge-info strong {
   display: block;
@@ -12448,6 +13308,75 @@ export default function BenefitsPage() {
   background: rgba(139,69,19,0.1);
 }
 
+.category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color, #ddd);
+  font-size: 0.8rem;
+}
+.text-muted {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.session-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.session-history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--light-bg);
+  border-radius: 8px;
+  border: 1px solid rgba(101,67,33,0.08);
+  font-size: 0.82rem;
+}
+.session-history-date {
+  color: var(--accent-color);
+  font-weight: 600;
+  min-width: 80px;
+}
+.session-history-duration {
+  color: var(--text-light);
+  min-width: 50px;
+}
+.session-history-xp {
+  color: var(--primary-color);
+  font-weight: 600;
+  min-width: 60px;
+}
+.session-history-poses {
+  color: var(--text-light);
+  min-width: 60px;
+}
+.session-history-categories {
+  display: flex;
+  gap: 0.2rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+.mini-cat-tag {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 8px;
+  background: rgba(179,139,89,0.1);
+  color: var(--text-light);
+}
+
+@media (max-width: 1024px) {
+  .dashboard-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 768px) {
   .dashboard-stats-grid { grid-template-columns: repeat(2, 1fr); }
   .badge-grid { grid-template-columns: 1fr; }
@@ -12698,57 +13627,50 @@ export default function BenefitsPage() {
 
 # FILE: ./src/pages/DashboardPage.tsx
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { appreciationManager, appreciationUIUtils } from '../utils/appreciationUtils'
 import { gamification } from '../utils/gamification'
-import type { UserStats } from '../utils/appreciationUtils'
+import type { UserStats, RecentSession } from '../utils/appreciationUtils'
 import type { GamificationState } from '../utils/gamification'
+import { BADGE_DEFINITIONS, RARITY_COLORS } from '../data/badgeDefinitions'
+import type { BadgeDefinition } from '../data/badgeDefinitions'
+import BadgeModal from '../components/BadgeModal'
 import './DashboardPage.css'
 
-interface BadgeDef {
-  id: string
-  name: string
-  icon: string
-  desc: string
-  earned: boolean
-}
-
-function getWeeklyActivity(stats: UserStats): number[] {
-  const result = [0, 0, 0, 0, 0, 0, 0]
-  if (stats.totalSessions > 0) {
-    const today = new Date().getDay()
-    const dayIdx = today === 0 ? 6 : today - 1
-    result[dayIdx] = Math.min(stats.totalPracticeTime, 60)
-    if (stats.currentStreak > 1) {
-      for (let i = 1; i < Math.min(stats.currentStreak, 7); i++) {
-        const idx = (dayIdx - i + 7) % 7
-        result[idx] = Math.max(result[idx], 10 + Math.floor(Math.random() * 20))
-      }
-    }
-  }
-  return result
-}
-
 export default function DashboardPage() {
-  const [stats] = useState<UserStats>(() => appreciationManager.getStats())
-  const [gstate] = useState<GamificationState>(() => gamification.getState())
+  const [stats, setStats] = useState<UserStats>(() => appreciationManager.getStats())
+  const [gstate, setGstate] = useState<GamificationState>(() => gamification.getState())
   const [milestones] = useState(() => appreciationManager.getProgressMilestones())
   const [message, setMessage] = useState(() => appreciationManager.generateMotivationalMessage())
-  const [activity] = useState(() => getWeeklyActivity(stats))
+  const [focusBadge, setFocusBadge] = useState<BadgeDefinition | null>(null)
+  const [focusBadgeDate, setFocusBadgeDate] = useState<string | undefined>()
 
-  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const maxActivity = Math.max(...activity, 1)
+  const refresh = useCallback(() => {
+    setStats(appreciationManager.getStats())
+    setGstate(gamification.getState())
+    setMessage(appreciationManager.generateMotivationalMessage())
+  }, [])
 
-  const allBadges: BadgeDef[] = [
-    { id: 'first_session', name: 'First Step', icon: '🌱', desc: 'Complete your first session', earned: stats.totalSessions >= 1 },
-    { id: 'streak_3', name: 'Consistent Yogi', icon: '🔥', desc: '3-day streak', earned: stats.currentStreak >= 3 },
-    { id: 'streak_7', name: 'Devoted Seeker', icon: '⚡', desc: '7-day streak', earned: stats.currentStreak >= 7 },
-    { id: 'xp_500', name: 'Sapling', icon: '🌿', desc: 'Earn 500 XP', earned: gstate.totalXP >= 500 },
-    { id: 'xp_2000', name: 'Banyan Tree', icon: '🌳', desc: 'Earn 2000 XP', earned: gstate.totalXP >= 2000 },
-    { id: 'sessions_10', name: 'Steady Practice', icon: '📿', desc: 'Complete 10 sessions', earned: stats.totalSessions >= 10 },
-    { id: 'perfect_hold', name: 'Pure Form', icon: '✨', desc: 'Land a perfect hold (match ≥ 88%)', earned: gstate.perfectHolds >= 1 },
-    { id: 'combo_5', name: 'Flow State', icon: '🌊', desc: '5× combo in a session', earned: gstate.bestCombo >= 5 },
-  ]
+  useEffect(() => {
+    refresh()
+    const onFocus = () => refresh()
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [refresh])
+
+  const weeklyActivity = appreciationManager.getWeeklyActivityData()
+
+  const xpProgress = gamification.getXPProgress()
+
+  const showBadge = useCallback((badge: BadgeDefinition) => {
+    const earned = stats.badges.find(b => b.id === badge.id)
+    setFocusBadge(badge)
+    setFocusBadgeDate(earned?.earnedDate)
+  }, [stats.badges])
+
+  const earnedBadgeIds = new Set(stats.badges.map(b => b.id))
+
+  const recentSessions: RecentSession[] = stats.recentSessions.slice(-10).reverse()
 
   return (
     <div className="page-wrapper dashboard-page">
@@ -12757,11 +13679,16 @@ export default function DashboardPage() {
           {gstate.levelName} — Level {gstate.level + 1}
         </div>
         <div className="xp-bar-wrapper">
-          <div className="xp-bar-label">{gstate.totalXP} / {(gstate.level + 1) * 500} XP</div>
+          <div className="xp-bar-label">
+            {gstate.totalXP} XP
+            <span className="xp-bar-level-progress">
+              {xpProgress.current} / {xpProgress.needed} to next level
+            </span>
+          </div>
           <div className="xp-bar">
             <div
               className="xp-bar-fill"
-              style={{ width: `${(gstate.totalXP % 500) / 500 * 100}%` }}
+              style={{ width: `${xpProgress.pct}%` }}
             />
           </div>
         </div>
@@ -12796,46 +13723,90 @@ export default function DashboardPage() {
             <span className="dash-stat-label">Total XP</span>
           </div>
         </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">🧘</span>
+          <div>
+            <span className="dash-stat-value">{gstate.totalPosesCompleted}</span>
+            <span className="dash-stat-label">Poses Completed</span>
+          </div>
+        </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">🏆</span>
+          <div>
+            <span className="dash-stat-value">{stats.badges.length}</span>
+            <span className="dash-stat-label">Badges Earned</span>
+          </div>
+        </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">🌅</span>
+          <div>
+            <span className="dash-stat-value">{gstate.morningSessions}</span>
+            <span className="dash-stat-label">Morning Sessions</span>
+          </div>
+        </div>
+        <div className="dashboard-stat-card">
+          <span className="dash-stat-icon">💎</span>
+          <div>
+            <span className="dash-stat-value">{gstate.perfectHolds}</span>
+            <span className="dash-stat-label">Perfect Holds</span>
+          </div>
+        </div>
       </div>
 
       <section className="dashboard-section">
         <h2>This Week</h2>
         <div className="weekly-chart">
-          {activity.map((val, i) => (
-            <div key={i} className="weekly-bar-col">
-              <div
-                className="weekly-bar"
-                style={{
-                  height: `${(val / maxActivity) * 100}%`,
-                  opacity: val > 0 ? 1 : 0.3,
-                }}
-              />
-              <span className="weekly-label">{DAYS[i]}</span>
-            </div>
-          ))}
+          {weeklyActivity.map((d, i) => {
+            const maxMin = Math.max(...weeklyActivity.map(w => w.minutes), 1)
+            return (
+              <div key={i} className="weekly-bar-col">
+                <div
+                  className="weekly-bar"
+                  style={{
+                    height: `${(d.minutes / maxMin) * 100}%`,
+                    opacity: d.minutes > 0 ? 1 : 0.3,
+                  }}
+                />
+                <span className="weekly-label">{d.day}</span>
+                <span className="weekly-value">{d.minutes}m</span>
+              </div>
+            )
+          })}
         </div>
       </section>
 
       <section className="dashboard-section">
-        <h2>Your Badges</h2>
+        <h2>All Badges ({stats.badges.length}/{BADGE_DEFINITIONS.length})</h2>
         <div className="badge-grid">
-          {allBadges.map(b => (
-            <div key={b.id} className={`badge-card ${b.earned ? 'earned' : 'locked'}`}>
-              <span className="badge-icon">{b.earned ? b.icon : '🔒'}</span>
-              <div className="badge-info">
-                <strong>{b.earned ? b.name : '???'}</strong>
-                <p>{b.earned ? b.desc : 'Keep practicing to unlock'}</p>
+          {BADGE_DEFINITIONS.map(b => {
+            const earned = earnedBadgeIds.has(b.id)
+            const rarityColor = RARITY_COLORS[b.rarity] || '#b38b59'
+            return (
+              <div
+                key={b.id}
+                className={`badge-card ${earned ? 'earned' : 'locked'}`}
+                style={{ borderColor: earned ? rarityColor : undefined }}
+                onClick={() => showBadge(b)}
+              >
+                <span className="badge-icon">{earned ? b.icon : '🔒'}</span>
+                <div className="badge-info">
+                  <strong>{earned ? b.name : '???'}</strong>
+                  <span className="badge-rarity" style={{ color: rarityColor }}>
+                    {b.rarity}
+                  </span>
+                  <p>{earned ? b.description : 'Keep practicing to unlock'}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
-      {stats.badges && stats.badges.length > 0 && (
+      {stats.badges.length > 0 && (
         <section className="dashboard-section">
-          <h2>Milestones Earned</h2>
+          <h2>Recently Earned</h2>
           <div className="milestone-list">
-            {stats.badges.map(b => (
+            {stats.badges.slice(-5).reverse().map(b => (
               <div key={b.id} className="milestone-item">
                 <span className="milestone-icon">{b.icon}</span>
                 <div>
@@ -12848,6 +13819,48 @@ export default function DashboardPage() {
           </div>
         </section>
       )}
+
+      <section className="dashboard-section">
+        <h2>Categories Practiced ({gstate.categoriesPracticed.length})</h2>
+        <div className="category-pills">
+          {gstate.categoriesPracticed.length === 0 ? (
+            <p className="text-muted">No categories yet. Complete a session!</p>
+          ) : (
+            gstate.categoriesPracticed.map(c => (
+              <span key={c} className="category-pill" style={{ borderColor: 'var(--primary-color)' }}>
+                {c}
+              </span>
+            ))
+          )}
+        </div>
+      </section>
+
+      <section className="dashboard-section">
+        <h2>Recent Sessions</h2>
+        {recentSessions.length === 0 ? (
+          <p className="text-muted">No sessions yet. Start your first practice!</p>
+        ) : (
+          <div className="session-history-list">
+            {recentSessions.map((s, i) => (
+              <div key={i} className="session-history-item">
+                <span className="session-history-date">
+                  {new Date(s.date).toLocaleDateString()}
+                </span>
+                <span className="session-history-duration">
+                  {appreciationUIUtils.formatDuration(s.durationMinutes)}
+                </span>
+                <span className="session-history-xp">+{s.xp} XP</span>
+                <span className="session-history-poses">{s.posesCompleted} poses</span>
+                <div className="session-history-categories">
+                  {s.categories.slice(0, 3).map(c => (
+                    <span key={c} className="mini-cat-tag">{c}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       <section className="dashboard-section">
         <h2>Progress Goals</h2>
@@ -12898,6 +13911,8 @@ export default function DashboardPage() {
           🔄 Reset Progress
         </button>
       </div>
+
+      <BadgeModal badge={focusBadge} earnedDate={focusBadgeDate} onClose={() => setFocusBadge(null)} />
     </div>
   )
 }
@@ -12913,7 +13928,7 @@ export default function TestsPage() {
     <div className="page-wrapper">
       <div className="page-header">
         <h1>Self-Assessment Tests</h1>
-        <p>Track your progress with these simple no-sensor tests.</p>
+        <p>Track your progress across 10 categories with 32 tests. Complete tests to earn XP and monitor your trends.</p>
       </div>
       <UserTests />
     </div>
