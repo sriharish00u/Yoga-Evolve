@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yogaevolve.vercel.app/sitemap.xml
+Sitemap: https://yoga-evolve.vercel.app/sitemap.xml
